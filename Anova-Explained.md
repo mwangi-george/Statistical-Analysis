@@ -122,6 +122,9 @@ Next, we call the `anova()` on the model to perform an analysis of
 variance
 
 ``` r
+# remove scientific notation
+options(scipen = 999)
+
 # perform Anova
 anova(gap_2007_model)
 ```
@@ -129,9 +132,9 @@ anova(gap_2007_model)
     ## Analysis of Variance Table
     ## 
     ## Response: gdpPercap
-    ##            Df     Sum Sq    Mean Sq F value    Pr(>F)    
-    ## continent   4 9.8938e+09 2473441571  25.242 1.127e-15 ***
-    ## Residuals 137 1.3425e+10   97989271                      
+    ##            Df      Sum Sq    Mean Sq F value               Pr(>F)    
+    ## continent   4  9893766283 2473441571  25.242 0.000000000000001127 ***
+    ## Residuals 137 13424530071   97989271                                 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -151,6 +154,9 @@ level of significance. The results show a matrix of 10 p_values from
 each possible pair.
 
 ``` r
+# remove scientific notation
+options(scipen = 999)
+
 # pairwise t test
 # the 1st argument is the numeric variable whose mean we are interested in
 # the 2nd argument is the categorical variable defining the groups
@@ -164,11 +170,11 @@ pairwise.t.test(gap_2007$gdpPercap,
     ## 
     ## data:  gap_2007$gdpPercap and gap_2007$continent 
     ## 
-    ##          Africa  Americas Asia    Europe 
-    ## Americas 0.00130 -        -       -      
-    ## Asia     3.8e-05 0.57635  -       -      
-    ## Europe   < 2e-16 5.9e-07  1.5e-06 -      
-    ## Oceania  0.00026 0.01077  0.01751 0.51174
+    ##          Africa               Americas   Asia       Europe 
+    ## Americas 0.00130              -          -          -      
+    ## Asia     0.00003785           0.57635    -          -      
+    ## Europe   < 0.0000000000000002 0.00000059 0.00000146 -      
+    ## Oceania  0.00026              0.01077    0.01751    0.51174
     ## 
     ## P value adjustment method: none
 
@@ -203,6 +209,9 @@ Let’s see the output of our pairwise t test when we set
 `p.adjust.method` to `holm`.
 
 ``` r
+# remove scientific notation
+options(scipen = 999)
+
 # pairwise t test setting adjustment to holm
 pairwise.t.test(gap_2007$gdpPercap, 
                 gap_2007$continent,
@@ -214,11 +223,11 @@ pairwise.t.test(gap_2007$gdpPercap,
     ## 
     ## data:  gap_2007$gdpPercap and gap_2007$continent 
     ## 
-    ##          Africa  Americas Asia    Europe 
-    ## Americas 0.00648 -        -       -      
-    ## Asia     0.00026 1.00000  -       -      
-    ## Europe   3.3e-16 5.3e-06  1.2e-05 -      
-    ## Oceania  0.00158 0.04308  0.05252 1.00000
+    ##          Africa              Americas            Asia                Europe 
+    ## Americas 0.00648             -                   -                   -      
+    ## Asia     0.00026             1.00000             -                   -      
+    ## Europe   0.00000000000000033 0.00000528979043448 0.00001165000932836 -      
+    ## Oceania  0.00158             0.04308             0.05252             1.00000
     ## 
     ## P value adjustment method: holm
 
