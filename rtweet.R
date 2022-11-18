@@ -25,20 +25,29 @@ my_followers <- followers %>%
   # select variables of interest
   select(id, name, screen_name, location)
 
-my_followers %>% 
-  filter(str_detect(location, "igeria")) %>% 
-  count()
 
-my_followers %>% 
-  replace_with_na(
-    replace = list(
-      location = ""
-    )) %>% 
-  drop_na() %>% 
-  count(location) %>% 
-  arrange(-n) %>% 
-  slice_head(n = 10) %>% 
-  ggplot(aes(location, n))+
-  geom_col(fill = "blue", alpha = .5)+
-  coord_flip()+
-  theme_clean()
+# searching for tweets
+rstats <- search_tweets(
+  # the query to be searched
+  q = "rstats", 
+  # number of observations to be returned
+  n = 20, 
+  # dont include retweets
+  include_rts = F, 
+  # terminate function early if limit rate is exceeded
+  retryonratelimit = F
+  )
+
+# Select variables
+rstats %>% 
+  select(created_at, full_text, metadata, retweeted) %>% 
+  unnest(metadata) %>% view()
+
+
+
+
+
+
+
+
+
