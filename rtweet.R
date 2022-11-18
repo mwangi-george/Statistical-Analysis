@@ -2,10 +2,26 @@
 
 install.packages("rtweet")
 library(rtweet)
-library(naniar)
 
-# authenticate
+# set up authentication
 auth_setup_default()
+
+
+# searching for tweets with the hashtag "rstats"
+rstats <- search_tweets(
+  # the query to be searched
+  q = "#rstats", 
+  # number of observations to be returned
+  n = 20, 
+  # filter retweets
+  include_rts = F, 
+  # terminate function early if limit rate is exceeded
+  retryonratelimit = F
+)
+
+
+
+
 
 # get full timeline
 my_twitter <- get_timeline("mwangi__george", n = Inf)
@@ -26,17 +42,6 @@ my_followers <- followers %>%
   select(id, name, screen_name, location)
 
 
-# searching for tweets
-rstats <- search_tweets(
-  # the query to be searched
-  q = "rstats", 
-  # number of observations to be returned
-  n = 20, 
-  # dont include retweets
-  include_rts = F, 
-  # terminate function early if limit rate is exceeded
-  retryonratelimit = F
-  )
 
 # Select variables
 rstats %>% 
