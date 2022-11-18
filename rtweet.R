@@ -2,6 +2,7 @@
 
 install.packages("rtweet")
 library(rtweet)
+library(naniar)
 
 # authenticate
 auth_setup_default()
@@ -23,3 +24,21 @@ my_followers <- followers %>%
     ) %>%
   # select variables of interest
   select(id, name, screen_name, location)
+
+my_followers %>% 
+  filter(str_detect(location, "igeria")) %>% 
+  count()
+
+my_followers %>% 
+  replace_with_na(
+    replace = list(
+      location = ""
+    )) %>% 
+  drop_na() %>% 
+  count(location) %>% 
+  arrange(-n) %>% 
+  slice_head(n = 10) %>% 
+  ggplot(aes(location, n))+
+  geom_col(fill = "blue", alpha = .5)+
+  coord_flip()+
+  theme_clean()

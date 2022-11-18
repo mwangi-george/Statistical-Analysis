@@ -10,6 +10,8 @@ Regression In R
 -   <a href="#visualizing-predictions"
     id="toc-visualizing-predictions">Visualizing predictions</a>
     -   <a href="#extrapolating" id="toc-extrapolating">Extrapolating</a>
+-   <a href="#working-with-model-objects"
+    id="toc-working-with-model-objects">Working with Model Objects</a>
 
 # Introduction to Linear Regression
 
@@ -347,3 +349,104 @@ my_data %>%
 
 The model predicts that if we spend only two dollars in tv
 advertisement, we would make sales worth 6.99 dollars.
+
+# Working with Model Objects
+
+The model object contains a lot of information such as coefficients,
+residuals, fitted values, and other statistics. We can obtain these
+objects for further analysis using the following methods
+
+``` r
+# get coefficients
+coefficients(tv_model)
+```
+
+    ## (Intercept)          tv 
+    ##  -0.1324925   3.5615141
+
+``` r
+# get a few residuals
+head(residuals(tv_model))
+```
+
+    ##          1          2          3          4          5          6 
+    ## -2.1189758  0.5107063  4.2882435  2.7731625  3.3039619  2.7377314
+
+``` r
+# get a few fitted values
+head(fitted(tv_model))
+```
+
+    ##         1         2         3         4         5         6 
+    ##  56.85173  46.16719 145.88959 295.47318  53.29022 103.15142
+
+``` r
+# print model summary
+summary(tv_model)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = sales ~ tv, data = my_data)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -11.6062  -2.0062  -0.0125   2.0249  11.2566 
+    ## 
+    ## Coefficients:
+    ##              Estimate Std. Error  t value Pr(>|t|)    
+    ## (Intercept) -0.132493   0.100605   -1.317    0.188    
+    ## tv           3.561514   0.001676 2125.272   <2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 2.949 on 4544 degrees of freedom
+    ## Multiple R-squared:  0.999,  Adjusted R-squared:  0.999 
+    ## F-statistic: 4.517e+06 on 1 and 4544 DF,  p-value: < 2.2e-16
+
+While the `summary()` function contains a lot of information, it is
+designed to be read, not to be manipulated with code. The broom package
+comes in handy with functions that return data frames. This facilitates
+manipulation of the model results with dplyr, ggplot2, and other
+tidyverse packages. To get coefficients level details of the model, we
+call `tidy()` on the model
+
+``` r
+tidy(tv_model)
+```
+
+    ## # A tibble: 2 × 5
+    ##   term        estimate std.error statistic p.value
+    ##   <chr>          <dbl>     <dbl>     <dbl>   <dbl>
+    ## 1 (Intercept)   -0.132   0.101       -1.32   0.188
+    ## 2 tv             3.56    0.00168   2125.     0
+
+To get observational level details, we call `augment()`. Here we will
+use head to print a few observations
+
+``` r
+head(augment(tv_model))
+```
+
+    ## # A tibble: 6 × 8
+    ##   sales    tv .fitted .resid     .hat .sigma   .cooksd .std.resid
+    ##   <dbl> <dbl>   <dbl>  <dbl>    <dbl>  <dbl>     <dbl>      <dbl>
+    ## 1  54.7    16    56.9 -2.12  0.000688   2.95 0.000178      -0.719
+    ## 2  46.7    13    46.2  0.511 0.000764   2.95 0.0000115      0.173
+    ## 3 150.     41   146.   4.29  0.000275   2.95 0.000291       1.45 
+    ## 4 298.     83   295.   2.77  0.000490   2.95 0.000217       0.941
+    ## 5  56.6    15    53.3  3.30  0.000713   2.95 0.000448       1.12 
+    ## 6 106.     29   103.   2.74  0.000423   2.95 0.000182       0.928
+
+To get model level details or performance metrics, we call `glance()`
+
+``` r
+glance(tv_model)
+```
+
+    ## # A tibble: 1 × 12
+    ##   r.squared adj.r.sq…¹ sigma stati…² p.value    df  logLik    AIC    BIC devia…³
+    ##       <dbl>      <dbl> <dbl>   <dbl>   <dbl> <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
+    ## 1     0.999      0.999  2.95  4.52e6       0     1 -11366. 22738. 22758.  39524.
+    ## # … with 2 more variables: df.residual <int>, nobs <int>, and abbreviated
+    ## #   variable names ¹​adj.r.squared, ²​statistic, ³​deviance
