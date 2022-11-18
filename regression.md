@@ -12,6 +12,10 @@ Regression In R
     -   <a href="#extrapolating" id="toc-extrapolating">Extrapolating</a>
 -   <a href="#working-with-model-objects"
     id="toc-working-with-model-objects">Working with Model Objects</a>
+-   <a href="#quantifying-model-fit"
+    id="toc-quantifying-model-fit">Quantifying Model fit</a>
+-   <a href="#visualizing-model-fit"
+    id="toc-visualizing-model-fit">Visualizing model fit</a>
 
 # Introduction to Linear Regression
 
@@ -29,7 +33,7 @@ the sales associated with each channel and influence type.
 
 ``` r
 # load libraries
-pacman::p_load(tidyverse, janitor, naniar, ggthemes, broom)
+pacman::p_load(tidyverse, janitor, naniar, ggthemes, broom, ggfortify)
 
 # read data
 my_data <- read_csv("datasets/marketing.csv",
@@ -450,3 +454,184 @@ glance(tv_model)
     ## 1     0.999      0.999  2.95  4.52e6       0     1 -11366. 22738. 22758.  39524.
     ## # … with 2 more variables: df.residual <int>, nobs <int>, and abbreviated
     ## #   variable names ¹​adj.r.squared, ²​statistic, ³​deviance
+
+# Quantifying Model fit
+
+It is usually important to know whether or not predictions from our
+model are a nonsense. There are various we can quantify model fit
+
+#### Coefficient of determination (R2)
+
+R2 value describes the proportion of the variation in the response
+variable that is predictable from the explanatory variable. We can get
+the R2 value using `glance()` and dplyr’s `pull()` functions as follows
+
+``` r
+tv_model %>% 
+  glance() %>% 
+  pull(r.squared)
+```
+
+    ## [1] 0.998995
+
+This means that, on average, 99.89% of the variations in sales are
+explained by tv ad budget, holding other factors constant. We can get
+the R2 value by simply squaring the correlation coefficient between
+sales and tv ad budget as follows:
+
+``` r
+my_data %>% 
+  summarise(
+    r.square = cor(sales, tv)^2
+  ) %>% 
+  pull(r.square)
+```
+
+    ## [1] 0.998995
+
+#### Residual Standard Error (RSE)
+
+RSE is the typical difference between the a prediction and an observed
+value. I like to think of it as the “typical error of the model”. It has
+the same units as the response variable. We can get the RSE of our model
+as follows
+
+``` r
+tv_model %>% 
+  glance() %>% 
+  pull(sigma)
+```
+
+    ## [1] 2.949239
+
+We can also manually calculate it as follows
+
+``` r
+my_data %>% 
+  # create a new variable for each residual
+  mutate(
+    # square the residuals
+    residuals_sq = residuals(tv_model)^2
+  ) %>% 
+  summarise(
+    # get the sum of the squared residuals 
+    sum_of_residuals_sq = sum(residuals_sq),
+    # calculate the degrees of freedom as 
+    # the # of observations minus the # of coefficients
+    df = n()-2,
+    # calculate rse as the sqrt of the ratio
+    rse = sqrt(sum_of_residuals_sq/df)
+  ) %>% 
+  pull(rse)
+```
+
+    ## [1] 2.949239
+
+This means that the difference between the predicted sales amount and
+the predicted sales is typically 2.94 dollars.
+
+#### Root Mean Square Error (RMSE)
+
+RMSE performs the same task as the RSE, i.e quantifying how inaccurate
+our model is. It’s calculated the same way as the RSE, only that we do
+not subtract the number of coefficients in the second last step:
+
+``` r
+my_data %>% 
+  # create a new variable for each residual
+  mutate(
+    # square the residuals
+    residuals_sq = residuals(tv_model)^2
+  ) %>% 
+  summarise(
+    # get the sum of the squared residuals 
+    sum_of_residuals_sq = sum(residuals_sq),
+    # calculate the degrees of freedom as 
+    # the # of observations minus the # of coefficients
+    n_observations = n(),
+    # calculate rse as the sqrt of the ratio
+    rmse = sqrt(sum_of_residuals_sq/n_observations)
+  ) %>% 
+  pull(rmse)
+```
+
+    ## [1] 2.94859
+
+RSME is a poor metric when comparing models. Even though, we should know
+it exists but always use RSE.
+
+# Visualizing model fit
+
+There are several diagnostic plots that can be used to quantify the
+performance of a model. Some of these plots include residuals vs. fitted
+values plot, Q-Q plot, and Scale location plot. The principle behind
+this plots is that if a linear regression model is a good fit, the
+residuals are approximately normally distributed with mean zero. Lets
+briefly discuss each of these plots
+
+#### Residuals versus Fitted Values
+
+To draw this plot we call `autoplot()`, passing the model object and
+setting the `which` argument to 1.
+
+``` r
+# residuals vs fitted values plot
+autoplot(tv_model, which = 1)
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-22-1.png)<!-- --> The blue
+line is called the LOESS trend line, which is a smooth curve following
+the data. If the residuals meet the assumption that they are normally
+distributed with mean zero, then then trend line should closely follow
+the y equals zero line on the plot, which is the case in our plot. This
+indicates that our model is a good fit.
+
+#### Q-Q plot
+
+The code for drawing this plot is the same as that of residual vs fitted
+values plot, except that we set the `which` argument to 2.
+
+``` r
+# plot Q-Q plot
+autoplot(tv_model, which = 2)
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+
+Again, the Q-Q plot shows whether or not the residuals follows a normal
+distribution. On the x-axis, the points are the quantiles from the
+normal distribution. On the y-axis, we get the standardized residuals,
+which are the residuals divided by their standard deviation. If the
+follow the straight line closely, they are normally distributed, if not,
+they aren’t. In our case, we can say they are normally distributed
+indicating good fit.
+
+#### Scale-location Plot
+
+Again the code is the same, except we set the `which` argument to 3
+
+``` r
+# plot scale location
+autoplot(tv_model, which = 3)
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+
+The scale-location plot displays the square root of the standardized
+residuals vs fitted values. It shows whether the size of of the
+residuals gets bigger or smaller. Basically the size of the standardized
+residuals should be consistent, which is the case in our plot. We can
+draw the three plots together as follows
+
+``` r
+autoplot(
+  tv_model,
+  which = 1:3,
+  ncol = 1,
+  nrow = 3
+  )+
+  # add a theme
+  theme_clean()
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
