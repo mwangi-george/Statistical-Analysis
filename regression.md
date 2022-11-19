@@ -1,6 +1,6 @@
 Regression In R
 ================
-18 Nov, 2022
+19 Nov, 2022
 
 -   <a href="#introduction-to-linear-regression"
     id="toc-introduction-to-linear-regression">Introduction to Linear
@@ -16,6 +16,9 @@ Regression In R
     id="toc-quantifying-model-fit">Quantifying Model fit</a>
 -   <a href="#visualizing-model-fit"
     id="toc-visualizing-model-fit">Visualizing model fit</a>
+-   <a href="#outliers" id="toc-outliers">Outliers</a>
+-   <a href="#leverage" id="toc-leverage">Leverage</a>
+-   <a href="#influence" id="toc-influence">Influence</a>
 
 # Introduction to Linear Regression
 
@@ -33,12 +36,19 @@ the sales associated with each channel and influence type.
 
 ``` r
 # load libraries
-pacman::p_load(tidyverse, janitor, naniar, ggthemes, broom, ggfortify)
+pacman::p_load(
+  tidyverse, 
+  janitor, 
+  naniar, 
+  ggthemes, 
+  broom, 
+  ggfortify
+  )
 
 # read data
 my_data <- read_csv("datasets/marketing.csv",
   show_col_types = F
-) %>%
+  ) %>%
   clean_names()
 
 # print first 6 observations
@@ -95,7 +105,9 @@ the two variables have a linear relationship.
 
 ``` r
 my_data %>%
-  ggplot(aes(tv, sales)) +
+  ggplot(
+    aes(tv, sales)
+    ) +
   # add a scatter plot
   geom_jitter() +
   # fit a linear trendline
@@ -132,16 +144,19 @@ my_data %>%
 
     ## [1] 0.9994974
 
-The output means that there is a very strong positve correlation between
-sales and tv ad budget. While ggplot can display a linear regression
-trend line using geom_smooth(), it doesn’t give us access to the
-intercept and slope as variables, or allow us to work with the model
+The output means that there is a very strong positive correlation
+between sales and tv ad budget. While ggplot can display a linear
+regression trend line using geom_smooth(), it doesn’t give us access to
+the intercept and slope as variables, or allow us to work with the model
 results as variables. That means that we will need to run a linear
-regression
+regression.
 
 ``` r
 # predict sales using Tv budget
-tv_model <- lm(sales ~ tv, data = my_data)
+tv_model <- lm(
+  sales ~ tv, 
+  data = my_data
+  )
 
 # print tv_model
 tv_model
@@ -155,6 +170,28 @@ tv_model
     ## (Intercept)           tv  
     ##     -0.1325       3.5615
 
+*Note that a linear regression model is one of the generalized linear
+models that can be performed with the code below.*
+
+``` r
+glm(
+  formula = sales ~ tv, 
+  data = my_data, 
+  family = gaussian
+)
+```
+
+    ## 
+    ## Call:  glm(formula = sales ~ tv, family = gaussian, data = my_data)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           tv  
+    ##     -0.1325       3.5615  
+    ## 
+    ## Degrees of Freedom: 4545 Total (i.e. Null);  4544 Residual
+    ## Null Deviance:       39330000 
+    ## Residual Deviance: 39520     AIC: 22740
+
 Our interest is in the coefficient results. The intercept value
 (-0.1325) indicates that, on average, the firm loses money in sales even
 if it does not spend any money on television advertising. Given that we
@@ -163,12 +200,15 @@ slope indicates that a 1 dollar increase in the budget for television
 advertisements results in a 3.6 dollar rise in sales.
 
 Let’s now make a sales prediction utilizing the explanatory variable
-influencer. N otice that the influencer variable is categorical. To
+influencer. Notice that the influencer variable is categorical. To
 signal that all coefficients should be provided relative to zero, we
 instead add “+ 0” to the explanatory variable.
 
 ``` r
-influencer_model <- lm(sales ~ influencer + 0, data = my_data)
+influencer_model <- lm(
+  sales ~ influencer + 0, 
+  data = my_data
+  )
 
 # print influencer model
 influencer_model
@@ -195,7 +235,9 @@ for each group.
 ``` r
 my_data %>% 
   group_by(influencer) %>% 
-  summarise(average_sales = mean(sales))
+  summarise(
+    average_sales = mean(sales)
+    )
 ```
 
     ## # A tibble: 4 × 2
@@ -252,7 +294,9 @@ visualize the results, let’s use a dataframe to store the predictions
 
 ``` r
 prediction_data <- explanatory_data %>% 
-  mutate(sales = predict(tv_model, explanatory_data))
+  mutate(
+    sales = predict(tv_model, explanatory_data)
+    )
 
 head(prediction_data)
 ```
@@ -273,18 +317,23 @@ not include a case with that tv budget.
 
 # Visualizing predictions
 
-We use the same scatter plot and a linear trendline as before.
+We use the same scatter plot and a linear trend line as before.
 
 ``` r
 my_data %>%
-  ggplot(aes(tv, sales)) +
+  ggplot(
+    aes(tv, sales)
+    ) +
   geom_jitter() +
   geom_smooth(
     method = "lm",
     se = F
   ) +
   # add a geom_point layer for predictions
-  geom_point(data = prediction_data, color = "yellow") +
+  geom_point(
+    data = prediction_data, 
+    color = "yellow"
+    ) +
   theme_clean() +
   labs(
     title = "Sales versus Tv Budget",
@@ -294,7 +343,7 @@ my_data %>%
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](regression_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](regression_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 Notice the predictions lie exactly on the trendline.
 
@@ -332,14 +381,19 @@ low_tv_budget
 ``` r
 # visualize the predictions
 my_data %>%
-  ggplot(aes(tv, sales)) +
+  ggplot(
+    aes(tv, sales)
+    ) +
   geom_jitter() +
   geom_smooth(
     method = "lm",
     se = F
   ) +
   # add a geom_point layer for predictions
-  geom_point(data = low_tv_budget, color = "red")+
+  geom_point(
+    data = low_tv_budget, 
+    color = "red"
+    )+
   theme_clean()+
   labs(
     title = "Sales versus Tv Budget",
@@ -349,7 +403,7 @@ my_data %>%
 
     ## `geom_smooth()` using formula 'y ~ x'
 
-![](regression_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](regression_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 The model predicts that if we spend only two dollars in tv
 advertisement, we would make sales worth 6.99 dollars.
@@ -527,8 +581,8 @@ my_data %>%
 
     ## [1] 2.949239
 
-This means that the difference between the predicted sales amount and
-the predicted sales is typically 2.94 dollars.
+This means that the difference between the predicted sales value and the
+observed sales value is typically 2.94 dollars.
 
 #### Root Mean Square Error (RMSE)
 
@@ -576,10 +630,13 @@ setting the `which` argument to 1.
 
 ``` r
 # residuals vs fitted values plot
-autoplot(tv_model, which = 1)
+autoplot(
+  tv_model, 
+  which = 1
+  )
 ```
 
-![](regression_files/figure-gfm/unnamed-chunk-22-1.png)<!-- --> The blue
+![](regression_files/figure-gfm/unnamed-chunk-23-1.png)<!-- --> The blue
 line is called the LOESS trend line, which is a smooth curve following
 the data. If the residuals meet the assumption that they are normally
 distributed with mean zero, then then trend line should closely follow
@@ -593,18 +650,21 @@ values plot, except that we set the `which` argument to 2.
 
 ``` r
 # plot Q-Q plot
-autoplot(tv_model, which = 2)
+autoplot(
+  tv_model, 
+  which = 2
+  )
 ```
 
-![](regression_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](regression_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
-Again, the Q-Q plot shows whether or not the residuals follows a normal
+Again, the Q-Q plot shows whether or not the residuals follow a normal
 distribution. On the x-axis, the points are the quantiles from the
 normal distribution. On the y-axis, we get the standardized residuals,
 which are the residuals divided by their standard deviation. If the
-follow the straight line closely, they are normally distributed, if not,
-they aren’t. In our case, we can say they are normally distributed
-indicating good fit.
+points follow the straight line closely, they are normally distributed,
+if not, they aren’t. In our case, we can say they are normally
+distributed indicating good fit.
 
 #### Scale-location Plot
 
@@ -615,7 +675,7 @@ Again the code is the same, except we set the `which` argument to 3
 autoplot(tv_model, which = 3)
 ```
 
-![](regression_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](regression_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 The scale-location plot displays the square root of the standardized
 residuals vs fitted values. It shows whether the size of of the
@@ -634,4 +694,152 @@ autoplot(
   theme_clean()
 ```
 
-![](regression_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](regression_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
+# Outliers
+
+An outlier is an unusual data point in the dataset. Mathematically, a
+data is an outlier if it is less than `Q1 - 1.5*IQR` or greater than
+`Q3 + 1.5*IQR`, where Q1 is the first quartile, Q3 is the third
+quartile, and IQR is the interquartile range. The best way to determine
+if there are outliers is by using box plots. To check for outliers in a
+variable, it is best to use box plots.
+
+``` r
+# determine if there are outliers in the sales variable
+my_data %>% 
+  ggplot(
+    aes(x = " ", y = sales)
+    )+
+  geom_boxplot()+
+  theme_clean()+
+  labs(
+    title = "Distribution of Sales"
+  )
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+
+In this case there are no any outliers. Let’s do the same thing for tv
+budget
+
+``` r
+# determine if there are outliers in the tv budget variable
+my_data %>% 
+  ggplot(
+    aes(x = " ", y = tv)
+    )+
+  geom_boxplot()+
+  theme_clean()+
+  labs(
+    title = "Distribution of Tv budget"
+  )
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+
+Again, there are no unusual data points in the tv variable.
+
+# Leverage
+
+Leverage is a measure of how extreme the explanatory variable values
+are. Basically, a high leverage means that the explanatory variable has
+values that are different from other points in the dataset. To calculate
+leverage, we use the `hatvalues()` function, passing the model object.
+This function returns a numeric vector with as many values as there are
+observations.
+
+``` r
+# print a few leverage values
+head(
+  hatvalues(tv_model)
+)
+```
+
+    ##            1            2            3            4            5            6 
+    ## 0.0006877353 0.0007643762 0.0002750671 0.0004903260 0.0007126365 0.0004227810
+
+Alternatively, we can use the `augment()` function from broom. The
+leverage values are stored in the `.hat` column.
+
+``` r
+tv_model %>% 
+  augment() %>% 
+  select(
+    sales, tv, leverage = .hat
+  ) %>% 
+  arrange(
+    desc(leverage)
+  )
+```
+
+    ## # A tibble: 4,546 × 3
+    ##    sales    tv leverage
+    ##    <dbl> <dbl>    <dbl>
+    ##  1  354.   100 0.000901
+    ##  2  355.   100 0.000901
+    ##  3  354.   100 0.000901
+    ##  4  357.   100 0.000901
+    ##  5  358.   100 0.000901
+    ##  6  355.   100 0.000901
+    ##  7  355.   100 0.000901
+    ##  8  356.   100 0.000901
+    ##  9  351.   100 0.000901
+    ## 10  356.   100 0.000901
+    ## # … with 4,536 more rows
+
+# Influence
+
+Influence measures how much the model would change if we left the
+observations out of the model calculations one at a time. The influence
+of each observations is based on the size of the residuals and the
+leverage. The most common measure of influence is called *Cook’s
+Distance*. Bigger values denote more influence for the observation. To
+calculate Cook’s distance, we call the `cooks.distance()` function
+passing the model object. However, let’s stick to the broom’s
+`augment()` function. The values for influence are stored in the
+`.cooksd` column.
+
+``` r
+tv_model %>% 
+  augment() %>% 
+  select(
+    sales, tv, cooks_dist = .cooksd
+  ) %>% 
+  arrange(
+    desc(cooks_dist)
+  )
+```
+
+    ## # A tibble: 4,546 × 3
+    ##    sales    tv cooks_dist
+    ##    <dbl> <dbl>      <dbl>
+    ##  1  59.5    20    0.00461
+    ##  2  52.2    12    0.00419
+    ##  3  33.5    12    0.00377
+    ##  4 364.    100    0.00337
+    ##  5  64.6    21    0.00336
+    ##  6  58.5    14    0.00329
+    ##  7  84.6    21    0.00327
+    ##  8  44.8    15    0.00298
+    ##  9 326.     94    0.00297
+    ## 10  65.5    21    0.00275
+    ## # … with 4,536 more rows
+
+We learn that the most influential observation was the one with sales
+worth 59.49158 dollars and a tv budget of 20 dollars.
+
+`autoplot()` lets us draw diagnostic plots of leverage and influence, by
+setting the `which` argument to 4, 5, or 6. I find this plots less
+helpful for diagnosis than the previous ones we looked at. Nevertheless,
+they help us identify the most influential observations quickly.
+
+``` r
+# visualize leverage and influence
+autoplot(
+  tv_model, 
+  which = 4:6
+  )
+```
+
+![](regression_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
