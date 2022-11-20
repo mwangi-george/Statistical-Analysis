@@ -10,6 +10,13 @@ Logistic Regression In R
     Predictions</a>
 -   <a href="#the-most-likely-outcome" id="toc-the-most-likely-outcome">The
     Most Likely Outcome</a>
+-   <a href="#quantifying-logistic-model"
+    id="toc-quantifying-logistic-model">Quantifying Logistic Model</a>
+    -   <a href="#confusion-matrix" id="toc-confusion-matrix">Confusion
+        Matrix</a>
+    -   <a href="#visualizing-the-confusion-matrix-mosaic-plot"
+        id="toc-visualizing-the-confusion-matrix-mosaic-plot">Visualizing the
+        Confusion Matrix: Mosaic Plot</a>
 
 # Introduction
 
@@ -220,3 +227,78 @@ model_plot +
     ## `geom_smooth()` using formula 'y ~ x'
 
 ![](Logistic-Regression_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+# Quantifying Logistic Model
+
+### Confusion Matrix
+
+The counts of each outcomes in a logistic model is called a confusion
+matrix. In this case, there are four possible outcomes. We would be
+correct if we predicted that an employee would not leave and they
+actually didn’t or we predicted that an employee would leave and they
+actually left. We would make a false positive error if we predicted that
+an employee would leave while they actually didn’t leave. On the other
+hand, we would make a false negative error if we predicted that an
+employee would not leave while they actually left. The table below
+summarizes the four outcomes.
+
+| Actual Vs Predicted | Actual False   | Actual True    |
+|---------------------|----------------|----------------|
+| Predicted False     | Correct        | False Negative |
+| Predicted True      | False Positive | Correct        |
+
+To create a confusion matrix, we need the model object, the actual
+responses, and the predicted responses
+
+``` r
+# define actual responses 
+actual_responses <- hr_data$left
+
+# calculate predicted responses
+predicted_responses <- round(
+  fitted(my_model)
+)
+
+# tabulate the outcomes
+outcomes <- table(
+  predicted_responses, 
+  actual_responses
+)
+
+# print outcomes
+outcomes
+```
+
+    ##                    actual_responses
+    ## predicted_responses    0    1
+    ##                   0 9877 1480
+    ##                   1  123  511
+
+Our model correctly predicted that 9877 employees would not leave and
+511 employee would leave the organization. However, there were 123 false
+positives and 1480 false negatives.
+
+### Visualizing the Confusion Matrix: Mosaic Plot
+
+The `yardstick` package lets us easily plot the confusion matrix and
+calculate the performance metrics of the model. We convert the outcomes
+table a yardstick confusion matrix object using `conf_mat()`.
+
+``` r
+confusion <- conf_mat(outcomes)
+```
+
+Then, just as with linear model objects, we can simply call `autoplot()`
+to draw the mosaic plot of the confusion matrix as follows.
+
+``` r
+autoplot(confusion) +
+  theme_economist()+
+  labs(
+    title = "Confusion Matrix",
+    x = "Actual Responses",
+    y = "Predicted Responses"
+  )
+```
+
+![](Logistic-Regression_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
