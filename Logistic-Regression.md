@@ -396,6 +396,6 @@ summary(confusion) %>%
 
     ## [1] 0.2566549
 
-Again, higher specificity is better is better, though, there is a
-tradeoff where improving specificity will decrease sensitivity or
-increasing sensitivity will decrease specificity.
+Again, higher specificity is better, though, there is a tradeoff where
+improving specificity will decrease sensitivity or increasing
+sensitivity will decrease specificity.
