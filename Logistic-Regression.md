@@ -17,6 +17,11 @@ Logistic Regression In R
     -   <a href="#visualizing-the-confusion-matrix-mosaic-plot"
         id="toc-visualizing-the-confusion-matrix-mosaic-plot">Visualizing the
         Confusion Matrix: Mosaic Plot</a>
+-   <a href="#performance-metrics" id="toc-performance-metrics">Performance
+    Metrics</a>
+    -   <a href="#model-accuracy" id="toc-model-accuracy">Model Accuracy</a>
+    -   <a href="#sensitivity" id="toc-sensitivity">Sensitivity</a>
+    -   <a href="#specificity" id="toc-specificity">Specificity</a>
 
 # Introduction
 
@@ -295,10 +300,102 @@ to draw the mosaic plot of the confusion matrix as follows.
 autoplot(confusion) +
   theme_economist()+
   labs(
-    title = "Confusion Matrix",
+    title = "Mosaic Plot",
     x = "Actual Responses",
     y = "Predicted Responses"
   )
 ```
 
 ![](Logistic-Regression_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+To interpret the mosaic plot, we start by looking at the column widths.
+The width of each column is proportional to the fraction of each
+category of actual values. We can see that a bigger part of the actual
+responses were that the employee would not leave. Then, the column
+heights displays the fractions of the predicted observations with each
+value.
+
+# Performance Metrics
+
+Calling `summary()` on the confusion matrix returns several performance
+metrics of the model as shown below
+
+``` r
+# print model performance metrics
+summary(
+  confusion, 
+  event_level = "second"
+  )
+```
+
+    ## # A tibble: 13 × 3
+    ##    .metric              .estimator .estimate
+    ##    <chr>                <chr>          <dbl>
+    ##  1 accuracy             binary        0.866 
+    ##  2 kap                  binary        0.336 
+    ##  3 sens                 binary        0.257 
+    ##  4 spec                 binary        0.988 
+    ##  5 ppv                  binary        0.806 
+    ##  6 npv                  binary        0.870 
+    ##  7 mcc                  binary        0.406 
+    ##  8 j_index              binary        0.244 
+    ##  9 bal_accuracy         binary        0.622 
+    ## 10 detection_prevalence binary        0.0529
+    ## 11 precision            binary        0.806 
+    ## 12 recall               binary        0.257 
+    ## 13 f_meas               binary        0.389
+
+Since we used 0 and 1 for the response values instead of a factor, the
+second column contain the positive response, so we set `event_level` to
+`second`. Lets briefly discuss three most useful performance metrics of
+the model.
+
+### Model Accuracy
+
+Accuracy is the proportion of correct predictions i.e the number of true
+negatives plus the number of true positives. To get accuracy metric from
+the summary call, we proceed as follows
+
+``` r
+summary(confusion) %>% 
+  slice(1) %>% 
+  pull(.estimate)
+```
+
+    ## [1] 0.8663164
+
+Our model was 86.63% accurate. Quite Good! Higher accuracy is better.
+
+### Sensitivity
+
+This is the proportion of true positives i.e the proportion of
+observations where the actual responses were true where the model also
+predicted that they were true. We can get sensitivity as follows
+
+``` r
+summary(confusion) %>% 
+  slice(3) %>% 
+  pull(.estimate)
+```
+
+    ## [1] 0.9877
+
+Again, higher sensitivity is better.
+
+### Specificity
+
+This is the proportion of true negatives i.e the proportion of
+observations where the actual responses were false where model also
+predicted that they were false.
+
+``` r
+summary(confusion) %>% 
+  slice(4) %>% 
+  pull(.estimate)
+```
+
+    ## [1] 0.2566549
+
+Again, higher specificity is better is better, though, there is a
+tradeoff where improving specificity will decrease sensitivity or
+increasing sensitivity will decrease specificity.
