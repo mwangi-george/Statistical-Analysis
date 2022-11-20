@@ -1,0 +1,222 @@
+Logistic Regression In R
+================
+20 Nov, 2022
+
+-   <a href="#introduction" id="toc-introduction">Introduction</a>
+-   <a href="#visualizing-the-logistic-model"
+    id="toc-visualizing-the-logistic-model">Visualizing the logistic
+    model</a>
+-   <a href="#making-predictions" id="toc-making-predictions">Making
+    Predictions</a>
+-   <a href="#the-most-likely-outcome" id="toc-the-most-likely-outcome">The
+    Most Likely Outcome</a>
+
+# Introduction
+
+Logistic regression is another type of generalized linear model used
+when the response variable is logical. Logistic models results in
+predictions that follow a logistic curve, which is S-shaped. In this
+article, we are going to go through the steps for building a simple
+logistic regression model in R using a Human resource dataset downloaded
+[here](https://www.kaggle.com/datasets/kmldas/hr-employee-data-descriptive-analytics?datasetId=1308671&sortBy=dateRun&tab=collaboration).
+We are going to build a model to predict whether or not an employee
+would leave the company based on their satisfaction level. Below is
+preview of the first 6 rows of the data
+
+``` r
+# select variables of interest
+hr_data <- hr_data %>% 
+  select(
+    left, satisfaction_level
+    )
+
+# print a few rows
+head(hr_data)
+```
+
+    ##    left satisfaction_level
+    ## 1:    1               0.38
+    ## 2:    1               0.80
+    ## 3:    1               0.11
+    ## 4:    1               0.72
+    ## 5:    1               0.37
+    ## 6:    1               0.41
+
+To fit a logistic regression model in R, we call the `glm()` function
+passing the formula, that data and setting the `family` argument to
+`binomial`. The response variable goes on the left hand side of the
+formula and the explanatory variable on the right. Lets assign the model
+results to `my_model`.
+
+``` r
+# run the model
+my_model <- glm(
+  formula = left ~ satisfaction_level,
+  data = hr_data,
+  family = binomial
+)
+
+# print model coefficients
+coefficients(my_model)
+```
+
+    ##        (Intercept) satisfaction_level 
+    ##          0.5524361         -3.8819933
+
+As in linear models, we get two coefficients, one for the intercept and
+the other for the explanatory variable. Remember that a coefficient in a
+logit model tells us the change in the log of the odds ratio per unit
+change in the explanatory variable. Basically, the coefficient for
+satisfaction level means that, on average, every unit increase in an
+employee’s satisfaction level decreases the logit of leaving the company
+by 3.8819933.
+
+# Visualizing the logistic model
+
+As with linear regression, ggplot2 will draw model predictions for a
+logistic regression model without us having to worry about the modeling
+code. We can visualize the model as follows:
+
+``` r
+# visualize the model
+model_plot <- hr_data %>% 
+  ggplot(
+    aes(
+      x = satisfaction_level, 
+      y = left
+      )
+  )+
+  geom_point()+
+  geom_smooth(
+    method = "glm",
+    se = FALSE,
+    method.args = list(
+      family = binomial
+    )
+  )+
+  theme_few()+
+  labs(
+    title = "Employee Prediction Model",
+    subtitle = "Logistic Regression"
+  )
+
+# print model_plot
+model_plot
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](Logistic-Regression_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+The `method.args` argument contains a list of other arguments passed to
+`glm`. The blue line represent probabilities, which should not go beyond
+1 or below 0. From the graph, we can learn learn that, as an employee’s
+satisfaction level increases, their probability of leaving the company
+decreases.
+
+# Making Predictions
+
+Suppose we know the satisfaction levels of three employees in the
+company. We can utilize the model to know whether they would leave the
+company or not. To make predictions, we can create a dataframe or tibble
+containing explanatory variable values.
+
+``` r
+# create explanatory data for use in prediction
+explanatory_data <- tibble(
+  satisfaction_level = c(0.12, 0.56, 0.98)
+  )
+
+# print explanatory data
+explanatory_data
+```
+
+    ## # A tibble: 3 × 1
+    ##   satisfaction_level
+    ##                <dbl>
+    ## 1               0.12
+    ## 2               0.56
+    ## 3               0.98
+
+We simply add a column of the response using `mutate()`. As well as
+passing the model object and explanatory data to `predict()`, we need to
+set the `type` argument to `response` in order to get the probabilities
+of leaving instead of log of odds ratio.
+
+``` r
+# make predictions and assign to predicted_data
+predicted_data <- explanatory_data %>% 
+  mutate(
+    left = predict(
+      my_model, 
+      explanatory_data,
+      type = "response"
+    )
+  )
+
+# print predicted_data
+predicted_data
+```
+
+    ## # A tibble: 3 × 2
+    ##   satisfaction_level   left
+    ##                <dbl>  <dbl>
+    ## 1               0.12 0.522 
+    ## 2               0.56 0.165 
+    ## 3               0.98 0.0373
+
+We can see that there is a 52.16% chance of leaving the company for an
+employee with a satisfaction level of 0.12 and so on. We can add this
+predictions to the model plot as follows:
+
+``` r
+# add predictions to plot
+model_plot +
+  geom_point(
+    data = predicted_data,
+    color = "red",
+    size = 3
+  )
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](Logistic-Regression_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+As expected, the predicted data points follow the trend line.
+
+# The Most Likely Outcome
+
+When presenting results to a non-technical audience, the concept of
+probabilities can be a little confusing. It’s therefore best to use the
+most likely outcome of the predicted outcomes i.e whether an employee
+will leave or not instead of giving probabilities. We can simply achieve
+this by rounding the probabilities to the nearest whole number as
+follows:
+
+``` r
+# add most likely outcome column
+predicted_data <- predicted_data %>% 
+  mutate(
+    most_likely_outcome = round(left)
+  )
+```
+
+An employee with satisfaction level of 0.12 will most likely leave while
+that with satisfaction level of 0.56 will most likely not leave. We can
+visualize the most likely outcome as follows:
+
+``` r
+model_plot +
+  # overwrite the y aesthetic
+  geom_point(
+    aes(
+      y = most_likely_outcome
+      ),
+    data = predicted_data,
+    color = "red",
+    size = 4
+  )
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](Logistic-Regression_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
