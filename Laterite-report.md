@@ -54,7 +54,8 @@ pacman::p_load(
 
 # load data set
 laterite <- read_csv(
-  file = "datasets/mobile_money_data.csv"
+  file = "datasets/mobile_money_data.csv",
+  show_col_types = F
   ) %>% 
   # remove any duplication
   distinct() %>% 
@@ -70,15 +71,6 @@ laterite <- read_csv(
       )
     )
 ```
-
-    ## Rows: 2442 Columns: 29
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (24): start_time, end_time, account_type, district, urban, gender, highe...
-    ## dbl  (5): hhid, account_num, weight, age, hh_members
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ## Formatting the dataframe
 
