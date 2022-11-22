@@ -30,6 +30,8 @@ Introduction to Multiple Linear Regression
     -   <a href="#adjusted-coefficient-of-determination"
         id="toc-adjusted-coefficient-of-determination">Adjusted Coefficient of
         Determination</a>
+    -   <a href="#residual-standard-error-rse"
+        id="toc-residual-standard-error-rse">Residual Standard Error (RSE)</a>
 
 # Introduction
 
@@ -459,4 +461,63 @@ fitting***. Over fitting makes the model optimized to provide the best
 fit for a particular dataset, but no longer reflects the general
 population. In this case, the model would be overfit if it performed
 well on the current car_prices dataset but badly on a different
-car_prices dataset.
+car_prices dataset. This is why we use a variant metric called Adjusted
+coefficient of determination.
+
+Adjusted R Square includes a small penalty term for each additional
+explanatory variable to compensate for overfitting. The penalty is big
+enough to worry about if the the plain R Square is small, or if the
+number of explanatory variables is a sizable fraction of the the number
+of observations. In a nut shell, Adjusted R Square is a better metric
+than the plain R Square.
+
+To get Adjusted R Square of the model, the syntax is the same as when
+getting plain R Square value only that we pull `adj.r.squared`.
+
+``` r
+car_prices_model %>% 
+  glance() %>% 
+  select(adj.r.squared)
+```
+
+| adj.r.squared |
+|--------------:|
+|     0.9078752 |
+
+To see the effect of penalization, we can look at the two metrics side
+by side.
+
+``` r
+car_prices_model %>% 
+  glance() %>% 
+  select(r.squared, adj.r.squared)
+```
+
+| r.squared | adj.r.squared |
+|----------:|--------------:|
+| 0.9083335 |     0.9078752 |
+
+The effect here is very little, but if we add more explanatory values to
+the model, the `adj.r.squared` value would decrease.
+
+### Residual Standard Error (RSE)
+
+RSE is the typical difference between the a prediction and an observed
+value. I like to think of it as the “typical error of the model”. It has
+the same units as the response variable. A lower RSE value is better. We
+can get the RSE of our model as follows
+
+``` r
+car_prices_model %>% 
+  glance() %>% 
+  select(
+    residual_std_error = sigma
+    )
+```
+
+| residual_std_error |
+|-------------------:|
+|           7138.345 |
+
+The output means that the difference between the predicted values and
+the observed values is 7138.345 dollars.

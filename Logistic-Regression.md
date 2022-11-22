@@ -1,6 +1,6 @@
 Logistic Regression In R
 ================
-20 Nov, 2022
+22 Nov, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
 -   <a href="#visualizing-the-logistic-model"
@@ -46,13 +46,14 @@ hr_data <- hr_data %>%
 head(hr_data)
 ```
 
-    ##    left satisfaction_level
-    ## 1:    1               0.38
-    ## 2:    1               0.80
-    ## 3:    1               0.11
-    ## 4:    1               0.72
-    ## 5:    1               0.37
-    ## 6:    1               0.41
+| left | satisfaction_level |
+|-----:|-------------------:|
+|    1 |               0.38 |
+|    1 |               0.80 |
+|    1 |               0.11 |
+|    1 |               0.72 |
+|    1 |               0.37 |
+|    1 |               0.41 |
 
 To fit a logistic regression model in R, we call the `glm()` function
 passing the formula, that data and setting the `family` argument to
@@ -142,12 +143,11 @@ explanatory_data <- tibble(
 explanatory_data
 ```
 
-    ## # A tibble: 3 × 1
-    ##   satisfaction_level
-    ##                <dbl>
-    ## 1               0.12
-    ## 2               0.56
-    ## 3               0.98
+| satisfaction_level |
+|-------------------:|
+|               0.12 |
+|               0.56 |
+|               0.98 |
 
 We simply add a column of the response using `mutate()`. As well as
 passing the model object and explanatory data to `predict()`, we need to
@@ -169,12 +169,11 @@ predicted_data <- explanatory_data %>%
 predicted_data
 ```
 
-    ## # A tibble: 3 × 2
-    ##   satisfaction_level   left
-    ##                <dbl>  <dbl>
-    ## 1               0.12 0.522 
-    ## 2               0.56 0.165 
-    ## 3               0.98 0.0373
+| satisfaction_level |      left |
+|-------------------:|----------:|
+|               0.12 | 0.5216357 |
+|               0.56 | 0.1650008 |
+|               0.98 | 0.0372580 |
 
 We can see that there is a 52.16% chance of leaving the company for an
 employee with a satisfaction level of 0.12 and so on. We can add this
@@ -328,22 +327,21 @@ summary(
   )
 ```
 
-    ## # A tibble: 13 × 3
-    ##    .metric              .estimator .estimate
-    ##    <chr>                <chr>          <dbl>
-    ##  1 accuracy             binary        0.866 
-    ##  2 kap                  binary        0.336 
-    ##  3 sens                 binary        0.257 
-    ##  4 spec                 binary        0.988 
-    ##  5 ppv                  binary        0.806 
-    ##  6 npv                  binary        0.870 
-    ##  7 mcc                  binary        0.406 
-    ##  8 j_index              binary        0.244 
-    ##  9 bal_accuracy         binary        0.622 
-    ## 10 detection_prevalence binary        0.0529
-    ## 11 precision            binary        0.806 
-    ## 12 recall               binary        0.257 
-    ## 13 f_meas               binary        0.389
+| .metric              | .estimator | .estimate |
+|:---------------------|:-----------|----------:|
+| accuracy             | binary     | 0.8663164 |
+| kap                  | binary     | 0.3360834 |
+| sens                 | binary     | 0.2566549 |
+| spec                 | binary     | 0.9877000 |
+| ppv                  | binary     | 0.8059937 |
+| npv                  | binary     | 0.8696839 |
+| mcc                  | binary     | 0.4063313 |
+| j_index              | binary     | 0.2443549 |
+| bal_accuracy         | binary     | 0.6221775 |
+| detection_prevalence | binary     | 0.0528730 |
+| precision            | binary     | 0.8059937 |
+| recall               | binary     | 0.2566549 |
+| f_meas               | binary     | 0.3893333 |
 
 Since we used 0 and 1 for the response values instead of a factor, the
 second column contain the positive response, so we set `event_level` to
