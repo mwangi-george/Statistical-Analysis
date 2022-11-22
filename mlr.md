@@ -3,6 +3,9 @@ Introduction to Multiple Linear Regression
 22 Nov, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
+-   <a href="#visualizing-relationship-between-variables"
+    id="toc-visualizing-relationship-between-variables">Visualizing
+    Relationship between Variables</a>
 -   <a href="#modeling" id="toc-modeling">Modeling</a>
     -   <a href="#results-interpretation"
         id="toc-results-interpretation">Results Interpretation</a>
@@ -79,6 +82,8 @@ head(car_prices)
 | 30731.94 |   22479 | 4        |
 | 33358.77 |   17590 | 4        |
 | 30315.17 |   23635 | 4        |
+
+# Visualizing Relationship between Variables
 
 Before building a model, it is always a good idea to visualize the data.
 In this case, we visualize the relationship between the price and
@@ -426,7 +431,7 @@ important model performance metrics.
 ### Coefficient of Determination (R Squared)
 
 R Square is a measure of how good the regression’s prediction line fits
-the observed values. A higher $R^{2}$ value is better. To get the
+the observed values. A higher R Square value is better. To get the
 coefficient of determination, we can call broom’s `glance()` function
 passing the model object; this returns model level metrics as a
 dataframe.
