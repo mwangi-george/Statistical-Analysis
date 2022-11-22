@@ -449,10 +449,9 @@ in price of cars, holding other factors constant.
 ### Adjusted Coefficient of Determination
 
 Adding more explanatory variables often increases the coefficient of
-determination for a model. This introduces a problem. Too many
-explanatory variables in the model can lead to a phenomenon called
-**Over fitting**. Over fitting makes the model optimized to provide the
-best fit for a particular dataset, but no longer reflects the general
+determination for a model. This introduces a phenomenon called ***Over
+fitting***. Over fitting makes the model optimized to provide the best
+fit for a particular dataset, but no longer reflects the general
 population. In this case, the model would be overfit if it performed
-well on current car_prices dataset but badly on a different car_prices
-dataset.
+well on the current car_prices dataset but badly on a different
+car_prices dataset.
