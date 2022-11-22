@@ -426,7 +426,7 @@ important model performance metrics.
 ### Coefficient of Determination (R Squared)
 
 R Square is a measure of how good the regression’s prediction line fits
-the observed values. A higher R^{2} value is better. To get the
+the observed values. A higher $R^{2}$ value is better. To get the
 coefficient of determination, we can call broom’s `glance()` function
 passing the model object; this returns model level metrics as a
 dataframe.
