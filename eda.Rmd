@@ -1,0 +1,72 @@
+---
+title: "Exploratory Data Analysis"
+date: "2022-11-23"
+output: 
+    github_document:
+      df_print: kable
+---
+
+```{r}
+# load libraries
+pacman::p_load(
+  tidyverse,
+  DataExplorer,
+  dlookr,
+  SmartEDA,
+  forecast,
+  prettydoc,
+  Hmisc,
+  ggthemes,
+  gapminder,
+  ranger
+)
+```
+
+
+# EDA report
+```{r}
+# create report for all variables
+create_report(
+  gapminder, 
+  output_format = "html_document",
+  output_file = "gapminder_EDA_report1.html"
+  )
+
+
+# create report with a response variable
+create_report(
+  gapminder, 
+  y = "lifeExp", 
+  output_format = "html_document",
+  output_file = "gapminder_EDA_report2.html"
+  )
+```
+
+```{r}
+# smart EDA report
+ExpReport(
+  gapminder,
+  op_file = "gapminder_EDA_report3.html"
+  )
+
+# diagnose report
+diagnose_web_report(
+  gapminder,
+  output_format = "html",
+  output_file = "gapminder_EDA_report4.html"
+  )
+
+# eda_report
+gapminder %>% 
+  eda_web_report(
+    target = "lifeExp",
+    output_format = "html",
+    output_file = "gapminder_EDA_report5.html",
+  )
+
+# Airquality transformation report
+transformation_web_report(
+  datasets::airquality,
+  output_file = "gapminder_EDA_report6.html"
+)
+```
