@@ -1,6 +1,6 @@
 Data Analytics Case Study Assessment
 ================
-22 November, 2022
+23 November, 2022
 
 -   <a href="#formatting-the-dataframe"
     id="toc-formatting-the-dataframe">Formatting the dataframe</a>
@@ -199,7 +199,19 @@ laterite_formatted %>%
     everything()
     # overwrite laterite_formatted
     ) -> laterite_formatted
+
+# preview laterite_formatted
+head(laterite_formatted)
 ```
+
+| hhid | account_1     | account_2    | account_3     | account_4 | account_5 | financially_excluded |    weight | district   | urban | gender | age | hh_members | highest_grade_completed | mm_account_cancelled | prefer_cash | mm_trust | mm_account_telco    | mm_account_telco_main | v234 | agent_trust | v236 | v237 | v238 | v240 | v241 | v242 | v243 | v244 | v245 | v246 |
+|-----:|:--------------|:-------------|:--------------|:----------|:----------|---------------------:|----------:|:-----------|:------|:-------|----:|-----------:|:------------------------|:---------------------|:------------|:---------|:--------------------|:----------------------|:-----|:------------|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|
+| 1001 | Mobile Money  | Bank Account | VSLA Account  | NA        | NA        |                    0 |  145.9444 | District_A | Urban | male   |  32 |          1 | primary 6               | no                   | yes         | no       | Company_A Company_B | Company_A             | yes  | no          | NA   | yes  | yes  | no   | yes  | no   | yes  | NA   | yes  | no   |
+| 1002 | SACCO Account | VSLA Account | NA            | NA        | NA        |                    0 |  122.9067 | District_B | Rural | male   |  32 |          4 | primary 3               | yes                  | yes         | no       | NA                  | NA                    | NA   | no          | NA   | yes  | yes  | yes  | no   | no   | no   | NA   | no   | no   |
+| 1003 | Mobile Money  | Bank Account | NA            | NA        | NA        |                    0 |  760.4619 | District_A | Urban | male   |  30 |          8 | secondary 6             | no                   | yes         | no       | Company_A           | NA                    | yes  | no          | NA   | no   | yes  | yes  | yes  | no   | yes  | yes  | yes  | no   |
+| 1004 | Mobile Money  | Bank Account | SACCO Account | NA        | NA        |                    0 |  433.9640 | District_A | Rural | male   |  68 |          4 | primary 6               | no                   | yes         | no       | Company_A           | NA                    | no   | no          | NA   | no   | no   | no   | no   | no   | yes  | NA   | no   | no   |
+| 1005 | Mobile Money  | VSLA Account | NA            | NA        | NA        |                    0 |  303.0439 | District_C | Rural | female |  28 |          2 | primary 6               | no                   | yes         | no       | Company_B           | NA                    | yes  | no          | no   | yes  | yes  | yes  | yes  | no   | yes  | NA   | no   | no   |
+| 1006 | VSLA Account  | NA           | NA            | NA        | NA        |                    0 | 1053.4429 | District_B | Rural | female |  36 |          7 | primary 3               | no                   | yes         | NA       | NA                  | NA                    | NA   | NA          | NA   | NA   | NA   | NA   | NA   | NA   | NA   | NA   | NA   | NA   |
 
 #### Overall rate of financial exclusion
 
@@ -324,7 +336,19 @@ laterite_formatted %>%
     everything()
     # overwrite laterite
     ) -> laterite_formatted
+
+# preview output
+head(laterite_formatted)
 ```
+
+| hhid | account_1     | account_2    | account_3     | account_4 | account_5 | financially_excluded | digitally_financially_included |    weight | district   | urban | gender | age | hh_members | highest_grade_completed | mm_account_cancelled | prefer_cash | mm_trust | mm_account_telco    | mm_account_telco_main | v234 | agent_trust | v236 | v237 | v238 | v240 | v241 | v242 | v243 | v244 | v245 | v246 |
+|-----:|:--------------|:-------------|:--------------|:----------|:----------|---------------------:|-------------------------------:|----------:|:-----------|:------|:-------|----:|-----------:|:------------------------|:---------------------|:------------|:---------|:--------------------|:----------------------|:-----|:------------|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|:-----|
+| 1001 | Mobile Money  | Bank Account | VSLA Account  | NA        | NA        |                    0 |                              1 |  145.9444 | District_A | Urban | male   |  32 |          1 | primary 6               | no                   | yes         | no       | Company_A Company_B | Company_A             | yes  | no          | NA   | yes  | yes  | no   | yes  | no   | yes  | NA   | yes  | no   |
+| 1002 | SACCO Account | VSLA Account | NA            | NA        | NA        |                    0 |                              0 |  122.9067 | District_B | Rural | male   |  32 |          4 | primary 3               | yes                  | yes         | no       | NA                  | NA                    | NA   | no          | NA   | yes  | yes  | yes  | no   | no   | no   | NA   | no   | no   |
+| 1003 | Mobile Money  | Bank Account | NA            | NA        | NA        |                    0 |                              1 |  760.4619 | District_A | Urban | male   |  30 |          8 | secondary 6             | no                   | yes         | no       | Company_A           | NA                    | yes  | no          | NA   | no   | yes  | yes  | yes  | no   | yes  | yes  | yes  | no   |
+| 1004 | Mobile Money  | Bank Account | SACCO Account | NA        | NA        |                    0 |                              1 |  433.9640 | District_A | Rural | male   |  68 |          4 | primary 6               | no                   | yes         | no       | Company_A           | NA                    | no   | no          | NA   | no   | no   | no   | no   | no   | yes  | NA   | no   | no   |
+| 1005 | Mobile Money  | VSLA Account | NA            | NA        | NA        |                    0 |                              1 |  303.0439 | District_C | Rural | female |  28 |          2 | primary 6               | no                   | yes         | no       | Company_B           | NA                    | yes  | no          | no   | yes  | yes  | yes  | yes  | no   | yes  | NA   | no   | no   |
+| 1006 | VSLA Account  | NA           | NA            | NA        | NA        |                    0 |                              0 | 1053.4429 | District_B | Rural | female |  36 |          7 | primary 3               | no                   | yes         | NA       | NA                  | NA                    | NA   | NA          | NA   | NA   | NA   | NA   | NA   | NA   | NA   | NA   | NA   | NA   |
 
 #### Overall rate of digital financial inclusion
 
@@ -358,6 +382,23 @@ We will do our analysis based on the main mobile money provider
 (mm_account_telco_main variable). The table below shows the number of
 mobile money customers grouped by their main mobile money account
 provider.
+
+``` r
+laterite_formatted %>% 
+  filter(
+    account_1 == "Mobile Money"
+    ) %>% 
+  count(
+    account_1, 
+    mm_account_telco_main
+    ) %>% 
+  mutate(
+    percent = n / sum(n) * 100
+    ) %>% 
+  rename(
+    "no. of customers" = n
+    )
+```
 
 | account_1    | mm_account_telco_main | no. of customers |    percent |
 |:-------------|:----------------------|-----------------:|-----------:|
