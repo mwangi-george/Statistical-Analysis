@@ -1,6 +1,6 @@
 Introduction to Multiple Linear Regression
 ================
-22 Nov, 2022
+24 Nov, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
 -   <a href="#visualizing-relationship-between-variables"
@@ -32,6 +32,18 @@ Introduction to Multiple Linear Regression
         Determination</a>
     -   <a href="#residual-standard-error-rse"
         id="toc-residual-standard-error-rse">Residual Standard Error (RSE)</a>
+-   <a href="#models-for-each-category"
+    id="toc-models-for-each-category">Models for Each Category</a>
+    -   <a href="#making-predictions-with-each-model"
+        id="toc-making-predictions-with-each-model">Making predictions with each
+        model</a>
+    -   <a href="#performance-metrics" id="toc-performance-metrics">Performance
+        Metrics</a>
+        -   <a href="#coefficient-of-determination-r-square"
+            id="toc-coefficient-of-determination-r-square">Coefficient of
+            determination (R Square)</a>
+        -   <a href="#residual-standard-error"
+            id="toc-residual-standard-error">Residual Standard Error</a>
 
 # Introduction
 
@@ -47,6 +59,9 @@ cylinders in the engine. Let’s start by loading the necessary libraries
 for this session as well as understand the data.
 
 ``` r
+# remove scientific notation
+options(scipen = 999)
+
 # necessary packages
 pacman::p_load(
   tidyverse,
@@ -522,3 +537,300 @@ car_prices_model %>%
 
 The output means that the difference between the predicted values and
 the observed values is 7138.345 dollars.
+
+# Models for Each Category
+
+The parallel slopes model fits some parts of the data better than
+others. It’s therefore worth taking a look at what happens when we run a
+linear model on different parts of the dataset separately to see if each
+model agrees or disagrees with the others. Recall that the parallel
+slopes model enforced a common slope for each category. That is not
+always the best option. One way to give each category a different slope
+is to run a separate model for each of the categories. There are several
+smart ways to split a dataset into parts and computing on each part. In
+base-R we can use `split()` and `lapply()`. In the tidyverse we can use
+`nest_by()` and `mutate()`. However, in this article, we will filter for
+each category one at a time and assign the result to individual
+variables. Personally, I’m preferring this approach for two reasons.
+First, I don’t want fancy code to get in the way of reasoning about
+models. Additionally, running regression models is such a fundamental
+task and we need to be able to write the code without thinking, and that
+takes practice.
+
+``` r
+# split the car cylinder categories
+
+# cars with 4 cylinders
+cylinder4_data <- car_prices %>% 
+  filter(
+    cylinder == "4"
+  )
+
+
+# cars with 6 cylinders
+cylinder6_data <- car_prices %>% 
+  filter(
+    cylinder == "6"
+  )
+
+
+# cars with 8 cylinders
+cylinder8_data <- car_prices %>% 
+  filter(
+    cylinder == "8"
+  )
+```
+
+After splitting the data, we then run linear models on each part as
+follows
+
+``` r
+# model for cars with 4 cylinders
+cylinder4_model <- lm(
+  price ~ mileage, data = cylinder4_data
+)
+
+# model for cars with 6 cylinders
+cylinder6_model <-lm(
+  price ~ mileage, data = cylinder6_data
+)
+
+# model for cars with 8 cylinders
+cylinder8_model <-lm(
+  price ~ mileage, data = cylinder8_data
+)
+```
+
+Notice that each model gives a different intercept and a different
+slope.
+
+### Making predictions with each model
+
+The prediction workflow is the same as in other scenarios
+
+-   First, we create a dataframe of explanatory variables. Here we will
+    use the same mileage values used in the parallel slopes model.
+
+``` r
+# explanatory variable values for use in prediction
+explanatory_data <- explanatory_data %>% 
+  select(mileage)
+```
+
+The good news is that, since each model has the same explanatory
+variable, we only have to write the above code once.
+
+-   Second, we predict using the same workflow as before: adding a
+    column named after the response variable to the explanatory data
+    containing the predictions. It isn’t necessary to calculate the
+    predictions, but the plotting code easier, we have included the
+    category in each prediction dataset.
+
+``` r
+# making predictions with cylinder4_model
+prediction_data_cy4 <- explanatory_data %>% 
+  mutate(
+    price = predict(
+      cylinder4_model, explanatory_data
+    ),
+    cylinder = "4"
+  )
+
+# making predictions with cylinder6_model
+prediction_data_cy6 <- explanatory_data %>% 
+  mutate(
+    price = predict(
+      cylinder6_model, explanatory_data
+    ),
+    cylinder = "6"
+  )
+
+
+# making predictions with cylinder8_model
+prediction_data_cy8 <- explanatory_data %>% 
+  mutate(
+    price = predict(
+      cylinder8_model, explanatory_data
+    ),
+    cylinder = "8"
+  )
+```
+
+-   Third, we visualize the predictions. Here, we use the standard
+    ggplot for showing linear regression predictions.
+
+``` r
+car_prices %>% 
+  ggplot(
+    aes(
+      x = mileage,
+      y = price,
+      color = cylinder
+    )
+  )+
+  geom_point()+
+  geom_smooth(
+    method = "lm", 
+    se = F
+    )+
+  theme_few()+
+  labs(
+    title = "Car Price versus Mileage by cylinder"
+  )
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+Unlike the parallel slopes case, each model has its own slope,
+accomplished by setting the color aesthetics. To sanity check our
+predictions, we can add them to the plot to see if they align with what
+ggplot2 calculated.
+
+``` r
+car_prices %>% 
+  ggplot(
+    aes(
+      x = mileage,
+      y = price,
+      color = cylinder
+    )
+  )+
+  geom_point()+
+  geom_smooth(
+    method = "lm", 
+    se = F
+    )+
+  geom_point(
+    data = prediction_data_cy4, 
+    size = 3, shape = 16
+    )+
+  geom_point(
+    data = prediction_data_cy6,
+    size = 3, shape = 16
+  )+
+  geom_point(
+    data = prediction_data_cy8,
+    size = 3, shape = 16
+  )+
+  theme_few()+
+  labs(
+    title = "Car Price versus Mileage by cylinder"
+  )
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+## Performance Metrics
+
+### Coefficient of determination (R Square)
+
+The most important question here is, are this individual models
+important? To answer this question, we compare the R square for the
+whole dataset with that of individual models as follows
+
+``` r
+# R square for the whole dataset
+car_prices_model %>% 
+  glance() %>% 
+  select(r.squared_all_cyl_cars = r.squared)
+```
+
+| r.squared_all_cyl_cars |
+|-----------------------:|
+|              0.9083335 |
+
+``` r
+# R square for the cars with 4 cylinders
+cylinder4_model %>% 
+  glance() %>% 
+  select(r.squared_4_cyl_cars = r.squared)
+```
+
+| r.squared_4\_cyl_cars |
+|----------------------:|
+|             0.0068135 |
+
+``` r
+# R square for the cars with 6 cylinders
+cylinder6_model %>% 
+  glance() %>% 
+  select(r.squared_6_cyl_cars = r.squared)
+```
+
+| r.squared_6\_cyl_cars |
+|----------------------:|
+|             0.0762988 |
+
+``` r
+# R square for the cars with 8 cylinders
+cylinder8_model %>% 
+  glance() %>% 
+  select(r.squared_8_cyl_cars = r.squared)
+```
+
+| r.squared_8\_cyl_cars |
+|----------------------:|
+|             0.1256578 |
+
+In this case, each individual model performs poorly compared the whole
+dataset.
+
+### Residual Standard Error
+
+Lets compare the residual standard errors of the whole dataset compared
+to that of individual models
+
+``` r
+# RSE for the whole dataset
+car_prices_model %>% 
+  glance() %>% 
+  select(rse_all_cyl_cars = sigma)
+```
+
+| rse_all_cyl_cars |
+|-----------------:|
+|         7138.345 |
+
+``` r
+# RSE for the cars with 4 cylinders
+cylinder4_model %>% 
+  glance() %>% 
+  select(rse_4_cyl_cars = sigma)
+```
+
+| rse_4\_cyl_cars |
+|----------------:|
+|        7814.208 |
+
+``` r
+# RSE for the cars with 6 cylinders
+cylinder6_model %>% 
+  glance() %>% 
+  select(rse_6_cyl_cars = sigma)
+```
+
+| rse_6\_cyl_cars |
+|----------------:|
+|        4458.259 |
+
+``` r
+# RSE for the cars with 8 cylinders
+cylinder8_model %>% 
+  glance() %>% 
+  select(rse_8_cyl_cars = sigma)
+```
+
+| rse_8\_cyl_cars |
+|----------------:|
+|        10086.47 |
+
+The is an improvement for the model for cars with 4 cylinders as shown
+by the significant decrease in its residual standard error. However, the
+other models did not improve and cannot be relied upon. This mixed
+performance result occurs sometimes: the whole dataset benefits from
+increased power of more rows of data, whereas the individual models
+benefit from not having to satisfy differing components of data.
