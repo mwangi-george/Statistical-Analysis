@@ -3,37 +3,37 @@ Introduction to Multiple Linear Regression
 24 Nov, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
--   <a href="#visualizing-relationship-between-variables"
-    id="toc-visualizing-relationship-between-variables">Visualizing
-    Relationship between Variables</a>
--   <a href="#modeling" id="toc-modeling">Modeling</a>
+    -   <a href="#visualizing-relationship-between-variables"
+        id="toc-visualizing-relationship-between-variables">Visualizing
+        Relationship between Variables</a>
+    -   <a href="#modeling" id="toc-modeling">Modeling</a>
     -   <a href="#results-interpretation"
         id="toc-results-interpretation">Results Interpretation</a>
--   <a href="#visualizing-the-model-parallel-slopes-regression"
-    id="toc-visualizing-the-model-parallel-slopes-regression">Visualizing
-    the Model: Parallel Slopes Regression</a>
--   <a href="#predicting-parallel-slopes"
-    id="toc-predicting-parallel-slopes">Predicting Parallel Slopes</a>
--   <a href="#visualizing-predictions"
-    id="toc-visualizing-predictions">Visualizing Predictions</a>
--   <a href="#manually-calculating-predictions"
-    id="toc-manually-calculating-predictions">Manually Calculating
-    Predictions</a>
--   <a href="#choosing-an-intercept-with-if_else"
-    id="toc-choosing-an-intercept-with-if_else">Choosing an intercept with
-    if_else</a>
--   <a href="#assessing-model-performance"
-    id="toc-assessing-model-performance">Assessing Model Performance</a>
-    -   <a href="#coefficient-of-determination-r-squared"
-        id="toc-coefficient-of-determination-r-squared">Coefficient of
-        Determination (R Squared)</a>
-    -   <a href="#adjusted-coefficient-of-determination"
-        id="toc-adjusted-coefficient-of-determination">Adjusted Coefficient of
-        Determination</a>
-    -   <a href="#residual-standard-error-rse"
-        id="toc-residual-standard-error-rse">Residual Standard Error (RSE)</a>
+    -   <a href="#visualizing-the-model-parallel-slopes-regression"
+        id="toc-visualizing-the-model-parallel-slopes-regression">Visualizing
+        the Model: Parallel Slopes Regression</a>
+    -   <a href="#predicting-parallel-slopes"
+        id="toc-predicting-parallel-slopes">Predicting Parallel Slopes</a>
+    -   <a href="#visualizing-predictions"
+        id="toc-visualizing-predictions">Visualizing Predictions</a>
+    -   <a href="#manually-calculating-predictions"
+        id="toc-manually-calculating-predictions">Manually Calculating
+        Predictions</a>
+    -   <a href="#choosing-an-intercept-with-if_else"
+        id="toc-choosing-an-intercept-with-if_else">Choosing an intercept with
+        if_else</a>
+    -   <a href="#assessing-model-performance"
+        id="toc-assessing-model-performance">Assessing Model Performance</a>
+        -   <a href="#coefficient-of-determination-r-squared"
+            id="toc-coefficient-of-determination-r-squared">Coefficient of
+            Determination (R Squared)</a>
+        -   <a href="#adjusted-coefficient-of-determination"
+            id="toc-adjusted-coefficient-of-determination">Adjusted Coefficient of
+            Determination</a>
+        -   <a href="#residual-standard-error-rse"
+            id="toc-residual-standard-error-rse">Residual Standard Error (RSE)</a>
 -   <a href="#models-for-each-category"
-    id="toc-models-for-each-category">Models for Each Category</a>
+    id="toc-models-for-each-category">Models for each Category</a>
     -   <a href="#making-predictions-with-each-model"
         id="toc-making-predictions-with-each-model">Making predictions with each
         model</a>
@@ -44,6 +44,13 @@ Introduction to Multiple Linear Regression
             determination (R Square)</a>
         -   <a href="#residual-standard-error"
             id="toc-residual-standard-error">Residual Standard Error</a>
+-   <a href="#one-model-with-an-interaction"
+    id="toc-one-model-with-an-interaction">One Model with an Interaction</a>
+    -   <a href="#specifying-interactions"
+        id="toc-specifying-interactions">Specifying Interactions</a>
+    -   <a href="#making-predictions-with-interactions"
+        id="toc-making-predictions-with-interactions">Making Predictions with
+        Interactions</a>
 
 # Introduction
 
@@ -100,7 +107,7 @@ head(car_prices)
 | 33358.77 |   17590 | 4        |
 | 30315.17 |   23635 | 4        |
 
-# Visualizing Relationship between Variables
+## Visualizing Relationship between Variables
 
 Before building a model, it is always a good idea to visualize the data.
 In this case, we visualize the relationship between the price and
@@ -130,7 +137,7 @@ miles, its current value decreases. Additionally, we learn that cars
 with 4 cylinders have the least value. As the number of cylinders
 increase to 6 and 8, the value of the car increases.
 
-# Modeling
+## Modeling
 
 To run multiple linear regression in R, we call `lm()` passing the
 formula and the data. To include both a numeric and a categorical
@@ -159,7 +166,7 @@ car_prices_model
     ##    mileage   cylinder4   cylinder6   cylinder8  
     ##    -0.1592  21064.4616  23196.5594  42085.0842
 
-### Results Interpretation
+## Results Interpretation
 
 The coefficient for mileage means that for any additional mileage a car
 covers, its price or value reduces by 0.1592 dollars holding other
@@ -168,7 +175,7 @@ worth 21064.5 dollars on average, those with 6 cylinders are worth
 23196.6 dollars on average, and those with 8 cylinders are worth 42085.1
 dollars on average.
 
-# Visualizing the Model: Parallel Slopes Regression
+## Visualizing the Model: Parallel Slopes Regression
 
 ggplot2 does not have an easy way to plot the model results, but one is
 provided by the `moderndive` package. We use the
@@ -200,7 +207,7 @@ car_prices %>%
 The prediction for each cylinder category is a slope, and all the slopes
 are parallel.
 
-# Predicting Parallel Slopes
+## Predicting Parallel Slopes
 
 Predicting responses is perhaps the most useful feature of regression
 models. The prediction workflow starts with choosing values for the
@@ -280,7 +287,7 @@ prediction_data
 |   50000 | 4        | 13102.81 |
 |   50000 | 8        | 34123.43 |
 
-# Visualizing Predictions
+## Visualizing Predictions
 
 Just as in the case of a single explanatory variable, we can visualize
 the predictions from the model by adding another `geom_point` layer and
@@ -319,7 +326,7 @@ car_prices %>%
 
 As expected, the predictions lie along the lines calculated by ggplot.
 
-# Manually Calculating Predictions
+## Manually Calculating Predictions
 
 If we only had one numeric explanatory variable, the equation to
 estimate the price of cars would be:
@@ -355,7 +362,7 @@ cylinder6_intercept <- coeffs[3]
 cylinder8_intercept <- coeffs[4]
 ```
 
-# Choosing an intercept with if_else
+## Choosing an intercept with if_else
 
 For each of the category in the explanatory data created earlier, we
 need an intercept. After choosing the intercept for each row, we then a
@@ -439,7 +446,7 @@ explanatory_data %>%
 |   50000 | 4        |  21064.46 | 13102.81 |
 |   50000 | 8        |  42085.08 | 34123.43 |
 
-# Assessing Model Performance
+## Assessing Model Performance
 
 The big benefit of using more than one explanatory variable in a model
 is that we can sometimes get a better fit than when using a single
@@ -538,7 +545,7 @@ car_prices_model %>%
 The output means that the difference between the predicted values and
 the observed values is 7138.345 dollars.
 
-# Models for Each Category
+# Models for each Category
 
 The parallel slopes model fits some parts of the data better than
 others. It’s therefore worth taking a look at what happens when we run a
@@ -604,7 +611,7 @@ cylinder8_model <-lm(
 Notice that each model gives a different intercept and a different
 slope.
 
-### Making predictions with each model
+## Making predictions with each model
 
 The prediction workflow is the same as in other scenarios
 
@@ -834,3 +841,169 @@ other models did not improve and cannot be relied upon. This mixed
 performance result occurs sometimes: the whole dataset benefits from
 increased power of more rows of data, whereas the individual models
 benefit from not having to satisfy differing components of data.
+
+# One Model with an Interaction
+
+If you are following, you might have noticed that messing about with
+different models for different bits of a dataset is a pain. In the case
+of car_prices dataset, we had to manage 3 sets of code for each cylinder
+category. Imagine there were more categories. This would be very
+confusing, even for an expert.
+
+A better solution is to specify a single model that contains intercepts
+and slopes for each category. In R, this is achieved through specifying
+interactions between explanatory variables. Generally, if the effect of
+one of the explanatory variable on the response variable has different
+values depending on the values of the values of another explanatory
+variable, then those two explanatory variables **interact**.
+
+## Specifying Interactions
+
+To include an interaction in the linear model, we simply swap the `+`
+sign for a `*` sign. We also specify plus zero to tell R to not use the
+global intercept.
+
+``` r
+# linear model with an implicit interaction
+car_prices_inter_model <- lm(
+  price ~ mileage * cylinder + 0, 
+  data = car_prices
+)
+
+# print model
+car_prices_inter_model
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = price ~ mileage * cylinder + 0, data = car_prices)
+    ## 
+    ## Coefficients:
+    ##           mileage          cylinder4          cylinder6          cylinder8  
+    ##          -0.07839        19438.85234        23251.08082        47304.39792  
+    ## mileage:cylinder6  mileage:cylinder8  
+    ##          -0.08363           -0.34747
+
+We get an intercept coefficient for each category shown on the top row
+and a slope coefficient for each category shown on the bottom row. The
+above specification is implicit because we did not write down what
+interactions were needed in the model and R figured out that itself.
+Usually, this implicit syntax is best but occasionally, we may wish to
+explicitly document which interactions are included in the model. The
+explicit syntax for a model with an interaction is to add each
+explanatory variable separated by a `+` then add a third term with both
+explanatory variables separated by a `:`. The model specified below is
+the same as the one above, but is more detailed.
+
+``` r
+# linear model with an explicit interaction
+lm(
+  price ~ mileage + cylinder + mileage:cylinder + 0, 
+  data = car_prices
+)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = price ~ mileage + cylinder + mileage:cylinder + 
+    ##     0, data = car_prices)
+    ## 
+    ## Coefficients:
+    ##           mileage          cylinder4          cylinder6          cylinder8  
+    ##          -0.07839        19438.85234        23251.08082        47304.39792  
+    ## mileage:cylinder6  mileage:cylinder8  
+    ##          -0.08363           -0.34747
+
+**Note**
+
+The model with an interaction is effectively the same as fitting
+separate models for each category, only we get the convenience of not
+having to manage 3 sets of code.
+
+## Making Predictions with Interactions
+
+The prediction workflow is the same as before.
+
+-   First, we create a dataframe of explanatory variables. Here we will
+    use the same mileage values used in the parallel slopes model. The
+    only thing to remember here is to use `expand_grid()` to get all
+    combinations of mileage and cylinder.
+
+``` r
+# create explanatory variable values
+explanatory_data <- expand_grid(
+  mileage = c(290, 1000, 20000, 30000, 40000, 50000),
+  cylinder = unique(car_prices$cylinder)
+)
+
+# print explanatory data
+explanatory_data
+```
+
+| mileage | cylinder |
+|--------:|:---------|
+|     290 | 6        |
+|     290 | 4        |
+|     290 | 8        |
+|    1000 | 6        |
+|    1000 | 4        |
+|    1000 | 8        |
+|   20000 | 6        |
+|   20000 | 4        |
+|   20000 | 8        |
+|   30000 | 6        |
+|   30000 | 4        |
+|   30000 | 8        |
+|   40000 | 6        |
+|   40000 | 4        |
+|   40000 | 8        |
+|   50000 | 6        |
+|   50000 | 4        |
+|   50000 | 8        |
+
+-   Second, we predict using the same workflow as before: adding a
+    column named after the response variable to the explanatory data
+    (this column contains the predictions). R will automatically take
+    care of the interaction so we don’t have to change anything.
+
+``` r
+prediction_data <- explanatory_data %>% 
+  mutate(
+    price = predict(
+      car_prices_inter_model, explanatory_data
+    )
+  )
+```
+
+-   Third, we visualize the predictions. Here, we use the standard
+    ggplot for showing linear regression predictions.
+
+``` r
+car_prices %>% 
+  ggplot(
+    aes(
+      x = mileage,
+      y = price,
+      color = cylinder
+    )
+  )+
+  geom_point()+
+  geom_smooth(
+    method = "lm",
+    se = F
+  )+
+  geom_point(
+    data = prediction_data,
+    size = 4, shape = 16
+  )+
+  theme_few()+
+  labs(
+    title = "Car Price versus Mileage by cylinder"
+  )
+```
+
+    ## `geom_smooth()` using formula 'y ~ x'
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+As expected, the predictions lie along the linear trend line calculated
+by ggplot2.
