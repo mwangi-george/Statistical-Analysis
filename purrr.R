@@ -348,3 +348,31 @@ character_data <- inner_join(film_by_character, sw_characters, by = c("character
 ggplot(character_data, aes(x = height)) +
   geom_histogram(stat = "count") +
   facet_wrap(~ filmtitle)
+
+
+
+car_prices %>% 
+  dplyr::select(-price) %>%  # exclude outcome, leave only predictors 
+  map(~lm(car_prices$price ~ .x, data = car_prices)) %>% 
+  map(summary) %>% 
+  map_dbl("r.squared") %>% 
+  tidy %>% 
+  dplyr::arrange(desc(x)) %>% 
+  rename(r.squared = x) -> r2s
+
+ggplot(r2s, aes(x = reorder(names, r.squared), y = r.squared)) + 
+  geom_point(size = 5, color = "red") +
+  ylab(expression(R^{2})) +
+  xlab("predictors") +
+  ggtitle("Explained variance per predictor from simple regressions")
+
+
+Fair %>% 
+  dplyr::select(-nbaffairs) %>%  # exclude outcome, leave only predictors 
+  map(~lm(Fair$nbaffairs ~ .x, data = Fair)) %>% 
+  map(summary) %>% 
+  map(c("coefficients")) %>% 
+  map_dbl(8)  %>% # 8th element is the p-value 
+  tidy %>% 
+  dplyr::arrange(desc(x)) %>% 
+  rename(p.value = x) -> ps
