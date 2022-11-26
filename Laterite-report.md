@@ -457,7 +457,8 @@ laterite_formatted %>%
     axis.title.y = element_blank(),
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
-    axis.text.y = element_text(face = "bold")
+    axis.text.y = element_text(face = "bold"),
+    plot.title = element_text(face = "bold")
   )
 ```
 
@@ -579,15 +580,18 @@ laterite_formatted %>%
     ) %>% 
   ggplot(
     aes(
-      x = urban, 
+      x = fct_reorder(urban, n),
       y = n
       )
     )+
   geom_col(
-    fill = "blue", 
+    fill = "#2171B5", 
     alpha = 0.7, 
     width = 0.5
     )+
+  geom_text(
+    aes(label = n, hjust = 0)
+  )+
   coord_flip()+
   theme_few()+
   labs(
@@ -595,7 +599,12 @@ laterite_formatted %>%
     y = "No of participants"
     )+
    theme(
-     axis.title.x = element_blank()
+     axis.title.x = element_blank(),
+     axis.title.y = element_blank(),
+     axis.text.x = element_blank(),
+     axis.text.y = element_text(face = "bold"),
+     plot.title = element_text(face = "bold"),
+     axis.ticks.x = element_blank()
      )
 ```
 
@@ -670,25 +679,34 @@ laterite_formatted %>%
     ) %>% 
   ggplot(
     aes(
-      x = gender, 
+      x = fct_reorder(gender, n),
       y = n
       )
     )+
   geom_col(
-    fill = "blue", 
-    alpha = 0.7, 
-    width = 0.5
+    fill = "#2171B5",
+    alpha = .7,
+    width = .5
     )+
-  ylim(
-    c(0,150)
+  geom_text(
+    aes(
+      label = n,
+      hjust = 0
+      )
     )+
+  coord_flip()+
   theme_few()+
   labs(
     title = "No. of Participants who cancelled their mobile money account by Gender",
     y = "No of participants"
     )+
    theme(
-     axis.title.x = element_blank()
+     axis.title.x = element_blank(),
+     axis.title.y = element_blank(),
+     axis.text.x = element_blank(),
+     axis.text.y = element_text(face = "bold"),
+     plot.title = element_text(face = "bold"),
+     axis.ticks.x = element_blank()
      )
 ```
 
@@ -760,8 +778,8 @@ laterite_formatted %>%
       )
     )+
   geom_boxplot(
-    fill = "blue", 
-    alpha = 0.7
+    fill = "#2171B5", 
+    alpha = 0.3
     )+
   xlim(
     c(0,100)
@@ -770,7 +788,8 @@ laterite_formatted %>%
   theme_few()+
   labs(
     title = "Age distribution by mobile money account cancellation"
-    )
+    )+
+  theme(plot.title = element_text(face = "bold"))
 ```
 
 ![](Laterite-report_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
@@ -856,20 +875,32 @@ laterite_formatted %>%
   ) %>% 
   ggplot(
     aes(
-      x = mm_trust, 
+      x = fct_reorder(mm_trust, n),
       y = n
       )
     )+
   geom_col(
-    fill = "blue",
+    fill = "#2171B5",
     alpha = 0.7,
     width = 0.5
     )+
+  geom_text(
+    aes(
+      label = n,
+      hjust = 0
+    )
+  )+
+  coord_flip()+
   theme_few()+
   labs(
     y = "No. of customers",
     x = "Mobile Money Trust",
     title = "Mobile Money Account Cancellation by Mobile Money Trust"
+    )+
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
     )
 ```
 
