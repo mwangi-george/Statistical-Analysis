@@ -1,6 +1,6 @@
 Introduction to Multiple Linear Regression
 ================
-24 Nov, 2022
+26 Nov, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
     -   <a href="#visualizing-relationship-between-variables"
@@ -51,6 +51,9 @@ Introduction to Multiple Linear Regression
     -   <a href="#making-predictions-with-interactions"
         id="toc-making-predictions-with-interactions">Making Predictions with
         Interactions</a>
+-   <a href="#modeling-two-numeric-explanatory-variables"
+    id="toc-modeling-two-numeric-explanatory-variables">Modeling Two Numeric
+    Explanatory Variables</a>
 
 # Introduction
 
@@ -76,7 +79,8 @@ pacman::p_load(
   ggthemes,
   naniar,
   moderndive,
-  broom
+  broom,
+  plot3D
 )
 
 # read dataset
@@ -1007,3 +1011,50 @@ car_prices %>%
 ![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 As expected, the predictions lie along the linear trend line calculated
 by ggplot2.
+
+# Modeling Two Numeric Explanatory Variables
+
+In the previous examples, the models had one numeric and one categorical
+explanatory variable. In this section we will check what changes if we
+have two numeric explanatory variables instead.
+
+Two numeric explanatory variables and one numeric response variable
+gives three variables to plot. In a case like this, we have two choices;
+either we draw a 3D scatter plot, or a 2D scatter plot using color for
+the response variable. The car_prices dataset doesn’t have another
+numeric explanatory variable, so we will switch to the diamonds dataset
+that comes with the ggplot2 package. This is a dataset containing the
+prices and other attributes of almost 54,000 diamonds. The following is
+a view of the first six rows of the dataset.
+
+``` r
+# call the dataset from library
+data("diamonds")
+
+# view first rows
+head(diamonds)
+```
+
+| carat | cut       | color | clarity | depth | table | price |    x |    y |    z |
+|------:|:----------|:------|:--------|------:|------:|------:|-----:|-----:|-----:|
+|  0.23 | Ideal     | E     | SI2     |  61.5 |    55 |   326 | 3.95 | 3.98 | 2.43 |
+|  0.21 | Premium   | E     | SI1     |  59.8 |    61 |   326 | 3.89 | 3.84 | 2.31 |
+|  0.23 | Good      | E     | VS1     |  56.9 |    65 |   327 | 4.05 | 4.07 | 2.31 |
+|  0.29 | Premium   | I     | VS2     |  62.4 |    58 |   334 | 4.20 | 4.23 | 2.63 |
+|  0.31 | Good      | J     | SI2     |  63.3 |    58 |   335 | 4.34 | 4.35 | 2.75 |
+|  0.24 | Very Good | J     | VVS2    |  62.8 |    57 |   336 | 3.94 | 3.96 | 2.48 |
+
+Say we want to visualize the relationship between prices versus
+carat(weight of the diamond (0.2–5.01))and x(length in mm (0–10.74)). To
+make a 3D plot, we call `scatter3D()` function from the `plot3D` package
+as follows:
+
+``` r
+# plot price versus carat and x
+scatter3D(
+  diamonds$carat, diamonds$x, diamonds$price
+  )
+```
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
+There

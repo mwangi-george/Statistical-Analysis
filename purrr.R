@@ -376,3 +376,16 @@ Fair %>%
   tidy %>% 
   dplyr::arrange(desc(x)) %>% 
   rename(p.value = x) -> ps
+
+
+map_df(car_prices, mean, na.rm = T) %>%
+  pivot_longer(
+    everything(),
+    names_to = "variable",
+    values_to = "mean"
+  ) %>%
+  mutate(variable = fct_reorder(variable, mean)) %>%
+  ggplot(aes(
+    variable, mean
+  )) +
+  geom_point()
