@@ -1,6 +1,6 @@
 Data Analytics Case Study Assessment
 ================
-23 November, 2022
+26 November, 2022
 
 -   <a href="#formatting-the-dataframe"
     id="toc-formatting-the-dataframe">Formatting the dataframe</a>
@@ -413,55 +413,51 @@ percent. However most of the population do not have a main mobile money
 provider. The graph below is illustrates this share
 
 ``` r
-laterite_formatted %>% 
+laterite_formatted %>%
   filter(
     account_1 == "Mobile Money"
-    ) %>% 
+  ) %>%
   count(
-    account_1, 
+    account_1,
     mm_account_telco_main
-    ) %>% 
+  ) %>%
   mutate(
     percent = n / sum(n) * 100,
     # re code Na's
     mm_account_telco_main = replace_na(
-      data = mm_account_telco_main, 
+      data = mm_account_telco_main,
       replace = "Undefined_provider"
-      )
-    ) %>% 
+    )
+  ) %>%
   ggplot(
     aes(
-      x = mm_account_telco_main, 
+      x = fct_reorder(mm_account_telco_main, percent),
       y = percent
-      )
-    )+
+    )
+  ) +
   geom_col(
-    width = 0.5, 
-    fill = "blue",
+    width = 0.5,
+    fill = "#2171B5",
     alpha = .7,
-    )+
+  ) +
   geom_text(
     aes(
-      label = round(percent),
-      vjust = -.3
-      )
-  )+
+      label = str_c(round(percent),"%"),
+      hjust = -.3
+    )
+  ) +
+  coord_flip() +
   labs(
     title = "Percentage of Market Share per Company",
-    x = "Main Mobile Money Account Provider"
-    )+
+    y = "Percentage Share"
+  ) +
   # modifying theme
-  theme_few()+
+  theme_few() +
   theme(
-    legend.position = "none",
-    axis.text.x = element_text(
-      face = "bold"
-      ),
-    axis.text.y = element_blank(),
     axis.title.y = element_blank(),
-    axis.ticks.y = element_blank(),
+    axis.text.x = element_blank(),
     axis.ticks.x = element_blank()
-    )
+  )
 ```
 
 ![](Laterite-report_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
@@ -591,6 +587,7 @@ laterite_formatted %>%
     alpha = 0.7, 
     width = 0.5
     )+
+  coord_flip()+
   theme_few()+
   labs(
     title = "No. of Participants who cancelled their mobile money account by location",
