@@ -426,7 +426,7 @@ laterite_formatted %>%
     # re code Na's
     mm_account_telco_main = replace_na(
       data = mm_account_telco_main,
-      replace = "Undefined_provider"
+      replace = "Undefined"
     )
   ) %>%
   ggplot(
@@ -443,7 +443,7 @@ laterite_formatted %>%
   geom_text(
     aes(
       label = str_c(round(percent),"%"),
-      hjust = -.3
+      hjust = +.1
     )
   ) +
   coord_flip() +
@@ -456,7 +456,8 @@ laterite_formatted %>%
   theme(
     axis.title.y = element_blank(),
     axis.text.x = element_blank(),
-    axis.ticks.x = element_blank()
+    axis.ticks.x = element_blank(),
+    axis.text.y = element_text(face = "bold")
   )
 ```
 
