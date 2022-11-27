@@ -20,6 +20,8 @@ pacman::p_load(
   gapminder,
   ranger
 )
+
+
 ```
 
 
@@ -70,3 +72,98 @@ transformation_web_report(
   output_file = "gapminder_EDA_report6.html"
 )
 ```
+
+
+
+
+
+```{r}
+diamonds %>% 
+  diagnose_web_report(
+    output_file = "diamondsreport.html",
+    title = "Diamonds Diagnosis Report",
+    subtitle = "Source::ggplot2",
+    author = "George Ngugi",
+    create_date = format(Sys.Date(), "%d %b, %Y"),
+    theme = "blue"
+  )
+
+```
+
+
+```{r}
+install.packages("nycflights13")
+library(nycflights13)
+
+flights %>% 
+  diagnose_web_report(
+    output_file = "flights.html",
+    title = "Nycflights Report",
+    author = "George Ngugi",
+    create_date = format(Sys.Date(), "%d %b, %Y"),
+    theme = "blue"
+  )
+```
+
+
+```{r}
+flights %>% 
+  diagnose_paged_report(
+    output_format = "pdf",
+    output_dir = "./",
+    output_file = "flights.pdf",
+    title = "Nycflights Report",
+    author = "George Ngugi",
+    create_date = format(Sys.Date(), "%d %b, %Y"),
+    theme = "blue"
+  )
+```
+
+
+```{r}
+marketing <- read_csv("datasets/marketing.csv",
+                      show_col_types = F) %>% 
+  janitor::clean_names()
+
+
+marketing %>% 
+  eda_web_report(
+    output_dir = "./",
+    output_file = "MarketingEDA.html",
+    title = "Marketing EDA Report",
+    theme = "blue"
+  )
+```
+
+
+
+```{r}
+diamonds %>% 
+  transformation_paged_report(
+    #target = "price",
+    output_format = "pdf",
+    output_file = "diamondsT.pdf",
+    output_dir = "./",
+    title = "Diamonds Transformation Report"
+  )
+```
+
+
+```{r}
+marketing <- marketing %>% drop_na()
+
+ExpReport(marketing, op_file = "diam.html")
+
+create_report(
+  diamonds, 
+  output_file = "diam.html", 
+  report_title = "Diamonds EDA Report"
+  )
+```
+
+
+
+
+
+
+
