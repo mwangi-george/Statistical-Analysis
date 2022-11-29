@@ -55,7 +55,7 @@ jobs <- as.data.table(
   ) %>%
     # give every row an id
     rowid_to_column() %>%
-    # clean row names
+    # clean variable names
     clean_names()
 )
 
