@@ -324,6 +324,117 @@ str_detect(me, "")
 str_remove_all(me, ".v")
 
 
+library(magrittr)
+
+iris %$%
+  cor(Sepal.Length, Sepal.Width)
+
+
+
+
+
+# Reorder country factor levels
+ilo_data <- ilo_data %>%
+  # Arrange data frame
+  arrange(year) %>%
+  # Reorder countries by working hours in 2006
+  mutate(country = fct_reorder(
+    country,
+    working_hours,
+    last
+  ))
+
+# Plot again
+ggplot(ilo_data) +
+  geom_path(aes(x = working_hours, y = country),
+    arrow = arrow(length = unit(1.5, "mm"), type = "closed")
+  ) +
+  geom_text(
+    aes(
+      x = working_hours,
+      y = country,
+      label = round(working_hours, 1)
+    )
+  )
+
+library(gapminder)
+
+gapminder %>% 
+  filter(year %in% c(2002, 2007) & continent == "Africa", gdpPercap >5000) %>% 
+  select(country, year, lifeExp, gdpPercap) %>% 
+  arrange(year) %>% 
+  mutate(
+    year = as.factor(year),
+    country = fct_reorder(country, gdpPercap, mean)
+  ) %>% 
+  ggplot()+
+  geom_path(aes(
+    x = gdpPercap, y = country
+  ),arrow = arrow(length = unit(1.2, "mm"), type = "closed")
+  )+
+  geom_text(
+    aes(
+      x = gdpPercap, y = country, label = round(gdpPercap),
+      hjust = ifelse(year == "2006", 1.4, -0.4)
+    ),
+    # Change the appearance of the text
+    size = 3,
+    family = "Times",
+    color = "gray25"
+  )
+  
+  
+
+# Save plot into an object for reuse
+ilo_dot_plot <- ggplot(ilo_data) +
+  geom_path(aes(x = working_hours, y = country),
+            arrow = arrow(length = unit(1.5, "mm"), type = "closed")) +
+  # Specify the hjust aesthetic with a conditional value
+  geom_text(
+    aes(x = working_hours,
+        y = country,
+        label = round(working_hours, 1),
+        hjust = ifelse(year == "2006", 1.4, -0.4)
+    ),
+    # Change the appearance of the text
+    size = 3,
+    family = "Bookman",
+    color = "gray25"
+  )
+
+  
+  
+  
+# Compute temporary data set for optimal label placement
+median_working_hours <- ilo_data %>%
+  group_by(country) %>%
+  summarize(median_working_hours_per_country = median(working_hours)) %>%
+  ungroup()
+
+# Have a look at the structure of this data set
+str(median_working_hours)
+
+ilo_dot_plot +
+  # Add label for country
+  geom_text(data = median_working_hours,
+            aes(y = country,
+                x = median_working_hours_per_country,
+                label = country),
+            vjust = 2,
+            family = "Bookman",
+            color = "gray25") +
+  # Remove axes and grids
+  theme(
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    axis.text = element_blank(),
+    panel.grid = element_blank(),
+    # Also, let's reduce the font size of the subtitle
+    plot.subtitle = element_text(size = 9)
+  )
+  
+  
+  
 
 
 
