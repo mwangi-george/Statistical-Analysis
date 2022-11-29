@@ -82,10 +82,16 @@ jobs[
 
 
 
+jobs[
+  , .(account_num, account_type)
+]
 
+jobs[
+  , mean(age)
+]
 
-
-
-
-
+jobs[
+  mm_trust == "no",
+  .(mean = mean(age))
+]
 

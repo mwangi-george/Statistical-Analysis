@@ -86,7 +86,8 @@ machakos_new %>%
     panel.background = element_rect(fill = "gray96"),
     axis.text = element_text(size = 13),
     plot.title = element_text(face = "bold"),
-    plot.caption = element_text(size = 10)
+    plot.caption = element_text(size = 12),
+    plot.subtitle = element_text(size = 12)
   )
 ```
 
