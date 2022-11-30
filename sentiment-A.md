@@ -168,8 +168,16 @@ library(wordcloud)
 ``` r
 w <- sort(rowSums(tdm), decreasing = T)
 set.seed(222)
-wordcloud(words = names(w), freq = w, max.words = 150, random.order = F, min.freq = 5, 
-          colors = brewer.pal(8, "Dark2"), scale = c(8, .4))
+wordcloud(
+  words = names(w), 
+  freq = w, 
+  max.words = 200, 
+  random.order = F, 
+  min.freq = 5,
+  colors = brewer.pal(8, "Dark2"), 
+  scale = c(4, .4),
+  rot.per = 0.3
+)
 ```
 
 ![](sentiment-A_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
