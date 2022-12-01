@@ -1,0 +1,265 @@
+---
+title: "Dealing with Missing Data"
+author: "Mwangi George"
+date: "`r format(Sys.Date(), '%d %b, %Y')`"
+output: 
+  github_document:
+    toc: yes
+---
+
+# Introduction
+Missing data can undermine a study's statistical power, provide skewed estimates and produce false conclusions.
+In this paper, we are going to look at what missing values are in R, how to find them, how to wrangle and tidy missing data, explore why data is missing, and impute missing values.
+
+First, Missing values are values that should have been recorded but were not. In R missing values are represented with `NA`, which stands for `Not Available`. When starting any kind of analysis that involves the use of data, it is important to be aware of missing values in your data set. We are going to explore missing values using one of my favorite packages in R, `naniar`. This package provides all the functionalities you need to find, explore, wrangle, visualize and impute missing values. Alright, let's get started by first read the data into R.
+
+```{r}
+# load packages
+pacman::p_load(tidyverse, naniar, visdat, ggthemes)
+# laod dataset
+my_data <- read_csv("datasets/mobile_money_data.csv",
+  show_col_types = F
+)
+
+# print the number of rows and columns in the dataset
+dim(my_data)
+
+# print variable names
+names(my_data)
+```
+
+## Basic Functions
+The data contain 29 variables and 2442 rows. The function `any_na` from `naniar` package allows for investigating the existence of missing data in the dataframe. It can take a dataframe or a vector.
+```{r}
+# are there NA's in the data
+any_na(my_data)
+```
+
+The function `are_na` does the same thing but returns a logical vector for each element. This functions, however, does not take a dataframe as an argument. 
+```{r}
+head(are_na(my_data$mm_trust))
+```
+ 
+The above output shows that the first six observations in the `mm_trust` variable are not NA's.
+If we want to count the overall number of missing values in the data frame, we can call `n_miss()` on the dataframe
+```{r}
+# count of missingness in the data
+n_miss(my_data)
+```
+
+To know the proportion of missing data in the table, we call `prop_miss()`
+```{r}
+# proportion of missing data
+prop_miss(my_data)
+```
+We can see that 0.1382 of the data is missing. The opposite of `prop_miss()` is `prop_complete()`.
+```{r}
+# proportion of complete data
+prop_complete(my_data)
+```
+
+To achieve the same results, we can call `pct_miss()` and `pct_complete()` to calculate the percentage of missing and complete data respectively.
+```{r}
+# percentage of missing data
+pct_miss(my_data)
+```
+
+## Advanced Functions
+Lets now scale up to powerful functions for handling missing data. One thing I love about the `naniar` package is that its wrangling functions return a dataframe. Additionally these function work well with dplyr's functions for data manipulation. Let's with `miss_var_summary()`. Calling this function on the data returns a dataframe with each variable, the number of missing observations in the variable, and percentage of missingness in that variable. Additionally, the function arranges the results in descending order of missingness.
+```{r}
+miss_var_summary(my_data) %>% 
+  head()
+```
+
+From the output above, we can see that the variable `v244` had the most NA's followed by `v236` and so on. I can bet I was the happiest person when I first learned this. 
+
+Next, is `miss_case_summary()` which returns missingness statistics at observational level i.e for each row.
+```{r}
+miss_case_summary(my_data) %>% 
+  head()
+```
+
+We can deduce that row 347 had the most NA's followed by row 549 and so on. Another function is `miss_var_table()` which returns variable-wise statistics for missing data. 
+```{r}
+miss_var_table(my_data) %>% 
+  head()
+```
+
+From the output we can learn that there are 12 variables with no missing values in the dataset. This accounts for about 41% of all the variables in the dataset. `miss_case_table()` does the same this but at observational level.
+```{r}
+miss_case_table(my_data) %>% 
+  head()
+```
+
+We can learn that there are 147 cases or rows in the dataframe with no missing values, 399 rows with 1 missing value, and so on.
+
+Our next function is `miss_var_span()`. This function is quite helpful to identify missingness in a dataset over a given span or run. For someone who works with time series data, this function can be a life saver. The syntax of the function is as follows: `miss_var_span(data, var, span_every)` where var is the variable of interest, and span_every is the number of spans or runs. Say we want to explore missingness in the variable `v244` for a span of every 500 observations.
+```{r}
+miss_var_span(data = my_data, var = v244, span_every = 500)
+```
+We can see that for the first 500 observations in the variable `v244`, there are 389 missing values.
+The function provides other helpful statistics for very span. 
+
+# Visualizing Missingness
+The `visdat` comes in handy if we want to visualize missing values by variable. Simply calling `vis_miss()` on the data create a nice visual showing percentage of missing values in variable. The color black represent missing values and grey represents complete data. 
+```{r fig.width= 10}
+vis_miss(my_data)
+```
+
+ The `vis_miss()` functions also allows for additional arguments such as `cluster` to identify common co-occurrences and `sort_miss` to arrange columns. 
+
+To quickly visualize missingness in the variables and cases, can call `gg_miss_var()` and `gg_miss_case()` on the data. 
+```{r warning=FALSE, fig.width=10}
+# visualize missingness per variable
+gg_miss_var(my_data) +
+  # add labels
+  labs(
+    title = "Numbers of missing values per variable",
+    y = "Count of Missing Values"
+  ) +
+  # make axis text bold
+  theme(axis.text.y = element_text(face = "bold"))+
+  # add theme
+  theme_classic()
+```
+
+Again, the variable `v244` contains the most missing values followed by `v236`, and `mm_account_telco_main`.
+```{r fig.width=10}
+# visualize missingness in each case
+gg_miss_case(my_data)+
+  labs(title = "Missingness per case")
+```
+
+
+To visualize common combinations of missingness, i.e which variables and case go missing together, we can call `gg_miss_upset()`
+```{r fig.width=10}
+gg_miss_upset(my_data)
+```
+
+
+We can see that only 399 missing value combinations of v244, v236, mm_account_telco_main, agent_trust, and v234. There are only 344 of v244, v236 and mm_account_telco_main.
+
+To explore how missingness in each variable changes across a factor say, gender in this case, we call `gg_miss_fct()`. This displays a heat-map visualization showing the factor on the x axis, each other variable on the y axis, and the amount of missingness colored from dark, purple to blue.
+```{r}
+  gg_miss_fct(my_data, fct = gender) +
+  labs(
+    title = "Percentage of Missing values across Gender"
+    )+
+  theme_calc()
+```
+
+Depending on the intensity of the colors, most values are missing in the female category.
+
+To visualize missingness over a span or run, we can use `gg_miss_span()` and pass the data, the variable of interest, and the size of every span. 
+```{r}
+gg_miss_span(my_data, agent_trust, 500)+ 
+  theme_calc()
+```
+
+We can learn that most of the data is missing in the third span, i.e from case 1001 to case 1500.
+
+# Searching for and Replacing Missing Values
+
+A value is missing in R if it is coded `NA`. However in some cases, missing values maybe represented as `missing`, `Not Available`, `" "`, `N/A`, `N/a`, `n/a`, or `na`. R does not know that this are missing values. Before we start analysis, it is important to look out for such cases, especially when one is dealing with data from multiple sources that have different formatting structures.
+
+### Searching
+To search for such values, we use the `miss_scan_count()`. We pass the data as the first argument then include the values we want to search as a list to the search argument. This returns a dataframe with each variable and the number to times the searched value occurs in that variable.
+```{r}
+miss_scan_count(my_data, 
+                search = list(
+                  "missing", "Not Available", "N/A", "na", "N/a"
+                  ))
+```
+
+We can see that no variables contain any of the searched values.
+
+### Replacing
+To replace values with `NA`, we use `replace_with_na()` and pass a list of values we want to replace with `NA`. This function is quite helpful because we have control over what we want to replace with `NA` as well as which variables we want to manipulate. Say we have values coded as  "missing", "Not Available", "N/A", "na", or "N/a" in the variable `v244`, we can replace them with `NA` as follows
+```{r}
+my_data %>% 
+  replace_with_na(
+    replace = list(
+      v244 = c("missing", "Not Available", "N/A", "na", "N/a")
+    )
+  ) %>% 
+  select(
+    v244
+  ) %>% 
+  head()
+```
+
+If we want to alter the whole dataframe, we can use `replace_with_na_all()`. The syntax of this function is quite tricky but once you master it, it becomes very simple. For example, if we want to replace values coded as "missing" in the whole dataframe, we proceed as follows
+```{r}
+my_data %>% 
+  replace_with_na_all(
+    condition = ~.x == "missing"
+  ) %>% 
+  slice_head()
+```
+
+If we are replacing several values with `NA`, we can use the `%in%`.
+```{r}
+my_data %>% 
+replace_with_na_all(
+  condition = ~.x %in% c(
+    "missing", "Not Available", "N/A", "na", "N/a"
+    )
+  ) %>% 
+  slice_head()
+```
+
+There are other helpful functions such as `replace_with_na_at()` to alter a subset of selected variables, and `replace_with_na_if()` to alter a subset of variables that fulfill some condition. For instance, to replace values with `NA` at variables `v234`, `agent_trust`, `v236`, we use `replace_with_na_at()`
+
+```{r}
+# Use replace_with_na_at() to replace with NA
+replace_with_na_at(my_data,
+  .vars = c("v234", "agent_trust", "v236"),
+  ~ .x %in% c("N/A", "missing", "na")
+) %>% 
+  head()
+```
+
+## The Shadow Matrix and Nabular data
+The shadow is a dataframe of ones and zeros with each representing whether a value is missing (1) or not (0). The as_shadow() function in R transforms a dataframe into a shadow matrix, a special data format where the values are either missing (NA), or Not Missing (!NA). The column names of a shadow matrix are the same as the data, but have a suffix added _NA.
+```{r}
+# select a few variables 
+my_data %>% 
+  select(20:29) %>% 
+  as_shadow() %>% 
+  head()
+```
+
+
+To keep track of and compare data values to their missingness state, use the bind_shadow() function. Having data in this format, with the shadow matrix column bound to the regular data is called nabular data. This returns the variable values and their shadow representation. We can then use the nabular dataframe to calculate summary statistics of one variable, based on the missingness of another. Say we want to calculate the mean of `age` based on the missingness `v244`
+```{r}
+my_data %>% 
+  bind_shadow() %>% 
+  group_by(v244_NA) %>% 
+  summarise(mean_age = mean(age))
+```
+We learn that the values of age are relatively higher when v244 is missing than when v244 is not missing.
+
+
+To bind only the variables with missing values, we set the argument only_miss to TRUE.
+```{r}
+# Bind only the variables with missing values
+my_data %>% 
+  # select a few variables
+  select(3:5, 25:29) %>% 
+  bind_shadow(only_miss = T) %>% 
+  head()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

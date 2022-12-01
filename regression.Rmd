@@ -1,0 +1,477 @@
+---
+title: "Regression In R"
+date: "`r format(Sys.Date(), '%d %b, %Y')`"
+output: 
+  github_document:
+    toc: yes
+    df_print: kable
+---
+
+# Introduction to Linear Regression
+The most basic and widely used predictive analysis is linear regression. Estimates from regression are used to describe the data and clarify the relationship.
+Businesses can use linear regressions to analyze trends and provide estimates or projections. For instance, if a firm's sales have been rising gradually each month for the previous several years, the firm may anticipate sales in the months ahead by doing a linear analysis on the sales data with monthly sales. In this paper we are going to use marketing data of a certain company to explore linear regression. The data the contains advertising budget (in US dollars) for channels Tv, Radio, and Social_media, the type of influencer method, and the sales associated with each channel and influence type. 
+```{r}
+# load libraries
+pacman::p_load(
+  tidyverse, 
+  janitor, 
+  naniar, 
+  ggthemes, 
+  broom, 
+  ggfortify
+  )
+
+# read data
+my_data <- read_csv("datasets/marketing.csv",
+  show_col_types = F
+  ) %>%
+  clean_names()
+
+# print first 6 observations
+head(my_data)
+
+# remove duplicates
+my_data %>% 
+  distinct() -> my_data
+```
+
+Let's determine if there are missing values in the data that might alter our analysis
+```{r}
+# are there NA's in the data
+any_na(my_data)
+
+# What percent of the data is missing
+pct_miss(my_data)
+```
+
+Only 0.114 percent of the data is missing. We can remove the rows with missing data. Note that this is not the standard way to deal with missing values but for sake of keeping our focus on regression, let's drop NA's.
+```{r}
+my_data %>% 
+  drop_na() -> my_data 
+```
+
+Let's start by running a simple linear regression model using sales as the dependent variable and Tv budget as the explanatory variable. Before that, it is always a good idea to visualize the data and check whether the two variables have a linear relationship. 
+
+```{r}
+my_data %>%
+  ggplot(
+    aes(tv, sales)
+    ) +
+  # add a scatter plot
+  geom_jitter() +
+  # fit a linear trendline
+  geom_smooth(
+    method = "lm",
+    se = F
+  ) +
+  # add a theme
+  theme_clean() +
+  # add correct labels
+  labs(
+    title = "Sales versus Tv Budget",
+    x = "Tv ad Budget"
+  )
+```
+
+The graph illustrates a very strong linear relationship between sales and tv budget. This means that increase in Tv advertisement budget is associated with increase in sales. Let's calculate the correlation coefficient between sales and tv budget to examine how strong the relationship is.
+```{r}
+my_data %>% 
+  summarise(
+    correlation = cor(tv, sales)
+  ) %>% 
+  pull(correlation)
+```
+
+The output means that there is a very strong positive correlation between sales and tv ad budget. While ggplot can display a linear regression trend line using geom_smooth(), it doesn't give us access to the intercept and slope as variables, 
+or allow us to work with the model results as variables. That means that we will need to run a linear regression.
+```{r}
+# predict sales using Tv budget
+tv_model <- lm(
+  sales ~ tv, 
+  data = my_data
+  )
+
+# print tv_model
+tv_model
+```
+*Note that a linear regression model is one of the generalized linear models that can be performed with the code below.*
+```{r}
+glm(
+  formula = sales ~ tv, 
+  data = my_data, 
+  family = gaussian
+)
+```
+
+Our interest is in the coefficient results. The intercept value (-0.1325) indicates that, on average, the firm loses money in sales even if it does not spend any money on television advertising. Given that we cannot make negative sales, this number is illogical. Contrarily, the slope indicates that a 1 dollar increase in the budget for television advertisements results in a 3.6 dollar rise in sales.
+
+Let's now make a sales prediction utilizing the explanatory variable influencer. Notice that the influencer variable is categorical. To signal that all coefficients should be provided relative to zero, we instead add "+ 0" to the explanatory variable.
+```{r}
+influencer_model <- lm(
+  sales ~ influencer + 0, 
+  data = my_data
+  )
+
+# print influencer model
+influencer_model
+```
+
+The first coefficient, influencerMacro, indicates that the firm will generate an average revenue of $196.12 per transaction if it engages a Macro influencer to promote its goods. Other influencer modes are interpreted in the same way. The coefficient estimates for a linear regression with a single categorical explanatory variable are identical to the grouped means of each category, it is vital to note. This indicates that we will obtain the same outcomes as the coefficient estimates above if we group the data by influencer and compute the means for each group.
+```{r}
+my_data %>% 
+  group_by(influencer) %>% 
+  summarise(
+    average_sales = mean(sales)
+    )
+```
+
+# Visualizing one cagorical explanatory variable model
+```{r warning=FALSE}
+my_data %>% 
+  ggplot(
+    aes(
+      x = influencer,
+      y = sales,
+      fill = influencer,
+    )
+  )+
+  geom_boxplot(alpha = .5)+
+  stat_summary(
+    fun = mean,
+    shape = 15
+  )+
+  theme_few()+
+  theme(
+    legend.position = "none"
+  )+
+  labs(
+    title = "Distributions of Sales in US dollars per Influencer category",
+  )
+```
+
+
+## Making Predictions
+
+Perhaps one of the most important aspects of statistical models like linear regression is that we can use to make  predictions. The principle behind prediction is to know the value of the response variable if we set the explanatory variable to some value. We call the `predict()` function and pass the model object and the data we want to predict. Say we set the values of tv budget from 10 to 20. 
+```{r}
+# set explanatory variable values
+explanatory_data <- tibble(tv = 10:100)
+# predict the sales using the above explanatory data.
+predict(tv_model, explanatory_data)
+```
+
+The predict function returns a vector. However to make it easy to visualize the results, let's use a dataframe to store the predictions
+```{r}
+prediction_data <- explanatory_data %>% 
+  mutate(
+    sales = predict(tv_model, explanatory_data)
+    )
+
+head(prediction_data)
+```
+
+We can answer questions like how much sales in dollars the company would expect to make if TV budget was 12 dollars even the original dataset did not include a case with that tv budget. 
+
+# Visualizing predictions
+We use the same scatter plot and a linear trend line as before.
+```{r}
+my_data %>%
+  ggplot(
+    aes(tv, sales)
+    ) +
+  geom_jitter() +
+  geom_smooth(
+    method = "lm",
+    se = F
+  ) +
+  # add a geom_point layer for predictions
+  geom_point(
+    data = prediction_data, 
+    color = "yellow"
+    ) +
+  theme_clean() +
+  labs(
+    title = "Sales versus Tv Budget",
+    x = "Tv ad Budget"
+  )
+```
+
+Notice the predictions lie exactly on the trendline. 
+
+### Extrapolating 
+Extrapolating means making predictions outside the range of observed data. It is sometimes appropriate to extrapolate but it can lead to misleading or ridiculous results. It is therefore important to understand the context of the data in order to determine whether it is sensible to extrapolate. For example, to see how much sales we would expect to make if we set two tv budget values, one extremely high and the other extremely low, we can proceed as follows
+```{r}
+# define explanatory variable values
+low_tv_budget <- tibble(tv = 2)
+
+# make predictions and store results in a data frame
+low_tv_budget <- low_tv_budget %>% 
+  mutate(
+    sales = predict(
+    tv_model, low_tv_budget
+    )
+  )
+
+# print low_tv_budget
+low_tv_budget
+
+
+# visualize the predictions
+my_data %>%
+  ggplot(
+    aes(tv, sales)
+    ) +
+  geom_jitter() +
+  geom_smooth(
+    method = "lm",
+    se = F
+  ) +
+  # add a geom_point layer for predictions
+  geom_point(
+    data = low_tv_budget, 
+    color = "red"
+    )+
+  theme_clean()+
+  labs(
+    title = "Sales versus Tv Budget",
+    x = "Tv ad Budget"
+  )
+
+```
+
+The model predicts that if we spend only two dollars in tv advertisement, we would make sales worth 6.99 dollars. 
+
+# Working with Model Objects
+The model object contains a lot of information such as coefficients, residuals, fitted values, and other statistics. We can obtain these objects for further analysis using the following methods
+```{r}
+# get coefficients
+coefficients(tv_model)
+
+# get a few residuals
+head(residuals(tv_model))
+
+# get a few fitted values
+head(fitted(tv_model))
+
+# print model summary
+summary(tv_model)
+```
+
+While the `summary()` function contains a lot of information, it is designed to be read, not to be manipulated with code. The broom package comes in handy with functions that return data frames. This facilitates manipulation of the model results with dplyr, ggplot2, and other tidyverse packages. To get coefficients level details of the model, we call  `tidy()` on the model
+```{r}
+tidy(tv_model)
+```
+To get observational level details, we call `augment()`. Here we will use head to print a few observations
+```{r}
+head(augment(tv_model))
+```
+
+To get model level details or performance metrics, we call `glance()`
+```{r}
+glance(tv_model)
+```
+
+# Quantifying Model fit
+It is usually important to know whether or not predictions from our model are a nonsense. There are various we can quantify model fit
+
+#### Coefficient of determination (R2)
+
+R2 value describes the proportion of the variation in the response variable that is predictable from the explanatory variable. 
+We can get the R2 value using `glance()` and dplyr's `pull()` functions as follows
+```{r}
+tv_model %>% 
+  glance() %>% 
+  pull(r.squared)
+```
+
+This means that, on average, 99.89% of the variations in sales are explained by tv ad budget, holding other factors constant. We can get the R2 value by simply squaring the correlation coefficient between sales and tv ad budget as follows:
+```{r}
+my_data %>% 
+  summarise(
+    r.square = cor(sales, tv)^2
+  ) %>% 
+  pull(r.square)
+```
+
+
+#### Residual Standard Error (RSE)
+ 
+RSE is the typical difference between the a prediction and an observed value. I like to think of it as the "typical error of the model". It has the same units as the response variable. We can get the RSE of our model as follows
+```{r}
+tv_model %>% 
+  glance() %>% 
+  pull(sigma)
+```
+
+We can also manually calculate it as follows
+```{r}
+my_data %>% 
+  # create a new variable for each residual
+  mutate(
+    # square the residuals
+    residuals_sq = residuals(tv_model)^2
+  ) %>% 
+  summarise(
+    # get the sum of the squared residuals 
+    sum_of_residuals_sq = sum(residuals_sq),
+    # calculate the degrees of freedom as 
+    # the # of observations minus the # of coefficients
+    df = n()-2,
+    # calculate rse as the sqrt of the ratio
+    rse = sqrt(sum_of_residuals_sq/df)
+  ) %>% 
+  pull(rse)
+```
+
+This means that the difference between the predicted sales value and the observed sales value is typically 2.94 dollars. 
+
+#### Root Mean Square Error (RMSE)
+RMSE performs the same task as the RSE, i.e quantifying how inaccurate our model is. It's calculated the same way as the RSE, only that we do not subtract the number of coefficients in the second last step:
+```{r}
+my_data %>% 
+  # create a new variable for each residual
+  mutate(
+    # square the residuals
+    residuals_sq = residuals(tv_model)^2
+  ) %>% 
+  summarise(
+    # get the sum of the squared residuals 
+    sum_of_residuals_sq = sum(residuals_sq),
+    # calculate the degrees of freedom as 
+    # the # of observations minus the # of coefficients
+    n_observations = n(),
+    # calculate rse as the sqrt of the ratio
+    rmse = sqrt(sum_of_residuals_sq/n_observations)
+  ) %>% 
+  pull(rmse)
+```
+
+RSME is a poor metric when comparing models. Even though, we should know it exists but always use RSE.
+
+# Visualizing model fit 
+There are several diagnostic plots that can be used to quantify the performance of a model. Some of these plots include residuals vs. fitted values plot, Q-Q plot, and Scale location plot. The principle behind this plots is that if a linear regression model is a good fit, the residuals are approximately normally distributed with mean zero. Lets briefly discuss each of these plots 
+
+#### Residuals versus Fitted Values
+To draw this plot we call `autoplot()`, passing the model object and setting the `which` argument to 1.
+```{r fig.width=10}
+# residuals vs fitted values plot
+autoplot(
+  tv_model, 
+  which = 1
+  )
+```
+The blue line is called the LOESS trend line, which is a smooth curve following the data. If the residuals meet the assumption that they are normally distributed with mean zero, then then trend line should closely follow the y equals zero line on the plot, which is the case in our plot. This indicates that our model is a good fit.
+
+#### Q-Q plot
+
+The code for drawing this plot is the same as that of residual vs fitted values plot, except that we set the `which` argument to 2. 
+```{r}
+# plot Q-Q plot
+autoplot(
+  tv_model, 
+  which = 2
+  )
+```
+
+Again, the Q-Q plot shows whether or not the residuals follow a normal distribution.
+On the x-axis, the points are the quantiles from the normal distribution. On the y-axis, we get the standardized residuals, which are the residuals divided by their standard deviation. If the points follow the straight line closely, they are normally distributed, if not, they aren't. In our case, we can say they are normally distributed indicating good fit.
+
+#### Scale-location Plot
+Again the code is the same, except we set the `which` argument to 3
+```{r fig.width=10}
+# plot scale location
+autoplot(tv_model, which = 3)
+```
+
+The scale-location plot displays the square root of the standardized residuals vs fitted values. It shows whether the size of of the residuals gets bigger or smaller. Basically the size of the standardized residuals should be consistent, which is the case in our plot.
+We can draw the three plots together as follows
+```{r fig.height=15}
+autoplot(
+  tv_model,
+  which = 1:3,
+  ncol = 1,
+  nrow = 3
+  )+
+  # add a theme
+  theme_clean()
+```
+
+
+# Outliers 
+An outlier is an unusual data point in the dataset. Mathematically, a data is an outlier if it is less than `Q1 - 1.5*IQR` or greater than `Q3 + 1.5*IQR`, where Q1 is the first quartile, Q3 is the third quartile, and IQR is the interquartile range. The best way to determine if there are outliers is by using box plots. To check for outliers in a variable, it is best to use box plots. 
+```{r}
+# determine if there are outliers in the sales variable
+my_data %>% 
+  ggplot(
+    aes(x = " ", y = sales)
+    )+
+  geom_boxplot()+
+  theme_clean()+
+  labs(
+    title = "Distribution of Sales"
+  )
+```
+
+In this case there are no any outliers. Let's do the same thing for tv budget
+```{r}
+# determine if there are outliers in the tv budget variable
+my_data %>% 
+  ggplot(
+    aes(x = " ", y = tv)
+    )+
+  geom_boxplot()+
+  theme_clean()+
+  labs(
+    title = "Distribution of Tv budget"
+  )
+```
+
+Again, there are no unusual data points in the tv variable.
+
+# Leverage
+Leverage is a measure of how extreme the explanatory variable values are. Basically, a high leverage means that the explanatory variable has values that are different from other points in the dataset. To calculate leverage, we use the `hatvalues()` function, passing the model object. This function returns a numeric vector with as many values as there are observations.
+```{r}
+# print a few leverage values
+head(
+  hatvalues(tv_model)
+)
+```
+Alternatively, we can use the `augment()` function from broom. The leverage values are stored in the `.hat` column.
+```{r}
+tv_model %>% 
+  augment() %>% 
+  select(
+    sales, tv, leverage = .hat
+  ) %>% 
+  arrange(
+    desc(leverage)
+  ) %>% 
+  head()
+```
+
+
+# Influence
+Influence measures how much the model would change if we left the observations out of the model calculations one at a time. The influence of each observations is based on the size of the residuals and the leverage. The most common measure of influence is called *Cook's Distance*. Bigger values denote more influence for the observation. To calculate Cook's distance, we call the `cooks.distance()` function passing the model object. However, let's stick to the broom's `augment()` function. The values for influence are stored in the `.cooksd` column.
+```{r}
+tv_model %>% 
+  augment() %>% 
+  select(
+    sales, tv, cooks_dist = .cooksd
+  ) %>% 
+  arrange(
+    desc(cooks_dist)
+  ) %>% 
+  head()
+```
+We learn that the most influential observation was the one with sales worth 59.49158 dollars and a tv budget of 20 dollars.
+
+`autoplot()` lets us draw diagnostic plots of leverage and influence, by setting the `which` argument to 4, 5, or 6. I find this plots less helpful for diagnosis than the previous ones we looked at. Nevertheless, they help us identify the most influential observations quickly.
+```{r}
+# visualize leverage and influence
+autoplot(
+  tv_model, 
+  which = 4:6
+  )
+```
+
+

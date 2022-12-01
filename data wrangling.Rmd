@@ -1,0 +1,83 @@
+---
+title: "Wrangling LinkedIn Jobs Dataset"
+date: "`r format(Sys.Date(), '%d %b, %Y')`"
+output: 
+    github_document:
+      df_print: kable
+---
+
+```{r}
+# remove scientific notation in output
+options(
+  scipen = 999
+)
+
+
+# load essential libraries
+pacman::p_load(
+  tidyverse,
+  jsonlite,
+  DataExplorer,
+  SmartEDA,
+  dlookr
+)
+
+# load dataset
+jobs_data <- read_csv("datasets/linkedin_jobs_africa.csv",
+                      show_col_types = F)
+
+# create dataset metadata
+metadata <- tibble(
+  title = "Job title",
+  company = "Name of the company",
+  description = "description of the job and company",
+  onsite_remote = "Location where the employee will be working from",
+  salary = "Salary for the job. May be yearly or hourly. In most cases it is a range from min to max",
+  location = "Where the company with the opening role is located",
+  criteria = "Job requirements like experience, employment type, etc",
+  posted_date = "The date the job was posted",
+  link = "The URL to the job"
+)
+
+# preview metadata
+metadata
+
+# pivot metadata into long format
+metadata %>% 
+  pivot_longer(
+    # pivot all variables
+    everything(),
+    names_to = "variable",
+    values_to = "description"
+    # overwrite metadata
+    ) -> metadata
+
+# preview metadata
+metadata
+
+jobs_data %>% 
+  mutate(
+    criteria = as.list(criteria)
+  ) -> jobs_data
+
+```
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

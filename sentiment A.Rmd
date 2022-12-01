@@ -1,0 +1,110 @@
+---
+title: "Sentiment Analysis"
+date: "2022-11-30"
+output: github_document
+---
+
+```{r warning=FALSE}
+# install.packages("tm")
+
+pacman::p_load(tidyverse, tm)
+
+machakos <- read_csv("datasets/machakos.csv")
+
+
+corpus <- Corpus(VectorSource(machakos$text))
+
+inspect(corpus[1:2])
+
+# text cleaning
+
+# change text to lower case
+corpus <- tm_map(corpus, tolower)
+
+# remove panctuation
+corpus <- tm_map(corpus, removePunctuation)
+
+# remove numbers
+corpus <- tm_map(corpus, removeNumbers)
+
+# remove stop words
+cleanset <- tm_map(corpus, removeWords, stopwords("english"))
+
+inspect(cleanset[1:4])
+
+# remove url using a function
+removeURL <- function(x){
+  gsub('http[[:alnum:]]*', "", x)
+}
+cleanset <-  tm_map(cleanset, content_transformer(removeURL))
+
+# remove white spaces
+cleanset <- tm_map(cleanset, stripWhitespace)
+
+# create term documen matrix (structured form)
+tdm <- TermDocumentMatrix(cleanset)
+tdm 
+# sparsity is 99% mean, 99% of the times, we will see zeros in the matrix
+
+# convert tdm to matrix
+tdm <- as.matrix(tdm)
+
+tdm[1:10, 1:10]
+
+# machakoscountyexposed appears almost in every word. its a key word
+# the tweets were pulled using the key word.
+# we should remove the key word because it will overshadow everything else
+
+# remove the key word
+cleanset <- tm_map(cleanset, removeWords, 'machakoscountyexposed')
+
+# remove the white spaces created
+cleanset <- tm_map(cleanset, content_transformer(removeURL))
+
+# replace kyallo with betty
+cleanset <- tm_map(cleanset, str_replace, pattern = "kyallo", replacement = "betty")
+tdm <- TermDocumentMatrix(cleanset)
+
+tdm <- as.matrix(tdm)
+
+tdm[1:10, 1:10]
+
+# create a bar plot
+# first create frequencies of every word
+w <- rowSums(tdm)
+
+# take a subest
+w <- subset(w, w>= 25)
+
+# change w to data.frame
+w_df <- as.data.frame(w)
+
+w_df <- w_df %>% 
+  mutate(word = row.names(w_df))
+
+w_df %>% 
+  ggplot(aes(x =fct_reorder(word, w), y = w))+
+  geom_col()+
+  coord_flip()
+
+#install.packages("wordcloud")
+library(wordcloud)
+
+w <- sort(rowSums(tdm), decreasing = T)
+set.seed(222)
+wordcloud(
+  words = names(w), 
+  freq = w, 
+  max.words = 200, 
+  random.order = F, 
+  min.freq = 5,
+  colors = brewer.pal(8, "Dark2"), 
+  scale = c(4, .4),
+  rot.per = 0.3
+)
+
+```
+
+
+
+
