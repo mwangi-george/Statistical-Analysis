@@ -22,7 +22,8 @@ pacman::p_load(
   naniar,
   moderndive,
   broom,
-  plot3D
+  plot3D,
+  magrittr
 )
 
 # read dataset
@@ -545,7 +546,7 @@ As expected, the predictions lie along the linear trend line calculated by ggplo
 
 
 # Modeling Two Numeric Explanatory Variables
-In the previous examples, the models had one numeric and one categorical explanatory variable. In this section we will check what changes if we have two numeric explanatory variables instead.
+In the previous examples, the models had one numeric and one categorical explanatory variable. In this section we will consider a two numeric explanatory variables case.
 
 Two numeric explanatory variables and one numeric response variable gives three variables to plot.
 In a case like this, we have two choices; either we draw a 3D scatter plot, or a 2D scatter plot using color for the response variable. The car_prices dataset doesn't have another numeric explanatory variable, so we will switch to the diamonds dataset that comes with the ggplot2 package. This is a dataset containing the prices and other attributes of almost 54,000 diamonds. The following is a view of the first six rows of the dataset.
@@ -560,11 +561,111 @@ head(diamonds)
 Say we want to visualize the relationship between prices versus carat(weight of the diamond (0.2–5.01))and x(length in mm (0–10.74)). To make a 3D plot, we call `scatter3D()` function from the `plot3D` package as follows:
 ```{r}
 # plot price versus carat and x
-scatter3D(
-  diamonds$carat, diamonds$x, diamonds$price
-  )
+diamonds %$%
+  scatter3D(carat, x, price)
 ```
-There 
+
+One problem with the plot is that interpreting it becomes complicated. Instead we can utilize a 2D plot which uses color as the response variable. ggplot2 has a set of color scales called viridis that provide easier to distinguish colors. Scale_color_viridis_c is used for continuous scales, where we have numeric data. The plot below uses the "inferno" palette option, which moves from black through blue and red to yellow. 
+```{r}
+diamonds %>% 
+  ggplot(
+    aes(x, carat, color = price)
+  )+
+  geom_point()+
+  scale_color_viridis_c(option = "inferno")+
+  theme_few()+
+  labs(
+    y = "weight (carat)",
+    x = "length (mm)",
+    title = "Price of diamonds vs their length and weight",
+    caption = "Data Source::ggplot2 library"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray95")
+    )
+```
+
+As you move up and to the right in the plot, the colors get brighter, representing expensive diamonds.
+
+## Modelling 
+The modeling workflow is the same as before; we call `lm()` passing the formula and the data. We get a global intercept coefficient, and one slope for each explanatory variable as follows:
+```{r}
+# create model
+price_mdl <- lm(
+  price ~ carat + x, data = diamonds
+)
+
+# print coefficients
+coefficients(price_mdl)
+```
+
+## Prediction 
+The prediction workflow is no different; we create a grid of explanatory variable values with `expand_grid()`. Next, we add a column of predictions with `mutate()` and `predict()` as follows:
+```{r}
+# create explanatory variables' values
+explanatory_data <- expand_grid(
+    carat = seq(0, 5, .5),
+    x = seq(0, 9.7, .3)
+    )
+
+# create prediction data
+prediction_data <- explanatory_data %>% 
+  mutate(
+    price = predict(price_mdl, explanatory_data)
+  )
+
+
+head(prediction_data)
+```
+
+## Visualizing the predictions
+Again, the visualization workflow remains the same, though the results are a bit different.
+```{r}
+diamonds %>% 
+  ggplot(
+    aes(
+      x, carat, color = price
+    )
+  )+
+  geom_point()+
+  scale_color_viridis_c(option = "inferno")+
+  geom_point(
+    data = prediction_data,
+    shape = 15, size = 3
+  )+
+  theme_few()+
+  labs(
+    y = "weight (carat)",
+    x = "length (mm)",
+    title = "Price of diamonds vs their length and weight",
+    caption = "Data Source::ggplot2 library"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray95")
+    )
+```
+
+The color grid gives a nice overview of how the price of diamonds changes over the plane of explanatory variables, in this case, weight and length of the diamonds. The most expensive diamonds are in the top right, where they are heavy and long.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

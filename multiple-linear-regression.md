@@ -1062,7 +1062,7 @@ diamonds %$%
 
 ![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
 
-One problem with the plot is that interpreting becomes complicated.
+One problem with the plot is that interpreting it becomes complicated.
 Instead we can utilize a 2D plot which uses color as the response
 variable. ggplot2 has a set of color scales called viridis that provide
 easier to distinguish colors. Scale_color_viridis_c is used for
@@ -1079,12 +1079,14 @@ diamonds %>%
   scale_color_viridis_c(option = "inferno")+
   theme_few()+
   labs(
-    y = "weight",
-    x = "length",
+    y = "weight (carat)",
+    x = "length (mm)",
     title = "Price of diamonds vs their length and weight",
     caption = "Data Source::ggplot2 library"
   )+
-  theme(plot.background = element_rect(fill = "gray95"))
+  theme(
+    plot.background = element_rect(fill = "gray95")
+    )
 ```
 
 ![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
@@ -1163,17 +1165,19 @@ diamonds %>%
   )+
   theme_few()+
   labs(
-    y = "weight",
-    x = "length",
+    y = "weight (carat)",
+    x = "length (mm)",
     title = "Price of diamonds vs their length and weight",
     caption = "Data Source::ggplot2 library"
   )+
-  theme(plot.background = element_rect(fill = "gray95"))
+  theme(
+    plot.background = element_rect(fill = "gray95")
+    )
 ```
 
 ![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 The color grid gives a nice overview of how the price of diamonds
 changes over the plane of explanatory variables, in this case, weight
-and length of the diamonds. The most expensive are in the top right,
-where they are heavy and long.
+and length of the diamonds. The most expensive diamonds are in the top
+right, where they are heavy and long.
