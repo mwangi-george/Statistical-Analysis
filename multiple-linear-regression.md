@@ -1,6 +1,6 @@
 Introduction to Multiple Linear Regression
 ================
-26 Nov, 2022
+07 Dec, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
     -   <a href="#visualizing-relationship-between-variables"
@@ -54,6 +54,10 @@ Introduction to Multiple Linear Regression
 -   <a href="#modeling-two-numeric-explanatory-variables"
     id="toc-modeling-two-numeric-explanatory-variables">Modeling Two Numeric
     Explanatory Variables</a>
+    -   <a href="#modelling" id="toc-modelling">Modelling</a>
+    -   <a href="#prediction" id="toc-prediction">Prediction</a>
+    -   <a href="#visualizing-the-predictions"
+        id="toc-visualizing-the-predictions">Visualizing the predictions</a>
 
 # Introduction
 
@@ -80,7 +84,8 @@ pacman::p_load(
   naniar,
   moderndive,
   broom,
-  plot3D
+  plot3D,
+  magrittr
 )
 
 # read dataset
@@ -1015,8 +1020,8 @@ by ggplot2.
 # Modeling Two Numeric Explanatory Variables
 
 In the previous examples, the models had one numeric and one categorical
-explanatory variable. In this section we will check what changes if we
-have two numeric explanatory variables instead.
+explanatory variable. In this section we will consider a two numeric
+explanatory variables case.
 
 Two numeric explanatory variables and one numeric response variable
 gives three variables to plot. In a case like this, we have two choices;
@@ -1051,10 +1056,124 @@ as follows:
 
 ``` r
 # plot price versus carat and x
-scatter3D(
-  diamonds$carat, diamonds$x, diamonds$price
-  )
+diamonds %$%
+  scatter3D(carat, x, price)
 ```
 
 ![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
-There
+
+One problem with the plot is that interpreting becomes complicated.
+Instead we can utilize a 2D plot which uses color as the response
+variable. ggplot2 has a set of color scales called viridis that provide
+easier to distinguish colors. Scale_color_viridis_c is used for
+continuous scales, where we have numeric data. The plot below uses the
+“inferno” palette option, which moves from black through blue and red to
+yellow.
+
+``` r
+diamonds %>% 
+  ggplot(
+    aes(x, carat, color = price)
+  )+
+  geom_point()+
+  scale_color_viridis_c(option = "inferno")+
+  theme_few()+
+  labs(
+    y = "weight",
+    x = "length",
+    title = "Price of diamonds vs their length and weight",
+    caption = "Data Source::ggplot2 library"
+  )+
+  theme(plot.background = element_rect(fill = "gray95"))
+```
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+
+As you move up and to the right in the plot, the colors get brighter,
+representing expensive diamonds.
+
+## Modelling
+
+The modeling workflow is the same as before; we call `lm()` passing the
+formula and the data. We get a global intercept coefficient, and one
+slope for each explanatory variable as follows:
+
+``` r
+# create model
+price_mdl <- lm(
+  price ~ carat + x, data = diamonds
+)
+
+# print coefficients
+coefficients(price_mdl)
+```
+
+    ## (Intercept)       carat           x 
+    ##    1737.950   10125.988   -1026.857
+
+## Prediction
+
+The prediction workflow is no different; we create a grid of explanatory
+variable values with `expand_grid()`. Next, we add a column of
+predictions with `mutate()` and `predict()` as follows:
+
+``` r
+# create explanatory variables' values
+explanatory_data <- expand_grid(
+    carat = seq(0, 5, .5),
+    x = seq(0, 9.7, .3)
+    )
+
+# create prediction data
+prediction_data <- explanatory_data %>% 
+  mutate(
+    price = predict(price_mdl, explanatory_data)
+  )
+
+
+head(prediction_data)
+```
+
+| carat |   x |     price |
+|------:|----:|----------:|
+|     0 | 0.0 | 1737.9497 |
+|     0 | 0.3 | 1429.8927 |
+|     0 | 0.6 | 1121.8356 |
+|     0 | 0.9 |  813.7786 |
+|     0 | 1.2 |  505.7215 |
+|     0 | 1.5 |  197.6645 |
+
+## Visualizing the predictions
+
+Again, the visualization workflow remains the same, though the results
+are a bit different.
+
+``` r
+diamonds %>% 
+  ggplot(
+    aes(
+      x, carat, color = price
+    )
+  )+
+  geom_point()+
+  scale_color_viridis_c(option = "inferno")+
+  geom_point(
+    data = prediction_data,
+    shape = 15, size = 3
+  )+
+  theme_few()+
+  labs(
+    y = "weight",
+    x = "length",
+    title = "Price of diamonds vs their length and weight",
+    caption = "Data Source::ggplot2 library"
+  )+
+  theme(plot.background = element_rect(fill = "gray95"))
+```
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+
+The color grid gives a nice overview of how the price of diamonds
+changes over the plane of explanatory variables, in this case, weight
+and length of the diamonds. The most expensive are in the top right,
+where they are heavy and long.
