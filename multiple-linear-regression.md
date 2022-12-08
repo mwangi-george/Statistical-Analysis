@@ -1,6 +1,6 @@
 Introduction to Multiple Linear Regression
 ================
-07 Dec, 2022
+08 Dec, 2022
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
     -   <a href="#visualizing-relationship-between-variables"
@@ -58,6 +58,9 @@ Introduction to Multiple Linear Regression
     -   <a href="#prediction" id="toc-prediction">Prediction</a>
     -   <a href="#visualizing-the-predictions"
         id="toc-visualizing-the-predictions">Visualizing the predictions</a>
+-   <a href="#more-than-2-explanatory-variables"
+    id="toc-more-than-2-explanatory-variables">More than 2 explanatory
+    variables</a>
 
 # Introduction
 
@@ -1181,3 +1184,107 @@ The color grid gives a nice overview of how the price of diamonds
 changes over the plane of explanatory variables, in this case, weight
 and length of the diamonds. The most expensive diamonds are in the top
 right, where they are heavy and long.
+
+# More than 2 explanatory variables
+
+In the previous section, we drew a scatter plot with the price indicated
+by color and the explanatory variables shown on the y and x axes. We can
+extend the analysis by faceting on the color of the diamonds. Giving
+each color its own panel with `facet_wrap()` makes the groups of data
+more apparent.
+
+``` r
+diamonds %>% 
+  ggplot(aes(x, carat, color = price))+
+  geom_point()+
+  scale_color_viridis_c(option = "inferno")+
+  facet_wrap(~ color)+
+  labs(
+    y = "weight (carat)",
+    x = "length (mm)",
+    title = "Price of diamonds vs their length and weight",
+    caption = "Data Source::ggplot2 library"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray95")
+    )
+```
+
+![](multiple-linear-regression_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+
+There is a noticeable positive correlation between the length and the
+weight for each color of diamonds. In general, while it is tricky to
+include more than three numeric variables in a scatter plot, we can as
+many categorical variables as we like by faceting. However, more facets
+can make it harder to see an overall picture.
+
+Modeling doesn’t get harder as explanatory variables increase. To
+include the color variable in the model, we proceed as follows:
+
+``` r
+lm(price ~ carat + x + color + 0, data = diamonds)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = price ~ carat + x + color + 0, data = diamonds)
+    ## 
+    ## Coefficients:
+    ##   carat        x   colorD   colorE   colorF   colorG   colorH   colorI  
+    ## 10834.9  -1193.1   2505.6   2405.1   2443.5   2416.9   1745.8   1389.3  
+    ##  colorJ  
+    ##   510.1
+
+The main tricky thing about including more explanatory variables in the
+model is that there are more options regarding interactions. To include
+a two way interaction (pairwise interaction between pairs of variables),
+we proceed as follows:
+
+``` r
+lm(price ~ (carat + x + color)^2 + 0, data = diamonds)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = price ~ (carat + x + color)^2 + 0, data = diamonds)
+    ## 
+    ## Coefficients:
+    ##         carat              x         colorD         colorE         colorF  
+    ##       4526.42        -893.68        2484.01        3763.84        2718.62  
+    ##        colorG         colorH         colorI         colorJ        carat:x  
+    ##       1190.07        1855.83        2558.42        -664.40         669.35  
+    ## carat:color.L  carat:color.Q  carat:color.C  carat:color^4  carat:color^5  
+    ##      -3959.32       -1417.41         224.22       -1148.10        -722.99  
+    ## carat:color^6      x:color.L      x:color.Q      x:color.C      x:color^4  
+    ##       -132.95         725.46         292.56          54.48         564.32  
+    ##     x:color^5      x:color^6  
+    ##        128.00         -55.73
+
+In the code above, the power operator has a special meaning; it does not
+square the explanatory variables but specifies pairwise interactions
+between variables. We can also specify a three way interaction as
+follows:
+
+``` r
+lm(price ~ carat * x * color + 0, data = diamonds)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = price ~ carat * x * color + 0, data = diamonds)
+    ## 
+    ## Coefficients:
+    ##           carat                x           colorD           colorE  
+    ##        4400.636         -889.743         3057.533         2832.543  
+    ##          colorF           colorG           colorH           colorI  
+    ##        1943.060         1210.242         2138.393         2603.891  
+    ##          colorJ          carat:x    carat:color.L    carat:color.Q  
+    ##         132.568          684.252        -2195.994         2366.105  
+    ##   carat:color.C    carat:color^4    carat:color^5    carat:color^6  
+    ##       -4132.101         1618.560         1118.671         -964.413  
+    ##       x:color.L        x:color.Q        x:color.C        x:color^4  
+    ##         480.999          -81.664          414.345          256.712  
+    ##       x:color^5        x:color^6  carat:x:color.L  carat:x:color.Q  
+    ##           3.848          -13.234         -138.175         -351.176  
+    ## carat:x:color.C  carat:x:color^4  carat:x:color^5  carat:x:color^6  
+    ##         424.827         -245.499         -184.845           90.763

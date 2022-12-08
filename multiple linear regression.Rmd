@@ -648,7 +648,41 @@ diamonds %>%
 The color grid gives a nice overview of how the price of diamonds changes over the plane of explanatory variables, in this case, weight and length of the diamonds. The most expensive diamonds are in the top right, where they are heavy and long.
 
 
+# More than 2 explanatory variables 
+In the previous section, we drew a scatter plot with the price indicated by color and the explanatory variables shown on the y and x axes. We can extend the analysis by faceting on the color of the diamonds. Giving each color its own panel with `facet_wrap()` makes the groups of data more apparent. 
+```{r}
+diamonds %>% 
+  ggplot(aes(x, carat, color = price))+
+  geom_point()+
+  scale_color_viridis_c(option = "inferno")+
+  facet_wrap(~ color)+
+  labs(
+    y = "weight (carat)",
+    x = "length (mm)",
+    title = "Price of diamonds vs their length and weight",
+    caption = "Data Source::ggplot2 library"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray95")
+    )
+```
 
+There is a noticeable positive correlation between the length and the weight for each color of diamonds.
+In general, while it is tricky to include more than three numeric variables in a scatter plot, we can as many categorical variables as we like by faceting. However, more facets can make it harder to see an overall picture.
+
+Modeling doesn't get harder as explanatory variables increase. To include the color variable in the model, we proceed as follows:
+```{r}
+lm(price ~ carat + x + color + 0, data = diamonds)
+```
+The main tricky thing about including more explanatory variables in the model is that there are more options regarding interactions. To include a two way interaction (pairwise interaction between pairs of variables), we proceed as follows:
+```{r}
+lm(price ~ (carat + x + color)^2 + 0, data = diamonds)
+```
+In the code above, the power operator has a special meaning; it does not square the explanatory variables but specifies pairwise interactions between variables. We can also specify a three way interaction as follows:
+```{r}
+lm(price ~ carat * x * color + 0, data = diamonds)
+
+```
 
 
 
