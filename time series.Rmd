@@ -1,0 +1,130 @@
+---
+title: "time series"
+date: "2022-12-13"
+output: 
+    html_document:
+      df_print: kable
+---
+
+```{r}
+# install.packages("UKgrid")
+# install.packages("timetk")
+pacman::p_load(tidyverse, lubridate, UKgrid, janitor, timetk)
+options(scipen = 999)
+
+
+# check the current time
+time <- Sys.time()
+time
+
+# check the current date
+date <- Sys.Date()
+date
+class(date)
+
+class(time)
+
+time_lt <- as.POSIXlt(time)
+class(time_lt)
+
+unclass(time)
+class(unclass(time_lt))
+search()
+
+
+dates_df <- read_csv("https://raw.githubusercontent.com/PacktPublishing/Hands-On-Time-Series-Analysis-with-R/master/Chapter02/dates_formats.csv")
+
+glimpse(dates_df)
+
+class(dates_df)
+
+dates_df %>%
+  mutate(Japanese_format = parse_date_time(Japanese_format, order = "ymd"))
+
+dates_df %>%
+  mutate(
+    Japanese_format = ymd(Japanese_format),
+    US_format = mdy(US_format),
+    US_long_format = mdy(US_long_format),
+    SA_mix_format = dmy(SA_mix_format)
+  ) %>%
+  view()
+
+time_US_str <- "Monday, December 31, 2018 11:59:59 PM"
+
+mdy_hms(time_US_str, tz = "Africa/Nairobi")
+
+
+view(UKgrid)
+rm(UKgrid)
+uk_data <-
+  UKgrid %>%
+  # lowercase all column names
+  clean_names() %>%
+  select(timestamp, nd)
+
+
+
+year(uk_data$timestamp)[1:5]
+
+month(uk_data$timestamp, label = T)[1:5]
+
+uk_data %>%
+  mutate(month = month(timestamp, label = T)) %>%
+  tail()
+
+# we can group_by() the year and month to aggregate to a monthly frequency.
+uk_data %>%
+  group_by(year(timestamp), month(timestamp, label = T)) %>%
+  summarise(nd = sum(nd))
+
+# That does what we want, but it also separates the year and month
+# into separate columns and converts them non-DateTime objects.
+# There’s a better way! The timetk package provides
+# a summarize_by_time() function that does exactly what we want.
+
+uk_monthly_data <- uk_data %>%
+  summarize_by_time(
+    .date_var = timestamp,
+    .by = "month",
+    nd = sum(nd, na.rm = TRUE)
+  )
+
+# As a final step, let’s also restrict our data to fall between 2006
+# and 2018. Again, we could do this with filter(year(timestamp) >= 2006 &
+# year(timestamp) <= 2018) but then we would run into the same problems as
+# with the summarize() function. Instead, we’ll use filter_by_time():
+
+uk_monthly_data %>%
+  filter_by_time(
+    .date_var = timestamp,
+    .start_date = "2006",
+    .end_date = "2018"
+  )
+
+
+
+head(uk_data)
+glimpse(uk_data)
+
+ggplot(data = uk_monthly_data, aes(x = timestamp, y = nd)) +
+  geom_line() +
+  geom_smooth(se = FALSE) +
+  labs(x = "Monthly Data", y = "Electricity Demand") +
+  scale_x_datetime(date_breaks = "year", date_labels = "%b-%Y") +
+  theme(
+    axis.text.x = element_text(angle = 90)
+  )
+
+rm(time_lt, date, time)
+
+plot_time_series(uk_monthly_data,
+  .date_var = timestamp,
+  .value = nd,
+  .interactive = TRUE,
+  .x_lab = "Monthy Data",
+  .y_lab = "Electricity Demand"
+)
+
+```
+

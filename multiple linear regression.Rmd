@@ -681,7 +681,6 @@ lm(price ~ (carat + x + color)^2 + 0, data = diamonds)
 In the code above, the power operator has a special meaning; it does not square the explanatory variables but specifies pairwise interactions between variables. We can also specify a three way interaction as follows:
 ```{r}
 lm(price ~ carat * x * color + 0, data = diamonds)
-
 ```
 
 

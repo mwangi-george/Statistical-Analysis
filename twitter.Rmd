@@ -26,7 +26,8 @@ pacman::p_load(
 # 
 # #str(tweets)
 
-machakos <- read_csv("datasets/machakos.csv")
+machakos <- read_csv("datasets/machakos.csv", 
+                     show_col_types = F)
 
 # unnest machakos
 machakos_new <- unnest_tokens(
@@ -81,4 +82,64 @@ machakos_new %>%
   )
 
 ```
+
+```{r}
+machakos %>% 
+  ggplot(
+    aes(
+      created_at, favorite_count
+    )
+  )+
+  geom_line()
+
+
+machakos %>% 
+  filter(favorite_count > 10) %>% 
+  ggplot(aes(created_at, favorite_count))+
+  geom_line()
+
+machakos %>% 
+  #slice_max(favorite_count, n = 10) %>% 
+  ggplot(aes((favorite_count), (retweet_count)))+
+  geom_jitter()+
+  scale_x_log10()+
+  scale_y_log10()
+
+machakos %>% 
+  #slice_sample(n = 100) %>% 
+  summarise(cor_likes_retweets = cor(favorite_count, retweet_count),
+            avg_text_length = mean(str_length(text)),
+            avg_likes = mean(favorite_count),
+            avg_retweets = mean(retweet_count))
+
+machakos %>% 
+  filter(!favorite_count > 300 & !favorite_count < 10) %>% 
+
+  ggplot(
+    aes(
+      x = " ", y = favorite_count
+    )
+  )+
+  geom_boxplot()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
