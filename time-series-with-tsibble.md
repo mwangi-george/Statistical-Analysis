@@ -4,7 +4,7 @@ Time Series With tsibble
 
 ``` r
 # install.packages("fpp3")
-pacman::p_load(fpp3, tidyverse, janitor, lubridate, readxl)
+pacman::p_load(fpp3, tidyverse, janitor, lubridate, readxl, timetk)
 
 # laod data
 data("global_economy")
@@ -119,3 +119,69 @@ mobile %>%
 | 2019-10-28 13:02:33 | 1002 |           1 | SACCO Account |            2 |
 | 2019-10-28 14:01:04 | 1002 |           2 | VSLA Account  |            2 |
 | 2019-10-28 15:03:31 | 1003 |           1 | Mobile Money  |            2 |
+
+# Austrarian Pharmaceutical Benefits datasets
+
+``` r
+# call dataset
+data("PBS")
+
+# clean variable names
+PBS <- clean_names(PBS)
+
+# calculate total cost per month
+PBS %>% 
+  filter(atc2 == "A10") %>% 
+  select(month, concession, type, cost) %>% 
+  summarise(total_cost = sum(cost)) %>% 
+  mutate(total_cost = round(total_cost/1e6, 2)) %>% 
+  autoplot(total_cost)+
+  labs(
+    title = "Cost of Drugs over time",
+    y = "Cost in Millions",
+    x = ""
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+There is a very clear and increasing trend over time and very strong
+seasonality.
+
+We can see that seasonality goes up as the level of the series goes up.
+
+There are some significant drops at the start of each, which could be
+caused by the government subsidization scheme.
+
+### Passengers dataset
+
+Passenger numbers on Ansett airline flights
+
+-   Description
+
+The data features a major pilots’ industrial dispute which results in
+some weeks having zero passengers. There were also at least two changes
+in the definitions of passenger classes.
+
+``` r
+data("ansett")
+
+head(ansett)
+```
+
+| Week     | Airports | Class    | Passengers |
+|:---------|:---------|:---------|-----------:|
+| 1989 W28 | ADL-PER  | Business |        193 |
+| 1989 W29 | ADL-PER  | Business |        254 |
+| 1989 W30 | ADL-PER  | Business |        185 |
+| 1989 W31 | ADL-PER  | Business |        254 |
+| 1989 W32 | ADL-PER  | Business |        191 |
+| 1989 W33 | ADL-PER  | Business |        136 |
+
+``` r
+ansett %>% 
+  autoplot(Passengers)+
+  theme(legend.position = "bottom")
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
