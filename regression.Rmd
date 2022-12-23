@@ -9,7 +9,7 @@ output:
 
 # Introduction to Linear Regression
 The most basic and widely used predictive analysis is linear regression. Estimates from regression are used to describe the data and clarify the relationship.
-Businesses can use linear regressions to analyze trends and provide estimates or projections. For instance, if a firm's sales have been rising gradually each month for the previous several years, the firm may anticipate sales in the months ahead by doing a linear analysis on the sales data with monthly sales. In this paper we are going to use marketing data of a certain company to explore linear regression. The data the contains advertising budget (in US dollars) for channels Tv, Radio, and Social_media, the type of influencer method, and the sales associated with each channel and influence type. 
+Businesses can use linear regressions to analyze trends and provide estimates or projections. For instance, if a firm's sales have been rising gradually each month for the previous several years, the firm may anticipate sales in the months ahead by doing a linear analysis on the sales data with monthly sales. In this paper we are going to use marketing data of a certain company to explore linear regression. The data the contains advertising budget (in US dollars) for channels Tv, Radio, and Social_media, the type of influence method, and the sales associated with each channel and influence type. 
 ```{r}
 # load libraries
 pacman::p_load(
@@ -59,7 +59,7 @@ my_data %>%
     ) +
   # add a scatter plot
   geom_jitter() +
-  # fit a linear trendline
+  # fit a linear trend line
   geom_smooth(
     method = "lm",
     se = F

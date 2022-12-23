@@ -1,6 +1,6 @@
 Regression In R
 ================
-22 Nov, 2022
+21 Dec, 2022
 
 -   <a href="#introduction-to-linear-regression"
     id="toc-introduction-to-linear-regression">Introduction to Linear
@@ -34,7 +34,7 @@ the firm may anticipate sales in the months ahead by doing a linear
 analysis on the sales data with monthly sales. In this paper we are
 going to use marketing data of a certain company to explore linear
 regression. The data the contains advertising budget (in US dollars) for
-channels Tv, Radio, and Social_media, the type of influencer method, and
+channels Tv, Radio, and Social_media, the type of influence method, and
 the sales associated with each channel and influence type.
 
 ``` r
@@ -112,7 +112,7 @@ my_data %>%
     ) +
   # add a scatter plot
   geom_jitter() +
-  # fit a linear trendline
+  # fit a linear trend line
   geom_smooth(
     method = "lm",
     se = F

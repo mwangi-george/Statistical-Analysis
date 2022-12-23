@@ -185,3 +185,48 @@ ansett %>%
 ```
 
 ![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+# Lab session 1
+
+``` r
+# download dataset and convert to tsibble object
+my_tourism <- rio::import(file = "http://robjhyndman.com/data/tourism.xlsx")%>%
+  mutate(Quarter = yearquarter(Quarter)) %>%
+  as_tsibble(
+    index = Quarter,
+    key = c(Region, State, Purpose)
+  )
+
+# Find what combination of Region and Purpose had the maximum number of
+# overnight trips on average.
+my_tourism %>%
+  group_by(Region, Purpose) %>%
+  summarise(Trips = mean(Trips)) %>%
+  ungroup() %>%
+  filter(Trips == max(Trips))
+```
+
+| Region    | Purpose  | Quarter |    Trips |
+|:----------|:---------|:--------|---------:|
+| Melbourne | Visiting | 2017 Q4 | 985.2784 |
+
+``` r
+# Create a new tsibble which combines the
+# Purposes and Regions, and just has total
+# trips by State.
+my_tourism %>%
+  group_by(State) %>%
+  summarise(Trips = sum(Trips)) %>%
+  ungroup() -> tourism_by_state
+
+head(tourism_by_state)
+```
+
+| State | Quarter |    Trips |
+|:------|:--------|---------:|
+| ACT   | 1998 Q1 | 551.0019 |
+| ACT   | 1998 Q2 | 416.0256 |
+| ACT   | 1998 Q3 | 436.0290 |
+| ACT   | 1998 Q4 | 449.7984 |
+| ACT   | 1999 Q1 | 378.5728 |
+| ACT   | 1999 Q2 | 558.1781 |
