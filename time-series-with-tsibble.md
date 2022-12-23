@@ -153,39 +153,6 @@ We can see that seasonality goes up as the level of the series goes up.
 There are some significant drops at the start of each, which could be
 caused by the government subsidization scheme.
 
-### Passengers dataset
-
-Passenger numbers on Ansett airline flights
-
--   Description
-
-The data features a major pilots’ industrial dispute which results in
-some weeks having zero passengers. There were also at least two changes
-in the definitions of passenger classes.
-
-``` r
-data("ansett")
-
-head(ansett)
-```
-
-| Week     | Airports | Class    | Passengers |
-|:---------|:---------|:---------|-----------:|
-| 1989 W28 | ADL-PER  | Business |        193 |
-| 1989 W29 | ADL-PER  | Business |        254 |
-| 1989 W30 | ADL-PER  | Business |        185 |
-| 1989 W31 | ADL-PER  | Business |        254 |
-| 1989 W32 | ADL-PER  | Business |        191 |
-| 1989 W33 | ADL-PER  | Business |        136 |
-
-``` r
-ansett %>% 
-  autoplot(Passengers)+
-  theme(legend.position = "bottom")
-```
-
-![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
-
 # Lab session 1
 
 ``` r
@@ -230,3 +197,140 @@ head(tourism_by_state)
 | ACT   | 1998 Q4 | 449.7984 |
 | ACT   | 1999 Q1 | 378.5728 |
 | ACT   | 1999 Q2 | 558.1781 |
+
+### Passengers dataset
+
+Passenger numbers on Ansett airline flights
+
+-   Description
+
+The data features a major pilots’ industrial dispute which results in
+some weeks having zero passengers. There were also at least two changes
+in the definitions of passenger classes.
+
+``` r
+data("ansett")
+
+head(ansett)
+```
+
+| Week     | Airports | Class    | Passengers |
+|:---------|:---------|:---------|-----------:|
+| 1989 W28 | ADL-PER  | Business |        193 |
+| 1989 W29 | ADL-PER  | Business |        254 |
+| 1989 W30 | ADL-PER  | Business |        185 |
+| 1989 W31 | ADL-PER  | Business |        254 |
+| 1989 W32 | ADL-PER  | Business |        191 |
+| 1989 W33 | ADL-PER  | Business |        136 |
+
+``` r
+ansett %>% 
+  autoplot(Passengers)+
+  theme(legend.position = "bottom")
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+ansett %>%
+filter(Class == "Economy") %>%
+autoplot(Passengers)
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
+
+``` r
+ansett %>%
+filter(Airports == "MEL-SYD") %>%
+autoplot(Passengers)
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-8-3.png)<!-- -->
+
+# Lab Session 2
+
+Create time plots of the following four time series: Bricks from
+aus_production, Lynx from pelt, Close from gafa_stock, Demand from
+vic_elec.
+
+``` r
+# Demand from the
+vic_elec %>%
+  autoplot(Demand) +
+  labs(
+    title = "Electricity Demand over Time",
+    x = "Time",
+    y = "Demand in MWh",
+    caption = "Data Source: Australian Energy Market Operator via tsibbledata package",
+    subtitle = "Half-hourly electricity demand for Victoria, Australia"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+# Bricks from aus_production
+tsibbledata::aus_production %>%
+  autoplot(Bricks) +
+  labs(
+    title = "Bricks Production from 1956 to 2010",
+    x = "Time",
+    caption = "Data Source: Australian Bureau of Statistics via tsibbledata package",
+    subtitle = "Quarterly production of bricks in Australia"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-9-2.png)<!-- -->
+
+``` r
+# Lynx from pelt
+pelt %>%
+  autoplot(Lynx) +
+  labs(
+    title = "Lynx pelts traded from 1845 to 1935",
+    x = "Time",
+    caption = "Data Source: Hudson Bay Company via tsibbledata package",
+    subtitle = "The number of Canadian Lynx pelts traded"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-9-3.png)<!-- -->
+
+``` r
+# Close from gafa_stock
+gafa_stock %>%
+  autoplot(Close) +
+  labs(
+    title = "Historical closing stock prices ($USD) from 2014 to 2018",
+    x = "Time",
+    y = "Closing stock price",
+    caption = "Data Source: Yahoo Finance historical data via tsibbledata package",
+    subtitle = "Analysis of Google, Amazon, Facebook and Apple"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-9-4.png)<!-- -->
