@@ -4,7 +4,14 @@ Time Series With tsibble
 
 ``` r
 # install.packages("fpp3")
-pacman::p_load(fpp3, tidyverse, janitor, lubridate, readxl, timetk)
+pacman::p_load(
+  fpp3,
+  tidyverse,
+  janitor,
+  lubridate,
+  readxl,
+  timetk
+)
 
 # laod data
 data("global_economy")
@@ -254,7 +261,7 @@ aus_production, Lynx from pelt, Close from gafa_stock, Demand from
 vic_elec.
 
 ``` r
-# Demand from the
+# Demand from the vec_elec
 vic_elec %>%
   autoplot(Demand) +
   labs(
@@ -334,3 +341,117 @@ gafa_stock %>%
 ```
 
 ![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-9-4.png)<!-- -->
+
+Electricity demand in Victoria, Australia
+
+``` r
+vic_elec %>% 
+  index_by(day = date(Time)) %>% 
+  summarise(Temperature = max(Temperature)) %>% 
+  autoplot(Temperature)+
+  labs(
+    title = "Maximum Temperature from 2012 to 2015",
+    x = "Time",
+    y = "Max Temperature",
+    caption = "Data Source: Australian Energy Market Operator via tsibbledata package",
+    subtitle = "Daily max temperature in Victoria, Australia"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+# point plot
+vic_elec %>% 
+  index_by(day = date(Time)) %>% 
+  summarise(Temperature = max(Temperature)) %>% 
+  ggplot(
+    aes(
+      day, Temperature
+    )
+  )+
+  geom_point()+
+  labs(
+    title = "Maximum Temperature from 2012 to 2015",
+    x = "Time",
+    y = "Max Temperature",
+    caption = "Data Source: Australian Energy Market Operator via tsibbledata package",
+    subtitle = "Daily max temperature in Victoria, Australia"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-10-2.png)<!-- -->
+
+``` r
+# Heat map
+vic_elec %>%
+  index_by(day = date(Time)) %>%
+  summarise(Temperature = max(Temperature)) %>%
+  ggplot(
+    aes(
+      day, 1
+    )
+  ) +
+  geom_tile(
+    aes(
+      fill = Temperature
+    )
+  ) +
+  scale_fill_gradient2(
+    low = "navy",
+    mid = "yellow",
+    high = "red",
+    midpoint = 28
+  ) +
+  scale_y_discrete(expand = c(0, 0)) +
+  labs(
+    title = "Maximum Temperature from 2012 to 2015",
+    x = "Time",
+    y = "",
+    caption = "Data Source: Australian Energy Market Operator via tsibbledata package",
+    subtitle = "Daily max temperature in Victoria, Australia"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
+
+``` r
+# seasonal plot
+vic_elec %>%
+  index_by(day = date(Time)) %>%
+  summarise(Temperature = max(Temperature)) %>%
+  gg_season(Temperature, labels = "both")+
+  labs(
+    title = "Maximum Temperature from 2012 to 2015",
+    x = "Time",
+    y = "",
+    caption = "Data Source: Australian Energy Market Operator via tsibbledata package",
+    subtitle = "Seasonal plot of daily max temperature in Victoria, Australia"
+  ) +
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-10-4.png)<!-- -->
