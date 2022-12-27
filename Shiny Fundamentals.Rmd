@@ -1,0 +1,96 @@
+---
+title: "Shiny Fundamentals"
+author: "Mwangi George"
+date: "2022-12-27"
+output: html_document
+---
+
+```{r}
+library(shiny)
+
+# create a user interface
+ui <- fluidPage(
+  "Hello, World!!"
+)
+
+# define a custom function to create the server
+server <- function(input, output, session) {
+
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)
+
+
+# Ask a question with an input
+ui <- fluidPage(textInput("name", "Enter a name:"), textOutput("q"))
+
+server <- function(input, output) {
+  output$q <- renderText({
+    paste(
+      "Do you prefer tea or coffee,", input$name, "?"
+    )
+  })
+}
+
+shinyApp(ui, server)
+
+# Another one
+ui <- fluidPage(
+  textInput("name", "What is your name?"),
+  textOutput("greeting")
+)
+
+server <- function(input, output) {
+  output$greeting <- renderText({
+    paste("Hi,", input$name)
+  })
+}
+
+shinyApp(ui, server)
+
+
+# Building a babynames explorer
+library(babynames)
+library(tidyverse)
+head(babynames)
+
+# create the ui
+ui <- fluidPage(
+  titlePanel("Baby Name Explorer"),
+  sidebarLayout(
+    sidebarPanel(
+      textInput("name", "Enter Name")
+    ), 
+    mainPanel(
+      plotOutput("trend")
+    )
+  )
+)
+
+# Server
+server <- function(input, output, session){
+  output$trend <- renderPlot({
+    data_name <- subset(babynames, name == input$name)
+    ggplot(data_name)+
+      geom_line(
+        aes(
+          x = year, 
+          y = prop,
+          color = sex
+        )
+      )+
+      labs(
+        title = "Popularity of a name over time",
+        y = "proportion",
+        caption = "Made by George Ngugi",
+        subtitle = "Analysis of full baby name data provided by the SSA"
+      )+
+      ggthemes::theme_economist()
+  })
+}
+
+# run the app
+shinyApp(ui, server)
+```
+
