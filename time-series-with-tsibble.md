@@ -9,8 +9,7 @@ pacman::p_load(
   tidyverse,
   janitor,
   lubridate,
-  readxl,
-  timetk
+  readxl
 )
 
 # laod data
@@ -163,47 +162,32 @@ caused by the government subsidization scheme.
 # Lab session 1
 
 ``` r
-# download dataset and convert to tsibble object
-my_tourism <- rio::import(file = "http://robjhyndman.com/data/tourism.xlsx")%>%
-  mutate(Quarter = yearquarter(Quarter)) %>%
-  as_tsibble(
-    index = Quarter,
-    key = c(Region, State, Purpose)
-  )
-
-# Find what combination of Region and Purpose had the maximum number of
-# overnight trips on average.
-my_tourism %>%
-  group_by(Region, Purpose) %>%
-  summarise(Trips = mean(Trips)) %>%
-  ungroup() %>%
-  filter(Trips == max(Trips))
+# # download dataset and convert to tsibble object
+# my_tourism <- rio::import(file = "http://robjhyndman.com/data/tourism.xlsx")%>%
+#   mutate(Quarter = yearquarter(Quarter)) %>%
+#   as_tsibble(
+#     index = Quarter,
+#     key = c(Region, State, Purpose)
+#   )
+# 
+# # Find what combination of Region and Purpose had the maximum number of
+# # overnight trips on average.
+# my_tourism %>%
+#   group_by(Region, Purpose) %>%
+#   summarise(Trips = mean(Trips)) %>%
+#   ungroup() %>%
+#   filter(Trips == max(Trips))
+# 
+# # Create a new tsibble which combines the
+# # Purposes and Regions, and just has total
+# # trips by State.
+# my_tourism %>%
+#   group_by(State) %>%
+#   summarise(Trips = sum(Trips)) %>%
+#   ungroup() -> tourism_by_state
+# 
+# head(tourism_by_state)
 ```
-
-| Region    | Purpose  | Quarter |    Trips |
-|:----------|:---------|:--------|---------:|
-| Melbourne | Visiting | 2017 Q4 | 985.2784 |
-
-``` r
-# Create a new tsibble which combines the
-# Purposes and Regions, and just has total
-# trips by State.
-my_tourism %>%
-  group_by(State) %>%
-  summarise(Trips = sum(Trips)) %>%
-  ungroup() -> tourism_by_state
-
-head(tourism_by_state)
-```
-
-| State | Quarter |    Trips |
-|:------|:--------|---------:|
-| ACT   | 1998 Q1 | 551.0019 |
-| ACT   | 1998 Q2 | 416.0256 |
-| ACT   | 1998 Q3 | 436.0290 |
-| ACT   | 1998 Q4 | 449.7984 |
-| ACT   | 1999 Q1 | 378.5728 |
-| ACT   | 1999 Q2 | 558.1781 |
 
 ### Passengers dataset
 
@@ -433,12 +417,21 @@ vic_elec %>%
 
 ![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-10-3.png)<!-- -->
 
+# Seasonal plots
+
+Data plotted against the individual “seasons” in which the data were
+observed. (In this case a “season” is a month.) Something like a time
+plot except that the data from each season are overlapped. Enables the
+underlying seasonal pattern to be seen more clearly, and also allows any
+substantial departures from the seasonal pattern to be easily
+identified. In R: gg_season()
+
 ``` r
 # seasonal plot
 vic_elec %>%
   index_by(day = date(Time)) %>%
   summarise(Temperature = max(Temperature)) %>%
-  gg_season(Temperature, labels = "both")+
+  gg_season(Temperature, labels = "right")+
   labs(
     title = "Maximum Temperature from 2012 to 2015",
     x = "Time",
@@ -454,4 +447,152 @@ vic_elec %>%
   )
 ```
 
-![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-10-4.png)<!-- -->
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+``` r
+# Quarterly Australian Beer Production
+aus_production %>%
+  select(Quarter, Beer) %>%
+  filter(year(Quarter) >= 1992) %>% 
+  autoplot(Beer)+
+  ggthemes::theme_few() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-11-2.png)<!-- -->
+
+``` r
+# 
+aus_production %>%
+  select(Quarter, Beer) %>%
+  filter(year(Quarter) >= 1992) %>% 
+  gg_season(Beer, labels = "right")+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-11-3.png)<!-- -->
+
+# Multi-Seasonal plots
+
+``` r
+head(vic_elec)
+```
+
+| Time                |   Demand | Temperature | Date       | Holiday |
+|:--------------------|---------:|------------:|:-----------|:--------|
+| 2012-01-01 00:00:00 | 4382.825 |       21.40 | 2012-01-01 | TRUE    |
+| 2012-01-01 00:30:00 | 4263.366 |       21.05 | 2012-01-01 | TRUE    |
+| 2012-01-01 01:00:00 | 4048.966 |       20.70 | 2012-01-01 | TRUE    |
+| 2012-01-01 01:30:00 | 3877.563 |       20.55 | 2012-01-01 | TRUE    |
+| 2012-01-01 02:00:00 | 4036.230 |       20.40 | 2012-01-01 | TRUE    |
+| 2012-01-01 02:30:00 | 3865.597 |       20.25 | 2012-01-01 | TRUE    |
+
+``` r
+# Plot demand from vic_elec
+vic_elec %>% gg_season(Demand)+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+``` r
+# change season to week
+vic_elec %>% 
+  gg_season(Demand, period = "week")+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-12-2.png)<!-- -->
+
+``` r
+# change the period to day
+vic_elec %>% 
+  gg_season(Demand, period = "day")+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-12-3.png)<!-- -->
+
+# Seasonal Subseeries plots
+
+Data for each season collected together in time plot as separate time
+series. Enables the underlying seasonal pattern to be seen clearly, and
+changes in seasonality over time to be visualized. In R: gg_subseries()
+
+``` r
+# Quarterly Australian Beer Production
+aus_production %>%
+  select(Quarter, Beer) %>%
+  filter(year(Quarter) >= 1992) %>% 
+  gg_subseries(Beer)+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+``` r
+# Australian holidays
+tourism %>%
+  filter(Purpose == "Holiday") %>%
+  group_by(State) %>%
+  summarise(Trips = sum(Trips)) %>% 
+  autoplot(Trips) +
+  ylab("thousands of trips") + xlab("Year") +
+  ggtitle("Australian domestic holiday nights")+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-13-2.png)<!-- -->
+
+``` r
+# make it a seasonal plot
+tourism %>%
+  filter(Purpose == "Holiday") %>%
+  group_by(State) %>%
+  summarise(Trips = sum(Trips)) %>% 
+  gg_season(Trips) +
+  ylab("thousands of trips") +
+  ggtitle("Australian domestic holiday nights")+
+  theme_classic() +
+  theme(
+    plot.background = element_rect(fill = "gray90"),
+    panel.background = element_rect(fill = "gray95"),
+    plot.title = element_text(face = "bold", size = 16)
+  )
+```
+
+![](time-series-with-tsibble_files/figure-gfm/unnamed-chunk-13-3.png)<!-- -->
