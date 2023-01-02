@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r}
-library(shiny)
+pacman::p_load(shiny, tidyverse, babynames)
 
 # create a user interface
 ui <- fluidPage(
@@ -23,12 +23,29 @@ shinyApp(ui = ui, server = server)
 
 
 # Ask a question with an input
-ui <- fluidPage(textInput("name", "Enter a name:"), textOutput("q"))
+ui <- fluidPage(
+  textInput(
+    "name",
+    "Enter a name:"
+  ),
+  selectInput(
+    inputId = "Drink_type",
+    label = "Tea or Coffee",
+    choices = c("Tea", "Coffee")
+  ),
+  textOutput("q"),
+  textOutput("drink")
+)
 
 server <- function(input, output) {
   output$q <- renderText({
     paste(
       "Do you prefer tea or coffee,", input$name, "?"
+    )
+  })
+  output$drink <- renderText({
+    paste(
+      "I prefer", input$Drink_type, "!"
     )
   })
 }
@@ -54,13 +71,13 @@ shinyApp(ui, server)
 library(babynames)
 library(tidyverse)
 head(babynames)
-
 # create the ui
 ui <- fluidPage(
   titlePanel("Baby Name Explorer"),
   sidebarLayout(
     sidebarPanel(
-      textInput("name", "Enter Name")
+      textInput("name", "Enter Name"),
+      sliderInput("year_of_birth", "Select Year", 1880, 2017, 2010)
     ), 
     mainPanel(
       plotOutput("trend")
@@ -69,28 +86,318 @@ ui <- fluidPage(
 )
 
 # Server
-server <- function(input, output, session){
+server <- function(input, output, session) {
+  
   output$trend <- renderPlot({
-    data_name <- subset(babynames, name == input$name)
-    ggplot(data_name)+
+    ggplot(
+     data = subset(babynames, name == input$name, year = input$year_of_birth)
+      ) +
       geom_line(
         aes(
-          x = year, 
+          x = year,
           y = prop,
           color = sex
         )
-      )+
+      ) +
       labs(
         title = "Popularity of a name over time",
         y = "proportion",
         caption = "Made by George Ngugi",
         subtitle = "Analysis of full baby name data provided by the SSA"
-      )+
+      ) +
       ggthemes::theme_economist()
   })
 }
 
 # run the app
 shinyApp(ui, server)
+
+
+# create the user interface
+ui <- fluidPage(
+  titlePanel("Baby Names Explorer"),
+  # CODE BELOW: Add select input named "sex" to choose between "M" and "F"
+  sidebarLayout(
+  sidebarPanel(
+    selectInput(
+      "sex", "Choose Sex", choices = c("M", "F"), selected = "F"
+    ),
+    sliderInput(
+      "year",
+      "select year",
+      min = 1900,
+      max = 2017,
+      value = 2017
+      )
+  ),
+  # Add plot output to display top 10 most popular names
+  mainPanel(
+    plotOutput('plot_top_10_names')
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  # Render plot of top 10 most popular names
+  output$plot_top_10_names <- renderPlot({
+    # Get top 10 names by sex and year
+    top_10_names <- babynames %>%
+      # MODIFY CODE BELOW: Filter for the selected sex
+      filter(sex == input$sex) %>%
+      filter(year == input$year) %>%
+      slice_max(prop, n = 10)
+    # Plot top 10 names by sex and year
+    ggplot(
+      data = top_10_names, 
+      aes(
+        x = fct_reorder(name, prop), 
+        y = prop
+        )
+      ) +
+      geom_col(fill = "#263e63") +
+      coord_flip() +
+      labs(
+        title = "Top 10 Names in Selected Year",
+        caption = "Data Source::Babynames Package",
+        x = "",
+        y = "Popularity"
+      ) +
+      ggthemes::theme_few() +
+      theme(
+        axis.text = element_text(
+          face = "bold",
+          size = 16
+        ),
+        plot.title = element_text(
+          face = "bold", 
+          size = 17
+          ),
+        axis.title.y = element_text(
+          face = "bold",
+          size = 16
+        ),
+        plot.caption = element_text(
+          face = "bold",
+          size = 16
+        )
+      )
+  })
+}
+
+shinyApp(ui, server)
+
 ```
+
+
+# Other Input Functions 
+
+You can use a sliderInput to allow users to select a year. A selectInput is a great way to allow for a selection from a list of fixed options, such as a preference for dogs or cats. The numericalInput allows you to provide a range of numbers users can choose from, which they can increase or decrease using the little arrows. A dateRangeInput allows you to provide users with a set of dates, and a calendar drop down appears when they click so they can select a specific one. These are just four examples, and Shiny definitely provides more.
+All input functions have their first argument, an inputId, in common. The inputId needs to be a character string, and each input should have a unique id so you can refer to it in the server to make updates to the app. Many inputs have a label as their next argument, which is a character string that is often shown to the user to let them know what they should do with the input. From there, each input function has unique arguments that help you successfully build the app. A selectInput requires a list of choices. The user will automatically see the first choice in the list. A sliderInput requires value that the slider will be set at by default, then a min and max of the other values users can choose from. You'll always use input functions in the UI of your app. 
+
+
+# Render functions
+Render functions are used to build outputs in the server based on inputs and possibly other things, like other parts of a character string, as in this example. Recall our question and answer app, which you saw the code for in the last lesson. This app outputs two different character strings, one with a question and one with the answer. Given they're both character strings, it's appropriate to use the renderText function to create both outputs.
+
+# Other render functions
+Like inputs, Shiny provides a number of other render functions you can use to create a number of different kinds of outputs beyond just text, including rendertable, renderImage, renderPlot, and more. The Shiny documentation is a great place to go to find out about more render functions available to you.
+
+# Output functions
+Output functions are used back in the UI to display the outputs built in the server with render functions. For our question and answer app, we used two textOutput functions to display both the question and the answer outputs.
+
+# Other output functions
+Like inputs and render functions, Shiny provides a wide variety of outputs depending on what kind of output you've built, whether that be a table, an image, or a plot.
+
+# Non-Shiny output and render functions
+There are packages outside of Shiny that provide ways to build outputs with render and output functions. Thanks to htmlwidgets, packages such as DT, leaflet, and plotly allow you to build interactive data tables, maps, and plots as Shiny outputs. For example, the DT package allows you to build interactive data tables versus static ones. This code, for example, will build an app creating an interactive data table version of a random 10% of the babynames dataset we've been using throughout the course. Notice that we use the renderDT function to build the output in the server, then the DTOutput function in the ui to display the table, which we called babynames_table. The interactive table is sortable, searchable, plus users can choose to show 10, 25, or more entries at a time.
+```{r}
+# install.packages("DT")
+ui <- fluidPage(
+  titlePanel("Baby Names Explorer"),
+  DT::DTOutput("babynames_table")
+)
+
+server <- function(input, output){
+  output$babynames_table <- DT::renderDT({
+    babynames %>% 
+      slice_sample(prop = .1) %>% 
+      DT::datatable()
+  })
+}
+
+shinyApp(ui, server)
+```
+
+
+In order to add any output to a Shiny app, you need to:
+
+* Create the output (plot, table, text, etc.).
+    
+* Render the output object using the appropriate render___ function.
+    
+* Assign the rendered object to output$x.
+    
+* Add the output to the UI using the appropriate ___Output function.
+```{r}
+ui <- fluidPage(
+  titlePanel("What's in a Name?"),
+  # Add select input named "sex" to choose between "M" and "F"
+  sidebarLayout(
+    sidebarPanel(
+  selectInput('sex', 'Select Sex', choices = c("F", "M")),
+  # Add slider input named "year" to select year between 1900 and 2010
+  sliderInput('year', 'Select Year', min = 1900, max = 2010, value = 1900)),
+  # CODE BELOW: Add table output named "table_top_10_names"
+  mainPanel(
+  tableOutput("table_top_10_names")
+  )
+  )
+)
+
+server <- function(input, output, session){
+  # Function to create a data frame of top 10 names by sex and year 
+  top_10_names <- function(){
+    babynames %>% 
+      filter(sex == input$sex) %>% 
+      filter(year == input$year) %>% 
+      slice_max(prop, n = 10)
+  }
+  # CODE BELOW: Render a table output named "table_top_10_names"
+  output$table_top_10_names <- renderTable({
+    top_10_names()
+  })
+  
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+There are multiple htmlwidgets packages like DT, leaflet, plotly, etc. that provide highly interactive outputs and can be easily integrated into Shiny apps using almost the same pattern. For example, you can turn a static table in a Shiny app into an interactive table using the DT package:
+
+Create an interactive table using DT::datatable().
+
+Render it using DT::renderDT().
+
+Display it using DT::DTOutput().
+
+```{r}
+# Create the user interface 
+ui <- fluidPage(
+  titlePanel("Baby Names Explorer"),
+  selectInput("sex", "Select Sex", 
+              choices = c("M", "F"), selected = "M"),
+  sliderInput("year", "Select Year", min = 1880, max = 2017, value = 2017),
+  DT::DTOutput("table_top_10_names")
+)
+
+# Create the Server 
+server <- function(input, output, session){
+  top_10_names <- function(){
+    babynames %>% 
+      filter(sex == input$sex) %>% 
+      filter(year == input$year) %>% 
+      slice_max(prop, n = 10)
+  }
+  output$table_top_10_names <- DT::renderDT({
+    top_10_names() %>% 
+       DT::datatable()
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+
+Similar to creating interactive tables, you can easily turn a static plot created using ggplot2 into an interactive plot using the plotly package. To render an interactive plot, use plotly::renderPlotly(), and display it using plotly::plotlyOutput().
+
+
+```{r}
+# group data by year and select top 10 names in each year
+top_trendy_names <- babynames %>% 
+  group_by(year) %>% 
+  slice_max(prop, n = 10)
+
+# build the user interface
+ui <- fluidPage(
+  # App title
+  titlePanel("Baby Names Explorer"),
+  # build app layout
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        'name', 
+        'Select Name', 
+        choices = top_trendy_names$name, 
+        selected = "Mary"
+        ),
+      # Add a plotly output named 'plot_trendy_names'
+      selectInput(
+        "sex", 
+        "Select Sex", 
+        choices = c("M", "F"), 
+        selected = "M"
+        ),
+      sliderInput(
+        "year", 
+        "Select Year", 
+        min = 1880, 
+        max = 2017, 
+        value = 2017
+        )
+      ),
+    mainPanel(
+      tabsetPanel(
+        tabPanel(
+          "Chart", 
+          plotly::plotlyOutput("plot_trendy_names")
+          ),
+        tabPanel(
+          "table",
+          DT::DTOutput("table_top_10_names")
+          )
+        )
+      )
+  )
+)
+
+# build the server
+server <- function(input, output, session){
+  # Function to plot trends in a name
+  plot_trends <- function(){
+     babynames %>% 
+      filter(name == input$name) %>% 
+      ggplot(aes(x = year, y = n)) +
+      geom_col()
+  }
+  # Render a plotly output named 'plot_trendy_names'
+  output$plot_trendy_names<- plotly::renderPlotly({
+    plot_trends()
+  })
+   top_10_names <- function(){
+    babynames %>% 
+      filter(sex == input$sex) %>% 
+      filter(year == input$year) %>% 
+      slice_max(prop, n = 10)
+  }
+  output$table_top_10_names <- DT::renderDT({
+    top_10_names() %>% 
+       DT::datatable()
+  })
+}
+
+# Run the App
+shinyApp(ui = ui, server = server)
+```
+
+
+
+
+
+
+
+
+
+
+
 
