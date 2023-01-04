@@ -322,6 +322,8 @@ top_trendy_names <- babynames %>%
 ui <- fluidPage(
   # App title
   titlePanel("Baby Names Explorer"),
+  # use the superhero theme
+  theme = shinytheme("superhero"),
   # build app layout
   sidebarLayout(
     sidebarPanel(
@@ -377,6 +379,7 @@ server <- function(input, output, session){
    top_10_names <- function(){
     babynames %>% 
       filter(sex == input$sex) %>% 
+      filter(name == input$name) %>% 
       filter(year == input$year) %>% 
       slice_max(prop, n = 10)
   }
@@ -392,11 +395,118 @@ shinyApp(ui = ui, server = server)
 
 
 
+2. Default Shiny app layout
+The default Shiny app layout, shown here with the default Shiny app example, a histogram of the wait times between eruptions of the geyser Old Faithful at Yellowstone National Park, simply stacks the elements of your app on top of one another, one by one. You can see here that the title is on top of the selector, which is all on top of the actual histogram output. While the default layout might be fine for simple apps, as they start to get more complicated, it would be nice to be able to control where elements of the app end up.
+
+3. Sidebar layout
+One of the simplest layouts you can choose is a sidebar layout. You can see that the title is still at the top, justified left, but the slider is now in the sidebar panel at the left, while the histogram is in the main panel to the right. You might recall that you already made use of this layout in Chapter 1. To adjust the layouts, adjust the code in the UI. The code that creates the sliderInput and outputs the plot is overall wrapped in a sidebarLayout function. The slider itself should be put into sidebarPanel, while the plotOutput function should be put into mainPanel. These small adjustments to your code go a long way towards making your app more aesthetically appealing.
+
+4. Tab layout
+If you want to display multiple things in your app, such as two plots or a plot and a table, it can be visually noisy to stack them on top of one another in the main panel. Instead, you can consider using a tab layout, like shown here. One tab has the histogram of Old Faithful wait times, while the other shows a histogram of eruptions.
+
+5. Tab layout
+Technically, a tab layout is just an extension of a sidebar layout, so that function is still present in the UI, wrapping all of the code, and the sidebar panel also remains unchanged. To add the tab layout, you have to add a tabsetPanel inside of the main panel. Each individual tab has to then be created with tabPanel, and you should give each a label.
+
+6. Theme selector
+In addition to layouts, the shinythemes package allows you to make use of prebuilt themes that allow you to change the color scheme of your app. If you're not sure what theme you want to use, you don't have to cycle through them by changing the code. Instead, you can add the themeSelector function to your UI, which will add a dropdown selector in the upper right corner of your app and allow you to see what all of the pre-built themes look like when applied to your app. In this example, you can see the superhero theme applied to the Old Faithful histogram app.
+
+7. Adding a theme
+Once you've selected a theme you're interested in using the themeSelector, you can add it to your app using the theme argument in the UI. If you're interested in using the same superhero theme, just add this line, here inserted between the title and the sidebar layout code, which is good Shiny app coding practice. The themeSelector dropdown will now disappear, and the app is hard-coded with the chosen theme.
 
 
 
+ Explore Life Expectation vs. GDP per Capita
+In this app, users will explore the relationship between life expectancy and GDP per capita. Users will select a continent and a year. Based on their choice, the app will display a scatterplot of life expectation versus GDP per capita.
+
+3. Explore Life Expectation vs. GDP per Capita
+A tab layout will allow switching between the plot and an interactive datatable. The table will give users the opportunity to explore the raw data used to build the plot.
+
+4. Building Shiny apps: 4 steps
+There are many different ways to build a Shiny app. We strongly advocate for a standard process, and will demonstrate one that has worked really well for us. Start by adding the inputs to the UI. Add the outputs in the UI and server. Then, modify the app layout in the UI. Finally, update the outputs in the server to incorporate user inputs.
 
 
+```{r}
+head(gapminder)
+gapminder <- gapminder::gapminder %>% 
+  janitor::clean_names()
+
+# ui
+ui <- fluidPage(
+  titlePanel(
+    "Explore the Gapminder Dataset"
+  ),
+  theme = shinytheme(
+    "readable"
+    ),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        "continent",
+        "Select Continent",
+        choices = gapminder %>% 
+          distinct(continent),
+        selected = "Africa"
+        ),
+      sliderInput(
+        "year",
+        "Select Year",
+        min = 1952,
+        max = 2007,
+        value = 1952,
+        step = 5
+        )
+      ),
+  mainPanel(
+    tabsetPanel(
+      tabPanel(
+        "Chart",
+        plotly::plotlyOutput("plot")
+        ),
+      tabPanel(
+        "table",
+        DT::DTOutput("table")
+        )
+      )
+    )
+  )
+)
+
+# server
+server <- function(input, output, session){
+  generate_data <- function(){
+    gapminder %>% 
+      filter(continent == input$continent) %>% 
+      filter(year == input$year)
+  }
+  plot_function <- function(){
+    generate_data()%>% 
+      ggplot(
+        aes(
+          x = gdp_percap,
+          y = life_exp,
+          color = country
+        )
+      ) +
+      geom_point() +
+      theme_classic()+
+      labs(
+        title = "Relationship between Life Expectancy and GDP per Capita",
+        subtitle = "Analysis of the gapminder Dataset",
+        x = "GDP per Capita",
+        y = "Life Expectancy"
+      )
+  }
+  output$plot <- plotly::renderPlotly({
+    plot_function()
+  })
+  output$table <- DT::renderDT({
+    generate_data()
+  })
+} 
+
+# run app
+shinyApp(ui, server)
+```
 
 
 
