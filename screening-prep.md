@@ -7,7 +7,7 @@ George Ngugi Screening Interview Prep
 InSupply Health is an East African health advisory firm company that
 designs people-centered, scalable and sustainable supply chain
 solutions. It focuses on optimizing data visibility and use, workforce
-development, and continuous performaance improvement. It aims to
+development, and continuous performance improvement. It aims to
 transition short term supply chain fixes into sustainable solutions that
 transcend specific projects or funding streams. Additionally, the
 company helps local and regional supply chain actors improve the
@@ -57,7 +57,7 @@ in health.
 ## Tell me about yourself
 
 I am a data-driven problem solver with a passion for using data and
-machine learning techniques to tackle complex complex challenges. I have
+machine learning techniques to tackle complex challenges. I have
 experience working with programming languages such as R and SQL, as well
 as with statistical analysis tools such as Microsoft Excel. In addition
 to my technical skills, I am a hardworking and open-minded person who is
