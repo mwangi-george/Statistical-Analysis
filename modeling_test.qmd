@@ -1,0 +1,100 @@
+---
+title: "Naive Bayes in tidymodels"
+format: html
+editor: visual
+---
+
+```{r}
+pacman::p_load(tidyverse, tidymodels)
+
+
+# read in the data
+purchases <- read_csv(
+  file = "https://raw.githubusercontent.com/omairaasim/machine_learning/master/project_14_naive_bayes/iphone_purchase_records.csv", 
+  show_col_types = FALSE
+  ) %>% 
+  # clean variable names
+  janitor::clean_names()
+
+# print first 6 rows 
+head(purchases)
+str(purchases)
+
+purchases %>% mutate(
+  gender = as.factor(gender), 
+  purchase_iphone = as.factor(purchase_iphone)
+)-> purchases
+
+# split data 
+purchases_split <- purchases %>% initial_split(
+  prop = .7, strata = purchase_iphone
+)
+
+
+# define logistic regression model
+logistic_model <- logistic_reg() %>% 
+  set_engine("glm") %>% set_mode("classification")
+
+# apply last_fit framework
+purchases_last_fit <- logistic_model %>% 
+  last_fit(
+    preprocessor = purchase_iphone ~ salary + age + gender,
+    split = purchases_split
+  )
+
+# collect metrics
+purchases_last_fit %>% collect_metrics()
+
+purchases_last_fit %>% collect_predictions() %>% 
+  conf_mat(truth = purchase_iphone, estimate = .pred_class) %>% 
+  summary()
+
+```
+
+```{r}
+# prepare data for naive bayes model
+# grouping
+model_data <- purchases %>% 
+  mutate(
+    # categorize age into above mentioned age brackets
+    age = if_else(
+      between(age, 18, 30), "Young",
+        if_else(
+          between(age, 31, 45), "Adult", 
+          "Elderly"
+          )
+      ),
+    # categorize salary into above mentioned salary brackets
+    salary = if_else(
+      between(salary, 15000, 34999), "Lower Income", 
+        if_else(
+          between(salary, 35000, 74999), "Middle Income", 
+          "Upper Income"
+          )
+      )
+  ) %>%
+  # change all variables into factor variables 
+  mutate_all(factor)
+
+# print first 6 rows
+head(model_data)
+
+# split 
+model_data_splits <- model_data %>% initial_split(prop = .8, strata = purchase_iphone)
+
+# define naive bayes model
+naive_Bayes_model <- naive_Bayes() %>% 
+  set_engine("naivebayes") %>% set_mode("classification")
+
+
+purchases_last_fit_2 <- naive_Bayes_model %>% 
+  last_fit(
+    preprocessor = purchase_iphone ~ salary + age + gender,
+    split = model_data_splits
+  )
+
+# collect metrics
+purchases_last_fit_2 %>% collect_metrics()
+purchases_last_fit_2 %>% collect_predictions() %>% 
+  conf_mat(truth = purchase_iphone, estimate = .pred_class) %>% summary()
+```
