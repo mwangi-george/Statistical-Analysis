@@ -1,0 +1,155 @@
+---
+title: "A little Wrangling"
+author: "George Mwangi"
+date: "2023-02-17"
+output: html_document
+---
+
+
+```{r}
+pacman::p_load(tidyverse, lubridate, naivebayes, tidymodels)
+
+mobile_data <- read_csv("datasets/mobile_money_data.csv", show_col_types = F) %>%
+  janitor::clean_names() %>%
+  select(-c(start_time, end_time))
+
+head(mobile_data)
+
+mobile_data_tidy <- mobile_data %>%
+  select(1:3) %>%
+  pivot_wider(names_from = account_num, values_from = account_type, names_prefix = "account_") %>%
+  inner_join(y = mobile_data %>% select(-c(account_num, account_type)) %>% distinct(), by = "hhid") %>%
+  mutate(
+    hhid = as.factor(hhid), 
+    mm_account_cancelled = if_else(mm_account_cancelled == "yes", 1, 0)
+    ) %>% 
+  relocate(mm_account_cancelled, hhid = 1)
+
+### Important features
+# 1 mobile money trust
+# 2 gender
+# 3 location
+
+
+logistic_mod <- glm(mm_account_cancelled ~ mm_trust + gender + urban, data = mobile_data_tidy, family = "binomial")
+
+options(scipen = 999)
+summary(logistic_mod)
+```
+
+```{r}
+# check outcome imbalance
+table(mobile_data_tidy$mm_account_cancelled)
+
+# average probability of cancelling 
+avg_cancel <- mean(mobile_data_tidy$mm_account_cancelled)
+
+mobile_data_tidy %>% 
+  filter(!is.na(mm_trust)) %>%
+  mutate(prob = predict(logistic_mod, type = "response"),
+         pred = if_else(prob > avg_cancel, 1, 0)) %>% 
+  relocate(pred, prob, mm_account_cancelled = 1) %>% 
+  summarise(accuracy = mean(pred == mm_account_cancelled)) %>% pull(accuracy)
+
+
+# what if were predicting the not cancelling 
+mobile_data_tidy_no <- mobile_data %>%
+  select(1:3) %>%
+  pivot_wider(names_from = account_num, values_from = account_type, names_prefix = "account_") %>%
+  inner_join(y = mobile_data %>% select(-c(account_num, account_type)) %>% distinct(), by = "hhid") %>%
+  mutate(
+    hhid = as.factor(hhid), 
+    mm_account_cancelled_no = if_else(mm_account_cancelled == "no", 1, 0)
+    ) %>% 
+  relocate(mm_account_cancelled_no, hhid = 1)
+
+
+table(mobile_data_tidy_no$mm_account_cancelled_no)
+
+avg_cancel_no <- mean(mobile_data_tidy_no$mm_account_cancelled_no)
+
+logistic_mod_no <- glm(mm_account_cancelled_no ~ mm_trust + gender + urban, data = mobile_data_tidy_no, family = "binomial")
+
+model_data_no <- mobile_data_tidy_no %>% 
+  filter(!is.na(mm_trust)) %>%
+  mutate(prob = predict(logistic_mod_no, type = "response"),
+         pred = if_else(prob > avg_cancel_no, 1, 0)) %>% 
+  relocate(pred, prob, mm_account_cancelled_no = 1)
+  
+model_data_no %>% 
+  summarise(accuracy = mean(pred == mm_account_cancelled_no)) %>% pull(accuracy)
+
+```
+
+```{r}
+# ROC and AUC
+library(pROC)
+
+# create the ROC curve
+ROC <- model_data_no %>% roc(mm_account_cancelled_no, prob)
+
+# plot the curve
+plot(ROC, col = "blue")
+
+# calculate AUC
+auc(ROC)
+
+
+```
+
+```{r}
+mobile_data_tidy_no %>% 
+  mutate(urban1 = factor(urban, levels = c("Urban", "Rural"), labels = c(0, 1))) %>% 
+  relocate(urban1, urban, mm_account_cancelled_no = 1) %>% head()
+```
+
+
+# EDA
+```{r}
+DataExplorer::create_report(
+  mobile_data_tidy,
+  y = "mm_account_cancelled",
+  output_format = "html_document",
+  output_file = "mobile_money_report.html"
+)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,182 @@
+---
+title: "Modeling in the Tidyverse & Tidymodels"
+author: "George Mwangi"
+date: "2023-02-21"
+output: github_document
+---
+
+```{r}
+options(scipen = 999)
+pacman::p_load(moderndive, tidyverse, tidymodels)
+
+# start by reshuffling the data
+evals <- evals %>% slice_sample(prop = 1, replace = F)
+
+# some EDA
+evals %>% ggplot(aes(log10(score)))+geom_histogram()
+evals %>% ggplot(aes(x = "", y = log10(score)))+geom_boxplot()
+
+# splitting 
+splits <- initial_split(evals, prop = .7, strata = score)
+
+evals_train <- training(splits)
+evals_test <- testing(splits)
+
+# select variables 
+evals %>% distinct(bty_avg)
+
+# model score as a function of age and avg beauty score
+
+# define linear model
+linear_model <- linear_reg() %>% 
+  # set engine to linear model
+  set_engine("lm") %>% 
+  # set mode to regression
+  set_mode("regression")
+
+# apply linear model to the train data
+evals_model <- linear_model %>% 
+  # define relationship
+  fit(score ~ age + bty_avg, data = evals_train)
+
+# print tidy model results
+tidy(evals_model)
+
+# make predictions using new data
+predictions <- predict(evals_model, new_data = evals_test)
+head(predictions)
+
+# join predictions with test data for evaluation
+evals_test_results <- evals_test %>% select(score, age, bty_avg) %>% 
+  bind_cols(predictions)
+
+# alternatively
+evals_test_results <- evals_test %>% select(score, age, bty_avg) %>% 
+  mutate(predict(evals_model, new_data = evals_test))
+
+head(evals_test_results)
+
+# evaluate performance using rmse and r square
+# rmse
+evals_test_results %>% 
+  rmse(truth = score, estimate = .pred)
+
+# rsq
+evals_test_results %>% 
+  rsq(truth = score, estimate = .pred)
+
+# visualize r square plot
+evals_test_results %>% 
+  ggplot(aes(score, .pred))+
+  geom_point(alpha = .5)+
+  geom_abline(color = "blue", linetype = 2)+
+  coord_obs_pred()+
+  labs(
+    title = "R Square Plot",
+    x = "Actual Score",
+    y = "Predicted Score"
+  )
+
+
+
+
+#  A machine learning pipeline with last_fit()
+
+splits <- evals %>% initial_split(prop = .7, strata = score)
+
+linear_model <- linear_reg() %>% 
+  # set engine to linear model
+  set_engine("lm") %>% 
+  # set mode to regression
+  set_mode("regression")
+
+# train model with last_fit
+evals_fit <- last_fit(
+    object = linear_model, 
+    preprocessor = score ~ age + bty_avg,
+    split = splits
+    )
+
+
+# collect predictions
+predictions_1 <- evals_fit %>% collect_predictions()
+
+# collect metrics
+evals_fit %>% collect_metrics()
+
+# visualize r square plot
+predictions_1 %>% 
+  ggplot(aes(score, .pred))+
+  geom_point()+
+  geom_abline(color = "blue", linetype = 2)+
+  coord_obs_pred()+
+  labs(
+    title = "R Square Plot",
+    x = "Actual Score",
+    y = "Predicted Score"
+  )
+
+
+
+
+
+
+
+
+
+# add more features to the model now--------------------
+splits <- evals %>% initial_split(prop = .7, strata = score)
+
+linear_model <- linear_reg() %>% 
+  # set engine to linear model
+  set_engine("lm") %>% 
+  # set mode to regression
+  set_mode("regression")
+
+evals_fit <- last_fit(
+  object = linear_model,
+  preprocessor = score ~ .,
+  split = splits
+)
+
+# collect predictions 
+predictions <- evals_fit %>% collect_predictions()
+
+# collect metrics
+evals_fit %>% collect_metrics()
+
+# visualize r square plot
+predictions %>% 
+  ggplot(aes(score, .pred))+
+  geom_point()+
+  geom_abline(color = "blue", linetype = 2)+
+  coord_obs_pred()+
+  labs(
+    title = "R Square Plot",
+    x = "Actual Score",
+    y = "Predicted Score"
+  )
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Mwangi George">
+<meta name="dcterms.date" content="2023-02-12">
+<meta name="description" content="A supervised machine learning classification project">
+
+<title>Naive Bayes Classifier Implementation Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="naive_bayes_files/libs/clipboard/clipboard.min.js"></script>
+<script src="naive_bayes_files/libs/quarto-html/quarto.js"></script>
+<script src="naive_bayes_files/libs/quarto-html/popper.min.js"></script>
+<script src="naive_bayes_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="naive_bayes_files/libs/quarto-html/anchor.min.js"></script>
+<link href="naive_bayes_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="naive_bayes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="naive_bayes_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="naive_bayes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="naive_bayes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<link href="naive_bayes_files/libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="naive_bayes_files/libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Naive Bayes Classifier Implementation Project</h1>
+                  <div>
+        <div class="description">
+          A supervised machine learning classification project
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <a href="https://twitter.com/mwangi__george">Mwangi George</a> 
+    </div>
+      <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              <a href="https://github.com/mwangi-george">
+              College of Economics and Business, Kenyatta University
+              </a>
+            </p>
+        </div>
+      </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 12, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-naive-bayes-algorithm" id="toc-introduction-to-naive-bayes-algorithm" class="nav-link active" data-scroll-target="#introduction-to-naive-bayes-algorithm"><span class="toc-section-number">1</span>  Introduction to Naive Bayes Algorithm</a></li>
+  <li><a href="#bayes-theoremlawrule" id="toc-bayes-theoremlawrule" class="nav-link" data-scroll-target="#bayes-theoremlawrule"><span class="toc-section-number">2</span>  Bayes’ Theorem/Law/Rule</a></li>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link" data-scroll-target="#preparation"><span class="toc-section-number">3</span>  Preparation</a></li>
+  <li><a href="#data-splicing" id="toc-data-splicing" class="nav-link" data-scroll-target="#data-splicing"><span class="toc-section-number">4</span>  Data Splicing</a></li>
+  <li><a href="#fit-naive-bayes-classifier" id="toc-fit-naive-bayes-classifier" class="nav-link" data-scroll-target="#fit-naive-bayes-classifier"><span class="toc-section-number">5</span>  Fit Naive Bayes Classifier</a></li>
+  <li><a href="#making-predictions" id="toc-making-predictions" class="nav-link" data-scroll-target="#making-predictions"><span class="toc-section-number">6</span>  Making Predictions</a></li>
+  <li><a href="#performance-evaluation" id="toc-performance-evaluation" class="nav-link" data-scroll-target="#performance-evaluation"><span class="toc-section-number">7</span>  Performance Evaluation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="toc-section-number">8</span>  Conclusion</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introduction-to-naive-bayes-algorithm" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction-to-naive-bayes-algorithm"><span class="header-section-number">1</span> Introduction to Naive Bayes Algorithm</h2>
+<p>The Naive Bayes Classifier is a powerful Machine Learning tool used for supervised classification tasks. It is based on the Bayes Theorem, which states that the probability of an event occurrence is based on prior knowledge of conditions that might be related to the event.</p>
+<p>The algorithm is mainly used for text classification that includes high-dimensional training dataset. Additionally, Naive Bayes classifier is a probabilistic classifier which means it predicts based on the probability of an object.</p>
+<p>The Naive Bayes algorithm is comprised of two words: <em>Naive</em> and <em>Bayes</em>, which can be described as follows:</p>
+<ul>
+<li><p><strong>Naive</strong>: It is called Naive because it assumes that the occurrence of a certain feature is independent of the occurrence of other features. Each feature individually contributes to identifying the target outcome without depending on each other.</p></li>
+<li><p><strong>Bayes</strong>: It is called Bayes because it depends on the principle of Bayes’ theorem</p></li>
+</ul>
+</section>
+<section id="bayes-theoremlawrule" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="bayes-theoremlawrule"><span class="header-section-number">2</span> Bayes’ Theorem/Law/Rule</h2>
+<p>Bayes’ theorem is used to determine the probability of a hypothesis with prior knowledge. It depends on the <strong>Conditional Probability</strong> formula given below</p>
+<p>P(A|B) = P(B|A) * P(A) / P(B)</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even though the Naive Bayes classifier is one of the fast and easy machine learning algorithms which performs well in multi-class predictions, the classifier has one major limitation; it assumes all features in a dataset are independent or unrelated, so it cannot learn the relationship between features.</p>
+</div>
+</div>
+<p>In this project, we will be using the Naive Bayes Classifier to classify customer purchases using the R programming language.</p>
+<p><strong>Objective</strong></p>
+<p>The objective of this project is to predict whether a customer will purchase an iPhone or not, using the customer’s gender, age and salary as input variables. The dataset used for the project will consist of customer records indicating whether the customer has purchased an iPhone or not. We will use the Naive Bayes Classifier algorithm to construct a classification model to make accurate predictions.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Data source
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="https://raw.githubusercontent.com/omairaasim/machinelearning/master/project14naivebayes/iphonepurchaserecords.csv.">The dataset for this project can be found at this link</a></p>
+</div>
+</div>
+</section>
+<section id="preparation" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="preparation"><span class="header-section-number">3</span> Preparation</h2>
+<p>First, we will need to the following preliminary tasks before fitting the Naive Bayes Classifier</p>
+<ul>
+<li><p>Load necessary packages</p></li>
+<li><p>Read in the data</p></li>
+<li><p>Perform data pre-processing</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  tidyverse, naivebayes, caret</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>purchases <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"https://raw.githubusercontent.com/omairaasim/machine_learning/master/project_14_naive_bayes/iphone_purchase_records.csv"</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># clean variable names</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># print first 6 rows </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(purchases)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["salary"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["purchase_iphone"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Male","2":"19","3":"19000","4":"0"},{"1":"Male","2":"35","3":"20000","4":"0"},{"1":"Female","2":"26","3":"43000","4":"0"},{"1":"Female","2":"27","3":"57000","4":"0"},{"1":"Male","2":"19","3":"76000","4":"0"},{"1":"Male","2":"27","3":"58000","4":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run summary statistics for numeric variables only</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>purchases <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      age            salary       purchase_iphone 
+ Min.   :18.00   Min.   : 15000   Min.   :0.0000  
+ 1st Qu.:29.75   1st Qu.: 43000   1st Qu.:0.0000  
+ Median :37.00   Median : 70000   Median :0.0000  
+ Mean   :37.66   Mean   : 69743   Mean   :0.3575  
+ 3rd Qu.:46.00   3rd Qu.: 88000   3rd Qu.:1.0000  
+ Max.   :60.00   Max.   :150000   Max.   :1.0000  </code></pre>
+</div>
+</div>
+<p>We should prepare our data before using the Naive Bayes Classifier. This is because numeric properties like age and salary are difficult for Naive Bayes to use as-is without knowing more about the properties of the data.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Naive Bayes is a classifier and will therefore perform better with categorical data. Although numeric data will also suffice, it assumes all numeric data are normally distributed which is unlikely in real world data.</p>
+</div>
+</div>
+<p>We can utilize the binning technique to create categories from the numeric data by grouping a range of values into meaningful bins.</p>
+<p>For the given ages ranging from 18 to 60, we can create the following hypothetical categories:</p>
+<ul>
+<li><p>Young (18-30)</p></li>
+<li><p>Adult (31-45)</p></li>
+<li><p>Senior (46-60)</p></li>
+</ul>
+<p>Using the USA income groups, we can categorize the given salaries ranging from 15,000 to 150,000 USD as follows:</p>
+<ul>
+<li><p>Lower Income (15,000-34,999 USD)</p></li>
+<li><p>Middle Income (35,000-74,999 USD)</p></li>
+<li><p>Upper Income (75,000-150,000 USD)</p></li>
+</ul>
+<p>For the <code>purchase_iphone</code> variable, we can convert 0’s to False and 1’s to True</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># grouping</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model_data <span class="ot">&lt;-</span> purchases <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># categorize age into above mentioned age brackets</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="fu">if_else</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">between</span>(age, <span class="dv">18</span>, <span class="dv">30</span>), <span class="st">"Young"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">if_else</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(age, <span class="dv">31</span>, <span class="dv">45</span>), <span class="st">"Adult"</span>, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Elderly"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># categorize salary into above mentioned salary brackets</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary =</span> <span class="fu">if_else</span>(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">between</span>(salary, <span class="dv">15000</span>, <span class="dv">34999</span>), <span class="st">"Lower Income"</span>, </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">if_else</span>(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">between</span>(salary, <span class="dv">35000</span>, <span class="dv">74999</span>), <span class="st">"Middle Income"</span>, </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Upper Income"</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># categorize outcome variable into above mentioned outcomes</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">purchase_iphone =</span> <span class="fu">if_else</span>(</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      purchase_iphone <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"False"</span>, <span class="st">"True"</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># change all variables into factor variables </span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(factor)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># print first 6 rows</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(model_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["fct"],"align":["left"]},{"label":["age"],"name":[2],"type":["fct"],"align":["left"]},{"label":["salary"],"name":[3],"type":["fct"],"align":["left"]},{"label":["purchase_iphone"],"name":[4],"type":["fct"],"align":["left"]}],"data":[{"1":"Male","2":"Young","3":"Lower Income","4":"False"},{"1":"Male","2":"Adult","3":"Lower Income","4":"False"},{"1":"Female","2":"Young","3":"Middle Income","4":"False"},{"1":"Female","2":"Young","3":"Middle Income","4":"False"},{"1":"Male","2":"Young","3":"Upper Income","4":"False"},{"1":"Male","2":"Young","3":"Middle Income","4":"False"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="data-splicing" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="data-splicing"><span class="header-section-number">4</span> Data Splicing</h2>
+<p>For splitting the data into training and testing - We will use 20% of dataset as test sample and 80% as training sample.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is no specific rule that we MUST split the data in this or that proportion. Only thing we need to consider is to make sure the ML model will have sufficient datapoints in the training data to learn from.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a row id for every row in the dataset</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model_data <span class="ot">&lt;-</span> model_data <span class="sc">%&gt;%</span> <span class="fu">rowid_to_column</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set seed for reproducibility</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">723</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create training data</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>training_data <span class="ot">&lt;-</span> model_data <span class="sc">%&gt;%</span> <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create testing data </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>testing_data <span class="ot">&lt;-</span> model_data <span class="sc">%&gt;%</span> <span class="fu">anti_join</span>(training_data, <span class="at">by =</span> <span class="st">"rowid"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fit-naive-bayes-classifier" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="fit-naive-bayes-classifier"><span class="header-section-number">5</span> Fit Naive Bayes Classifier</h2>
+<p>To fit this model, let’s use the <code>naive_bayes()</code> function from the <em>naivebayes</em> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># train model using R's formula interface</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>naive_model <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    purchase_iphone <span class="sc">~</span> gender <span class="sc">+</span> age <span class="sc">+</span> salary, <span class="at">data =</span> model_data, <span class="at">laplace =</span> <span class="dv">1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># print model results</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>naive_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+================================== Naive Bayes ================================== 
+ 
+ Call: 
+naive_bayes.formula(formula = purchase_iphone ~ gender + age + 
+    salary, data = model_data, laplace = 1)
+
+--------------------------------------------------------------------------------- 
+ 
+Laplace smoothing: 1
+
+--------------------------------------------------------------------------------- 
+ 
+ A priori probabilities: 
+
+ False   True 
+0.6425 0.3575 
+
+--------------------------------------------------------------------------------- 
+ 
+ Tables: 
+
+--------------------------------------------------------------------------------- 
+ ::: gender (Bernoulli) 
+--------------------------------------------------------------------------------- 
+        
+gender       False      True
+  Female 0.4942085 0.5379310
+  Male   0.5057915 0.4620690
+
+--------------------------------------------------------------------------------- 
+ ::: age (Categorical) 
+--------------------------------------------------------------------------------- 
+         
+age            False       True
+  Adult   0.53076923 0.34246575
+  Elderly 0.06153846 0.60958904
+  Young   0.40769231 0.04794521
+
+--------------------------------------------------------------------------------- 
+ ::: salary (Categorical) 
+--------------------------------------------------------------------------------- 
+               
+salary              False      True
+  Lower Income  0.1807692 0.1986301
+  Middle Income 0.5192308 0.1849315
+  Upper Income  0.3000000 0.6164384
+
+---------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The laplace parameter in the <code>naive_bayes</code> model removes any joint probability of zero</p>
+</div>
+</div>
+<p>The out above shows the overall probabilities as well as conditional probabilities for each feature and outcome combination. The overall probabilities show that there is a <em>35.75%</em> chance that people will purchase an Iphone. Additionally the results shows that there is a <em>61.64%</em> chance that someone in the upper Income group will purchase an Iphone.</p>
+</section>
+<section id="making-predictions" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="making-predictions"><span class="header-section-number">6</span> Making Predictions</h2>
+<p>Now that we train our model, we can use the <code>testing_data</code> to evaluate the performance and progress of our algorithms’ training and adjust or optimize it for improved results. We do this by calling the <code>predict()</code> function, passing the model and the testing_data in the <code>newdata</code> parameter.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>R computes the posterior probabilities if the <code>type</code> argument is set to “prob” in the predict function</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make predictions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>predicted_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># utilize the trained model</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> naive_model, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># deselect the rowid and purchase_iphone columns in the testing data </span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> testing_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(rowid, purchase_iphone)),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only calculate posterior probabilities</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"prob"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># pint first 6 rows of the outcomes </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(<span class="fu">head</span>(predicted_probs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["False"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["True"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.9791526","2":"0.02084739"},{"1":"0.5546405","2":"0.44535949"},{"1":"0.9383629","2":"0.06163712"},{"1":"0.8723320","2":"0.12766803"},{"1":"0.1530724","2":"0.84692758"},{"1":"0.9791526","2":"0.02084739"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="performance-evaluation" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="performance-evaluation"><span class="header-section-number">7</span> Performance Evaluation</h2>
+<p>From the output above, we the predictions made by our trained model for each observations in the testing data. Let’s now evaluate the performance of our model</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set actual outcomes in the testing data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>actual_outcomes <span class="ot">&lt;-</span> testing_data<span class="sc">$</span>purchase_iphone</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the predicted outcomes</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>predicted_outcomes <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># utilize the trained model</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> naive_model, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># deselect the rowid and purchase_iphone columns in the testing data </span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> testing_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(rowid, purchase_iphone))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate model accuracy using mean function</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(actual_outcomes <span class="sc">==</span> predicted_outcomes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7375</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create confusion matrix and model statistics</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>(actual_outcomes, predicted_outcomes)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># put the results in tidy format</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select the first row only</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["class"],"name":[2],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["conf.low"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["conf.high"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"accuracy","2":"NA","3":"0.7375","4":"0.6271492","5":"0.8295907","6":"0.3613344"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>After running the Naive Bayes classifier and evaluating its accuracy using 20% of the data, we see that the model has an accuracy of 73.75%.</p>
+</section>
+<section id="conclusion" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">8</span> Conclusion</h2>
+<p>Although the accuracy of the model is satisfactory, there are some ways in which the accuracy of the model can be further improved. These include optimizing the parameters of the model, pre-processing the data for better performance, and using different techniques such as decision trees and random forests for better results. Additionally, collecting more data and training the model with it can also help to improve the accuracy of the model. In conclusion, though the current model is satisfactory, it is possible to further improve the model’s accuracy with the strategies mentioned above.</p>
+<p>Written by <a href="https://twitter.com/mwangi__george">George Mwangi</a></p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,100 @@
+---
+title: "Time Series and Forecasting Introduction"
+author: "Mwangi George"
+format: html
+editor: visual
+---
+
+```{r}
+
+# a bit of time series modeling with matt dancho
+
+# load Essential Packages
+pacman::p_load(tidyverse, lubridate, tidymodels, timetk, modeltime)
+
+# data
+head(bike_sharing_daily)
+
+
+
+# bike subset
+bike_subset <- bike_sharing_daily %>% select(dteday, cnt)
+
+# plot dtedate against cnt
+bike_subset %>% plot_time_series(.date_var = dteday, .value = cnt, .title = "Count of People Sharing bikes in DC over time")
+
+
+# split data into training and testing sets------------
+
+splits <- time_series_split(data = bike_subset, date_var = dteday, assess = "3 months", cumulative = TRUE)
+
+# visualize splits----------------
+splits %>% 
+  tk_time_series_cv_plan() %>% # extract time series cross validation plan 
+  plot_time_series_cv_plan(.date_var = dteday, .value = cnt) # plot cv plan
+
+
+
+# Forecast-------------------
+
+# arima model
+# use modeltime's arima_reg() to fit an autoregressive arima model
+# set_engine connects the model to the auto.reg() from forecast library
+# fit trains the model to learn from the training data set.
+model_arima <- arima_reg() %>% 
+  set_engine("auto_arima") %>% 
+  fit(cnt ~ dteday, training(splits))
+
+# prophet model
+# seasonality = TRUE tells model to check the yearly seasonality in the data
+model_prophet <- prophet_reg(seasonality_yearly = TRUE) %>% 
+  set_engine("prophet") %>% 
+    fit(cnt ~ dteday, training(splits))
+
+# machine learning---GLM--
+# use a penalized regression model
+# expand fit to include weekday, month and a numeric trend
+model_glmnet <- linear_reg(penalty = 0.01) %>% 
+  set_engine("glmnet") %>% 
+  fit(
+    cnt ~ lubridate::wday(dteday, label = TRUE)
+        + lubridate::month(dteday, label = TRUE)
+        + as.numeric(dteday),
+    training(splits)
+  )
+
+
+
+# Organize models with modeltime workflow-------------
+  # create modeltime table,
+  # calibrate(forecast test set & test accuracy)
+  # refit model with orginal data
+
+# modeltime table
+model_tbl <- modeltime_table(model_arima, model_prophet, model_glmnet)
+
+
+# calibration
+# this calculates the residuals(errors) for our testing test that was unseen during training
+calib_tbl <- model_tbl %>% 
+  modeltime_calibrate(new_data = testing(splits))
+
+# measure accuracy from our test set predictions
+calib_tbl %>% modeltime_accuracy()
+
+
+# Visualize test set predictions 
+calib_tbl %>% 
+  modeltime_forecast(
+    new_data = testing(splits),
+    actual_data = bike_subset
+  ) %>% 
+  plot_modeltime_forecast()
+
+
+# forecast future
+calib_tbl %>% 
+  modeltime_refit(bike_subset) %>% 
+  modeltime_forecast(h = "3 months", actual_data = bike_subset) %>% 
+  plot_modeltime_forecast()
+```

@@ -1,0 +1,234 @@
+---
+title: "Logistic Regression Classifier"
+description: A Supervised machine learning technique
+date: last-modified
+author: 
+  - name: Mwangi George
+    url: https://twitter.com/mwangi__george
+    affiliation: College of Economics and Business, Kenyatta University
+title-block-banner: true
+format: 
+  html: 
+    toc: true
+    toc-location: body
+    number-sections: true
+    df-print: kable
+    theme: flatly
+editor: visual
+---
+
+## Introduction
+
+In its most basic form, regression involves predicting an outcome `y` using one or more predictors, labeled as `x` variables.
+
+Logistic Regression is a type of regression applied when the response variable is logical, i.e takes two outcomes, like yes or no. A type of S-shaped curve called logistic function has the property that for any input value of `x` , the output is always between 0 and 1, just like a probability. The greater this probability, the more likely the outcome is to be labeled 1.
+
+## Data and Data Preparation
+
+For this, article, we are going to use mobile money data containing services and experience of mobile money customers from three districts of Kenya. Our target variable is `mm_account_cancelled`, a feature indicating whether someone cancelled their mobile money account based on other features in the dataset.
+
+Let's start by reading the data from disk into R's global environment.
+
+```{r}
+#| echo: false
+pacman::p_load(tidyverse, pROC)
+
+# remove scientific notation 
+options(scipen = 999)
+```
+
+```{r}
+# load data
+mobile_m_data <- read_csv("datasets/mobile_money_data.csv", show_col_types = F) %>%
+  # clean variable names
+  janitor::clean_names() %>% 
+  # remove unnecessary variables
+  select(-c(start_time, end_time))
+
+# print dataset structure
+dim(mobile_m_data)
+
+head(mobile_m_data)
+```
+
+The dataset contains `r nrow(mobile_m_data)` observations and `r length(mobile_m_data)` variables. However, it seems that during the survey, participants listed all the different types of financial accounts that they had registered, resulting in a dataset where the format is one observation per account type instead of one observation per participant. This is evident in the repetition of the household id column. We need to clean the data to remove this format.
+
+```{r}
+# data formating
+mobile_data <- mobile_m_data %>% 
+  # select variables to pivot
+  select(hhid, account_num, account_type) %>% 
+  # spread to wider format
+  pivot_wider(
+    names_from = account_num, 
+    values_from = account_type, 
+    names_prefix = "account_"
+    ) %>% 
+  # join with original dataset
+  inner_join(
+    y = mobile_m_data %>% 
+      select(-c(account_num, account_type), location = urban) %>% 
+      distinct(), 
+    by = "hhid"
+  )
+
+head(mobile_m_data)
+```
+
+Now that we have achieved one observation per participant, we can move on to the next step.
+
+## Exploratory analysis
+
+Before we try to model anything, it is always important to conduct some exploratory analysis and identify which features have a significant impact on our target outcome. However, for the purpose of staying on track, we will not do that here. Instead, We can hypothesize which features are likely to cause someone to cancel their mobile money account. Some of these include gender, age, location(whether urban or rural), mm_trust(whether they trust mobile money), district, and agent_trust(whether they trust mobile money agents). For simplicity, let's narrow the list down to gender, age, location, and agent_trust.
+
+```{r}
+# select important variables for modeling
+model_data <- mobile_data %>% 
+  select(hhid, mm_account_cancelled, gender, age, location) 
+```
+
+The variable agent_trust contains several missing values. By default, regression models exclude any observations with missing values on their predictors. We can therefore treat label the missing values in the agent trust variable as another category, `missing`.
+
+::: callout-important
+Because records having missing data differ systematically from those without, a binary 1/0 missing value indicator can be added to model the fact that a value was imputed. Sometimes, this becomes one of the model's most important predictors.
+:::
+
+We should also format variables with categorical variables into there right data type, factor.
+
+```{r}
+model_data %>% 
+  # format variables
+  mutate(
+    # create missing data indicator variable
+    agent_trust_missing = if_else(is.na(agent_trust), 1, 0),
+    # treating NA's as a category
+    agent_trust = if_else(is.na(agent_trust), "missing", agent_trust),
+    # changes chr to factors 
+    mm_account_cancelled = factor(
+      mm_account_cancelled, 
+      levels = c("yes", "no"),
+      labels = c(1, 0)
+      ),
+    gender = factor(
+      gender, 
+      levels = c("male", "female"), 
+      labels = c(1, 0)
+      ),
+    location = factor(
+      location, 
+      levels = c("Urban", "Rural"),
+      labels = c(1, 0)
+      ),
+    agent_trust_missing = factor(
+      agent_trust_missing,
+      levels = c(1, 0),
+      labels = c(1, 0)
+      ),
+    # make missing the reference category in agent trust
+    agent_trust = relevel(as.factor(agent_trust), ref = "missing")
+  ) %>% 
+  filter(!str_detect(agent_trust, "-97"))-> model_data
+
+head(model_data)
+str(model_data)
+```
+
+In R, logistic regression uses the `glm()` function where we apply R's formula interface as follows:
+
+```{r}
+logistic_model <- glm(
+  formula = mm_account_cancelled ~ age + gender + location + agent_trust + 0,
+  data = model_data,
+  family = "binomial")
+
+summary(logistic_model)
+mean(as.numeric(as.character(model_data$mm_account_cancelled)))
+broom::tidy(logistic_model)
+table(model_data$mm_account_cancelled)
+model_data %>% 
+  mutate(prob = predict(logistic_model, type = "response"),
+         pred = if_else(prob > 0.1486711, 1, 0)
+         ) %>% 
+  summarise(
+    accuracy = mean(mm_account_cancelled == pred)
+  )
+```
+
+```{r}
+# prepare data
+model_data %>% 
+  select(-hhid) %>% 
+  mutate(across(
+    .cols = where(is.character),
+    .fns = as.factor
+  )) -> model_data
+levels(model_data$mm_account_cancelled) <- c("yes", "no")
+
+# libraries
+pacman::p_load(tidymodels, tidyverse, modeltime)
+
+# splitting data
+mobile_splits <- model_data %>% 
+  initial_split(prop = .8, strata = mm_account_cancelled) 
+
+mobile_train <- mobile_splits %>% training()
+
+mobile_test <- mobile_splits %>% testing()
+
+# specify model
+logistic_model <- logistic_reg() %>% 
+  set_engine("glm") %>% 
+  set_mode("classification")
+
+# fit model
+logistic_fit <- logistic_model %>% 
+  fit(
+    mm_account_cancelled ~ age + gender 
+                         + location,
+    data = mobile_train
+  )
+
+# make predictions
+pred_class <- predict(logistic_fit, new_data = mobile_test, type = "class")
+
+pred_probs <- predict(logistic_fit, new_data = mobile_test, type = "prob")
+
+
+# combine results
+logistic_results <- mobile_test %>% 
+  select(mm_account_cancelled) %>% 
+  bind_cols(pred_class, pred_probs)
+
+# calculate accuracy
+logistic_results %>% accuracy(truth = mm_account_cancelled, estimate = .pred_class)
+
+# calculate confusion matrix
+logistic_results %>% conf_mat(truth = mm_account_cancelled, estimate = .pred_class)
+
+# calculate sensitivity
+logistic_results %>%sens(truth = mm_account_cancelled, estimate = .pred_class)
+
+# calculate specificity
+logistic_results %>% spec(truth = mm_account_cancelled, estimate = .pred_class)
+
+# create custom function to calculate metric
+custom_metrics <- metric_set(accuracy, sens, spec)
+
+# apply custom function
+logistic_results %>% custom_metrics(truth = mm_account_cancelled, estimate = .pred_class)
+```
+
+```{r}
+# trying out the last fit work flow
+last_fit_object <- logistic_model %>% 
+  last_fit(
+    preprocessor =  mm_account_cancelled ~ age + gender + location,
+    split = mobile_splits
+  )
+
+# make predictions
+last_fit_object %>% collect_predictions() %>% head()
+
+# get metrics
+last_fit_object %>% collect_metrics()
+```

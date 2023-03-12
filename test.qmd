@@ -1,0 +1,186 @@
+---
+title: "Pharmacy Data Analysis Report"
+format: 
+  pptx:
+    df-print: kable
+    number-sections: true
+editor: visual
+---
+
+## Introduction To Project
+
+The overall project goal is to develop and test the viability and scalability of a pharmacy business model that offers customers convenient, discrete and quality counseling and training and provision of contraceptive products, with a focus on self-injection of DMPA-SC as part of a larger basket of selfcare products. This project aims to explore the viability for pharmacies to sell DMPA-SC at unsubsidized market prices and for women to purchase this and other self-care products at these prices from the retail pharmacy channel. Viability refers to a combination of factors that incentivize retail pharmacies to continue stocking and providing self-care services and products to women on a sustained and growing basis.
+
+## Summary of the data collected
+
+Our project has collected primary data from pharmacies on product variable, sold units, prices, and total sales for different regions and pharmacies. The purpose of this project is to analyze the collected data and draw inferences from it to understand the performance of our pharmacies in different regions, identify trends, and make data-driven decisions. In the following slides, I will present our findings and insights derived from the data.
+
+## Analysis Results
+
+```{r echo=FALSE}
+pacman::p_load(tidyverse, lubridate, janitor)
+
+pharmacy_data <- readxl::read_excel(
+  path = "datasets/pharmacy_data.xlsx"
+  ) %>% 
+  janitor::clean_names()
+
+```
+
+### Average Sales by Region
+
+My analysis on sales by region has revealed that Urban pharmacies have the highest average sales of contraceptives at about 30 units, followed by Peri-Urban pharmacies at about 17 units, and finally Rural pharmacies at about 15 units as illustrated by the chart below.
+
+```{r}
+
+pharmacy_data %>% 
+  mutate(sales = as.numeric(sales)) %>% 
+  group_by(archetype) %>% 
+  summarise(mean_sales = mean(as.numeric(sales), na.rm = T)) %>% 
+  ggplot(
+    aes(
+      x= fct_reorder(archetype, mean_sales), 
+      mean_sales
+      )
+    )+
+  geom_col(fill = "#2171B5", alpha = .9)+
+  coord_flip()+
+  labs(
+    title = "Average Sales by Region",
+    y = "Average Sales",
+    x = "Region"
+  )+
+  theme_bw()
+
+```
+
+#### Interpretation
+
+1.  Urban pharmacies are performing significantly better than both Peri-Urban and Rural pharmacies in terms of sales of contraceptives. This suggests that we may want to focus our resources on expanding and improving our operations in urban areas.
+
+2.  While Peri-Urban pharmacies are performing better than Rural pharmacies, there is still room for improvement. We may want to consider investing in marketing and promotional campaigns targeted at the Peri-Urban market to boost sales.
+
+3.  In the long run, we may want to consider expanding our operations to other urban areas to capture more of the market share and increase our overall sales of contraceptives.
+
+### Average Sales by Product Variable
+
+My analysis on sales by product contraceptive type has revealed that the top 5 performing products in terms of average sales are COCs, \# of repeat clients seen, EC pills, Male condoms-packs, and Performance enhancers as show in the chart below.
+
+```{r message=FALSE, warning=FALSE}
+
+pharmacy_data %>% 
+  group_by(product_variable) %>% 
+  mutate(sales = as.numeric(sales)) %>% 
+  summarise(mean_sales = mean(sales, na.rm = T)) %>% 
+  mutate(product_variable = fct_reorder(product_variable, mean_sales)) %>% 
+  slice_max(mean_sales,n = 10) %>% 
+  ggplot(
+    aes(
+      x = product_variable, y =mean_sales
+    )
+  )+
+  geom_col(fill = "#2171B5", alpha = .9)+
+  coord_flip()+
+  labs(
+    title = "Average Sales by Product Variable",
+    subtitle = "Analysis of the top 10 products",
+    x = "Product",
+    y = "Average Sales"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray90")
+  )+ theme_bw()
+
+```
+
+#### Some insights
+
+1.  COCs are the highest performing product in terms of sales, which suggests that there is a high demand for this type of contraceptive. We may want to consider increasing our inventory of COCs to meet this demand.
+
+2.  The \# of repeat clients seen is also a top-performing product, which suggests that we have a loyal customer base. We may want to consider implementing loyalty programs to reward our repeat customers and encourage them to continue using our services.
+
+3.  EC pills and Male condoms-packs are also top-performing products, which suggests that there is a high demand for emergency contraceptives and male condoms. We may want to consider investing in marketing and promotional campaigns targeted at these products to boost sales.
+
+### Average Sales by Pharmacy Names
+
+The graph below shows the average sales by pharmacy names and their regions. This graph reveales that Pharmacy 10 in the Peri_Urban region, Pharmacy 17 in the Rural region, and Pharmacy 25 in the urban region are the best performing pharmacies in their respective regions.
+
+```{r}
+pharmacy_data %>% 
+  group_by(pharmacy_name, archetype) %>% 
+  mutate(sales = as.numeric(sales)) %>% 
+  summarise(mean_sales = mean(sales, na.rm = T)) %>% 
+  top_n(pharmacy_name, mean_sales) %>% 
+  ungroup() %>% 
+  mutate(
+    pharmacy_name = as.factor(pharmacy_name),
+    pharmacy_name = fct_reorder(pharmacy_name, mean_sales)) %>% 
+  ggplot(
+    aes(
+      x = pharmacy_name, y =mean_sales
+    )
+  )+
+  geom_col(fill = "#2171B5", alpha = .9)+
+  coord_flip()+
+  facet_wrap(~ archetype, scales = "free_y")+
+  labs(
+    title = "Average Sales by Pharmacy Names",
+    subtitle = "Analysis of the top 10 Pharmacies by Region"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray90")
+  )+ theme_bw()
+
+```
+
+#### Interpretation
+
+1.  Pharmacy 10 in the Peri_Urban region is performing exceptionally well in terms of sales. We may want to investigate what factors are contributing to their success and consider implementing similar strategies in other Peri-Urban pharmacies.
+
+2.  Pharmacy 17 in the Rural region is also a top-performing pharmacy. This suggests that there is demand for contraceptives in rural areas. We may want to consider expanding our operations to other rural areas to capture more of the market share.
+
+3.  Pharmacy 25 in the urban region is the best performing pharmacy in its region. This suggests that urban areas have a higher demand for contraceptives. We may want to focus our resources on expanding and improving our operations in urban areas.
+
+4.  We should continue to monitor our sales by pharmacy names and their regions to identify trends and adjust our operations and marketing strategies accordingly.
+
+### Sales over Time
+
+The graph below shows that sales started with a high spike in Jan 2001 but have since then remained stable without an unpredictable pattern.
+
+```{r}
+
+#timetk::plot_time_series(pharmacy_data, .date_var = date, .value = sales, .title =  "Sales Over Time")
+
+knitr::include_graphics("plots/sales_over_time.png") 
+```
+
+### Sales by Month
+
+The graph below represents sales of contraceptives by month for two the years of Business. January, June, November, March, and September are the top performing months in terms of sales.
+
+```{r}
+
+pharmacy_data %>% 
+  mutate(month = lubridate::month(date, label = T)) %>% 
+  group_by(month) %>% 
+  summarise(total_sales = sum(as.numeric(sales), na.rm = T)) %>% 
+  ggplot(aes(fct_reorder(month, total_sales), total_sales, group = 1))+
+  geom_col(fill = "#2171B5", alpha = .9)+
+  coord_flip()+
+  labs(
+    title = "Total Sales by month",
+    subtitle = "Sum of all sales for all years",
+    x = "Month",
+    y = "Total Sales"
+  )+
+  theme(
+    plot.background = element_rect(fill = "gray90")
+  )+ theme_bw()
+
+```
+
+#### Interpretation
+
+1.  These months may be influenced by various factors, such as seasonal demand or promotional campaigns. It may be worth investigating these factors to identify opportunities for boosting sales during other months.
+
+2.  Since these top performing months occur at regular intervals throughout the year, we can prepare for increased demand during these months by stocking up on popular products, adjusting staffing levels, and improving our marketing efforts.
