@@ -1,0 +1,197 @@
+---
+title: "Untitled"
+author: "Mwangi N. George"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r}
+pacman::p_load(tidyverse, timetk, trelliscopejs, modeltime, naniar, tidymodels) #load packages
+
+# clean the names of the variables in the walmart sales data
+wa_sales <- walmart_sales_weekly %>% janitor::clean_names()
+
+# plot time series data
+wa_sales %>% 
+  select(id, date, weekly_sales) %>% 
+  group_by(id) %>% 
+  plot_time_series(.date_var = date, .value = weekly_sales, .facet_ncol = 2)
+
+# plot time series regression
+wa_sales %>% 
+  group_by(id) %>% 
+  plot_time_series_regression(
+    .date_var = date,
+    .formula = weekly_sales ~ is_holiday + temperature + fuel_price,
+    .facet_ncol = 2, 
+    .show_summary = T,
+    .interactive = F
+  ) +
+  # take a closer look
+  facet_trelliscope(
+    ~ id, ncol = 1, as_plotly = T
+  )
+
+
+```
+
+```{r}
+
+# select the variables of interest
+wa_sales_extended <- wa_sales %>% 
+  select(id, date, weekly_sales) %>% 
+  # rename variables
+  set_names(c("id", "date", "value")) %>% 
+  extend_timeseries(.id_var = id, .date_var = date, .length_future = 52)
+
+# plot the data
+wa_sales_extended %>% 
+  group_by(id) %>% 
+  plot_time_series(
+    .date_var = date, .value = value, .facet_ncol = 2, .interactive = F
+  )+
+  geom_miss_point(alpha = .7)+
+  facet_trelliscope(~id)
+
+```
+
+```{r}
+# Some modeling
+# nest the data into a list column
+wa_sales_nested <- wa_sales_extended %>% 
+  # create a list column with the id variable, the length of the future and the length of the actual
+  nest_timeseries(.id_var = id, .length_future = 52, .length_actual = 52*2) %>% 
+  # split the data into a test and train split
+  split_nested_timeseries(.length_test = 52)
+
+
+#extract the train set
+train_set <- 
+
+#extract the test set
+test_set <- extract_nested_test_split(wa_sales_nested)
+
+```
+
+
+```{r}
+#create a recipe for the arima model
+arima_recipe <- recipe(value ~ date, extract_nested_train_split(wa_sales_nested))
+
+#create a workflow for the arima model
+arima_workflow <- workflow() %>% 
+  add_model(arima_reg(seasonal_period = 52, mode = "regression") %>% set_engine(engine = "auto_arima")) %>% 
+  add_recipe(arima_recipe)
+
+
+#create a recipe for the prophet model
+prophet_recipe <- recipe(value ~ date, extract_nested_train_split(wa_sales_nested))
+
+
+#create a workflow for the prophet model
+prophet_workflow <- workflow() %>% 
+  add_model(prophet_reg(seasonality_yearly = T, mode = "regression")%>% set_engine(engine = "prophet")) %>% 
+  add_recipe(prophet_recipe)
+
+#create a recipe for the xgboost model
+xgboost_recipe <- recipe(value ~ date, extract_nested_train_split(wa_sales_nested)) %>% 
+  step_timeseries_signature(date) %>% 
+  step_rm(date) %>% 
+  step_zv(all_predictors()) %>% 
+  step_dummy(all_nominal_predictors())
+
+#create a workflow for the xgboost model
+xgboost_workflow <- workflow() %>% 
+  add_model(boost_tree(mode = "regression") %>% set_engine(engine = "xgboost")) %>% 
+  add_recipe(xgboost_recipe)
+
+```
+
+Fitting models with modeltime workflow
+```{r}
+# create a nested model time table
+nested_modeltime_tbl <- modeltime_nested_fit(
+  # specify the nested data
+  nested_data = wa_sales_nested, 
+  # specify the workflows
+  arima_workflow,
+  prophet_workflow,
+  xgboost_workflow,
+  # specify the control
+  control = control_nested_fit(verbose = T)
+)
+
+```
+
+
+```{r}
+# extract error report if any
+nested_modeltime_tbl %>% 
+  extract_nested_error_report()
+```
+
+
+```{r}
+# extract accuracy metrics 
+nested_modeltime_tbl %>% 
+  extract_nested_test_accuracy() %>% 
+  group_by(id) %>% 
+  # make the results interactive
+  table_modeltime_accuracy()
+
+# extract forecast on the test data
+nested_modeltime_tbl %>% 
+  extract_nested_test_forecast() %>% 
+  group_by(id) %>% 
+  # plot the forecast
+  plot_modeltime_forecast(
+    .facet_ncol = 2,
+    .interactive = F
+  )+
+  # take a closer look
+  facet_trelliscope(~id, as_plotly = T)
+```
+
+```{r}
+
+best_nested_modeltime_tbl <- nested_modeltime_tbl %>% 
+  # select the best model in the nested data by rmse
+  modeltime_nested_select_best(
+    metric = "rmse", minimize = TRUE
+  )
+
+best_nested_modeltime_tbl %>% 
+  # unnest the accuracy metrics
+  extract_nested_best_model_report() %>% 
+  # make it interactive
+  datatable()
+```
+
+
+```{r}
+# now that we have the best model, we refit and forecast the future
+nested_modeltime_refit_tbl <- best_nested_modeltime_tbl %>% 
+  # refit the entire data 
+  modeltime_nested_refit(
+    control = control_nested_refit(verbose = T)
+  )
+
+nested_modeltime_refit_tbl %>% 
+  extract_nested_future_forecast() %>% 
+  group_by(id) %>% 
+  plot_modeltime_forecast(.facet_ncol = 2, .interactive = F)+
+  facet_trelliscope(~id, as_plotly = T)
+```
+
+
+
+
+
+
+
+
+
+
+
+

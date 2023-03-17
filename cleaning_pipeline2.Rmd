@@ -1,0 +1,139 @@
+---
+title: "Data Cleaning Challenge"
+author: "Mwangi N. George"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r}
+options(scipen = 999, timeout = 500, max.print = 1500)
+pacman::p_load(
+  tidyverse, janitor, lubridate, naniar
+)
+
+```
+
+```{r}
+fifa <- read_csv("datasets/fifa.csv", show_col_types = F) %>% 
+  clean_names() 
+
+any_na(fifa)
+```
+
+Cleaning pipeline
+```{r}
+clean <- function(data){
+  data %>% 
+  # remove duplicate rows
+  distinct() %>% 
+  # add a column with unique row ids
+  rowid_to_column() %>% 
+  # remove unnecessary columns
+  select(-c(photo_url, player_url, team_contract, loan_date_end, hits)) %>% 
+  # split the "positions" column into multiple rows
+  separate_longer_delim(positions, delim = " ") %>% 
+  # replace certain characters in the "height" column and convert to numeric
+  mutate(height = str_replace_all(height, fixed("'"), "."),
+         height = str_remove_all(height, fixed("\"")),
+         height = as.numeric(height),
+         # remove "lbs" from the "weight" column and convert to numeric
+         weight = str_remove_all(weight, "lbs"),
+         weight = as.numeric(weight),
+         # convert the "joined" column to date format
+         joined = mdy(joined),
+         # remove "€" from the "value", "wage", and "release_clause" columns
+         value = str_remove(value, "€"),
+         wage = str_remove(wage, "€"),
+         release_clause = str_remove(release_clause, "€"),
+         # convert the "value", "wage", and "release_clause" columns to numeric
+         # and multiply by 1000 or 1000000 if the value contains "K" or "M"
+         value = case_when(
+           str_detect(value, "K") ~ parse_number(str_remove(value, "K")) * 1000,
+           str_detect(value, "M") ~ parse_number(str_remove(value, "M")) * 1000000,
+           TRUE ~ as.numeric(value)
+         ),
+         wage = case_when(
+           str_detect(wage, "K") ~ parse_number(str_remove(wage, "K")) * 1000,
+           str_detect(wage, "M") ~ parse_number(str_remove(wage, "M")) * 1000000,
+           TRUE ~ as.numeric(wage)
+         ),
+         release_clause = case_when(
+           str_detect(release_clause, "K") ~ parse_number(str_remove(release_clause, "K")) * 1000,
+           str_detect(release_clause, "M") ~ parse_number(str_remove(release_clause, "M")) * 1000000,
+           TRUE ~ as.numeric(release_clause)
+         ),
+         # remove "★" from the "w_f", "sm", and "ir" columns and convert to numeric
+         w_f = str_remove(w_f, "★"),
+         w_f = as.numeric(w_f),
+         sm = str_remove(sm, "★"),
+         sm = as.numeric(sm),
+         ir = str_remove(ir, "★"),
+         ir = as.numeric(ir)
+         ) %>% 
+  # convert all character columns to factor columns
+  mutate_if(is.character, as.factor)
+}
+```
+
+
+
+
+```{r}
+cleaned_fifa_df <- clean(fifa)
+
+
+any_na(cleaned_fifa_df)
+
+pct_complete(cleaned_fifa_df)
+
+gg_miss_var(cleaned_fifa_df)
+```
+
+
+
+```{r fig.width= 12}
+cleaned_fifa_df %>% 
+  group_by(name) %>% 
+  summarise(total_value = sum(value)) %>% 
+  slice_max(total_value, n = 20) %>% 
+  ggplot(aes(fct_reorder(name, total_value), total_value))+
+  geom_col(show.legend = F, fill = "midnightblue", alpha = .9) +
+  coord_flip()+
+  theme_minimal()+
+  labs(
+    title = "Top 20 Fifa players by Value",
+    x = "Player", 
+    y = "Value in Euros",
+    caption = "Data Source: Data Challenge"
+  )+
+  theme(plot.title = element_text(hjust = .5,colour = "midnightblue", size = 16),
+        axis.text = element_text(size = 16)) 
+  
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
