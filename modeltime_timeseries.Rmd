@@ -178,9 +178,12 @@ nested_modeltime_refit_tbl <- best_nested_modeltime_tbl %>%
   )
 
 nested_modeltime_refit_tbl %>% 
+  # extract forecast data
   extract_nested_future_forecast() %>% 
   group_by(id) %>% 
+  # plot forecast
   plot_modeltime_forecast(.facet_ncol = 2, .interactive = F)+
+  # take a closer look
   facet_trelliscope(~id, as_plotly = T)
 ```
 
