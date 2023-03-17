@@ -67,7 +67,7 @@ wa_sales_nested <- wa_sales_extended %>%
 
 
 #extract the train set
-train_set <- 
+train_set <- extract_nested_train_split(wa_sales_nested)
 
 #extract the test set
 test_set <- extract_nested_test_split(wa_sales_nested)
