@@ -1,0 +1,234 @@
+---
+title: "Global Modelling (Recommended)"
+author: "Mwangi N. George"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = F)
+```
+
+# load libraries
+```{r}
+pacman::p_load(tidyverse, timetk, trelliscopejs, modeltime, naniar, tidymodels)
+```
+
+# Prepare data by extending it
+```{r}
+data_extended_df <- walmart_sales_weekly %>% 
+  select(id, Date, Weekly_Sales) %>% 
+  set_names(c("id", "date", "value")) %>% 
+  extend_timeseries(.id_var = id, .date_var = date, .length_future = 52*2)
+```
+
+
+# Visualize the extended dataframe
+```{r}
+data_extended_df %>% 
+  group_by(id) %>% 
+  plot_time_series(.date_var = date, .value = value, .facet_ncol = 2, .interactive = F)+
+  geom_miss_point()+
+  facet_trelliscope(~id, scales = "free", height = 700, width = 750)
+```
+
+# Data Splitting 
+```{r}
+# Get original data fram
+data_prepared_df <- data_extended_df %>% 
+  filter(!is.na(value))
+
+# Get the extended data frame
+data_future_df <- data_extended_df %>% 
+  filter(is.na(value))
+
+# Split the data prepared into training and testing sets
+splits <- data_prepared_df %>% 
+  time_series_split(date_var = date, assess = 52, cumulative = TRUE)
+```
+
+
+# Feature engineering  (Create a global recipe for all models)
+
+Global models like XGBOOST, Support Vector Machines, Random Forests etc. can accept a standard feature engineering recipe
+```{r}
+# global Recipe 
+# fit value as a function of everything
+global_recipe <- recipe(value ~ ., data = training(splits)) %>% 
+  # the id feature becomes important because we are using a global model
+  step_mutate_at(id, fn = droplevels) %>%
+  # get date time features from the date column
+  step_timeseries_signature(date) %>% 
+  # remove the date column
+  step_rm(date) %>% 
+  # remove zero variance predictors
+  step_zv(all_predictors()) %>% 
+  # dummy code categorical variables 
+  step_dummy(all_nominal_predictors(), one_hot = T)
+  
+
+# Glimpse Recipe
+global_recipe %>% prep() %>% bake(new_data = NULL) %>% glimpse()
+```
+
+
+# Modeling
+Lets fit three algorithms(XGBOOST, SVM and a Random Forest)
+```{r}
+# 1. XGBOOST 
+xgb_wrkflw <- workflow() %>% 
+  add_model(
+    boost_tree() %>% 
+      set_mode("regression")%>% 
+      set_engine("xgboost")
+    ) %>% 
+  add_recipe(global_recipe) %>% 
+  fit(data = training(splits))
+
+# 2. SVM
+svm_wrkflw <- workflow() %>% 
+  add_model(
+    svm_rbf() %>% 
+      set_mode("regression") %>% 
+      set_engine("kernlab")
+    ) %>% 
+  add_recipe(global_recipe) %>% 
+  fit(data = training(splits))
+
+# Random Forest
+rand_forest_wrkflw <- workflow() %>% 
+  add_model(
+    rand_forest() %>% 
+      set_mode("regression") %>% 
+      set_engine("ranger")
+    ) %>% 
+  add_recipe(global_recipe) %>% 
+  fit(data = training(splits))
+
+# KNN 
+knn_wrkflw <- workflow() %>% 
+  add_model(
+    nearest_neighbor() %>% 
+      set_mode("regression") %>% 
+      set_engine("kknn")
+  ) %>% 
+  add_recipe(global_recipe) %>% 
+  fit(data = training(splits))
+
+# GLMNET
+glmnet_wrkflw <- workflow() %>% 
+  add_model(
+    linear_reg(penalty = 0.01) %>% 
+      set_mode("regression") %>% 
+      set_engine("glmnet")
+    ) %>% 
+  add_recipe(global_recipe) %>% 
+  fit(data = training(splits))
+```
+
+
+# Modeltime workflow
+
+## Create Modeltime table
+```{r}
+model_df <- modeltime_table(
+  xgb_wrkflw, 
+  svm_wrkflw,
+  rand_forest_wrkflw,
+  knn_wrkflw,
+  glmnet_wrkflw
+)
+```
+
+# Perform calibration on the Test data
+```{r}
+calibration_df <- model_df %>% 
+  modeltime_calibrate(
+    new_data = testing(splits),
+    id = "id"
+  )
+```
+
+
+# Conduct Testing Accuracy
+```{r}
+accuracy_df <- calibration_df %>% 
+  modeltime_accuracy(acc_by_id = TRUE) %>% 
+  group_by(id)
+
+# setting acc_by_id to TRUE in the above process allows us to pick the best model to use by each id
+accuracy_df
+```
+
+
+# Put the accuracy table into interactive format
+```{r}
+accuracy_df %>% 
+  table_modeltime_accuracy(.interactive = T)
+```
+
+
+# Select best models for each id
+```{r}
+best_models_df <- accuracy_df %>% 
+  group_by(id) %>% 
+  filter(rmse == min(rmse)) %>% 
+  ungroup() %>% 
+  select(.model_id, id)
+  
+best_models_df
+```
+
+
+# Visualize the forecast
+```{r}
+calibration_df %>% 
+  modeltime_forecast(
+    new_data = testing(splits),
+    actual_data = data_prepared_df,
+    conf_by_id = TRUE
+  ) %>% 
+  group_by(id) %>% 
+  plot_modeltime_forecast(.facet_ncol = 2, .interactive = F)+
+  facet_trelliscope(~id, as_plotly = T)
+```
+
+# Refit the model on the full data prepared dataframe
+```{r}
+refit_df <- calibration_df %>% 
+  modeltime_refit(data = data_prepared_df)
+```
+
+# Get the future forecast
+```{r}
+refit_df %>% modeltime_forecast(
+  new_data = data_future_df, 
+  actual_data = data_prepared_df,
+  conf_by_id = TRUE
+  ) %>% 
+  right_join(
+    bind_rows( 
+      best_models_df %>% select(id),
+      best_models_df
+    )
+  ) %>% 
+  group_by(id) %>% 
+  plot_modeltime_forecast(
+    .facet_ncol = 2, .interactive = F
+  )+
+  facet_trelliscope(
+    ~id, as_plotly = T, width = 750, height = 600, scales = "free"
+    )
+```
+
+
+
+
+
+
+
+
+
+
+
+
