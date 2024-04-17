@@ -1,0 +1,151 @@
+
+
+```{r}
+pacman::p_load(tidyverse)
+theme_set(new = theme_minimal())
+
+steps <- read_csv("datasets/step_stats.csv", show_col_types = F) %>% 
+  mutate(date = mdy(date)) %>% 
+  drop_na()
+
+steps %>% 
+  mutate(month = month(date, label = T, abbr = F), 
+         weekday = wday(date, label = T, abbr = F)) %>% 
+  select(month, weekday, date, value = steps) -> steps_df
+  
+
+steps_df %>% #create a new column called is_weekend
+  mutate(is_weekend = if_else(weekday %in% c("Saturday", "Sunday"), TRUE, FALSE))->steps_df #if the day is a weekend, then the value is true, otherwise it is false
+  
+# group the data by is_weekend and month
+steps_df %>% 
+  group_by(is_weekend, month) %>% 
+  # create a new column called total_value that is the sum of the value column
+  mutate(total_value = sum(value)) %>% 
+  # remove the grouping
+  ungroup() %>% 
+  # create a new column called prop that is the value divided by the total_value
+  mutate(prop = value/total_value)
+
+steps_df %>% 
+  mutate(diff = value - lag(value)) %>% 
+  arrange(-diff)
+```
+
+```{r}
+
+plot_time_series(
+    date, value, .interactive = F, .facet_ncol = 3, 
+    .title = "Daily Steps Over Time", .y_lab = "Steps")+
+  facet_trelliscope(~is_weekend, as_plotly = T)
+
+
+```
+
+```{r warning=FALSE}
+library(prophet)
+
+
+steps_df %>% 
+  select(ds = date, y = value) -> steps_p
+
+
+model_prophet <- prophet(steps_p)
+
+future_df <- make_future_dataframe(model_prophet, periods = 100)
+
+forecast <- predict(model_prophet, future_df)
+
+dyplot.prophet(model_prophet, forecast)
+
+```
+
+
+```{r}
+prophet_plot_components(model_prophet, forecast)
+```
+
+
+
+```{r}
+
+gg_miss_var(steps_df, show_pct = T)
+
+steps %>% 
+  filter(is.na(steps))
+
+write_csv(steps, "datasets/step_stats.csv", append = T)
+```
+
+
+
+
+
+
+
+
+
+```{r}
+install.packages("jsonlite")
+
+library(jsonlite)
+library(httr)
+
+url <- "https://apps.dhis2.org/dev/api/reportTables/KJFbpIymTAo/data.csv"
+
+dta <- GET(url)
+
+str(dta)
+
+content <- base::rawToChar(dta$content)
+
+str(content)
+
+
+fromJSON(content)
+
+library(httr)
+library(jsonlite)
+
+# Make API call to get population data for Kenya
+response <- GET("http://servername/dsl/api/indicators?pe=2017&ouid=23408&id=61829", query = list(country = "Kenya"))
+
+# Extract data from response
+json_data <- content(response, "text")
+data_frame <- jsonlite::fromJSON(json_data)
+
+# View the data
+head(data_frame)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

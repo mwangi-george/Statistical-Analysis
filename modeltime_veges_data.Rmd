@@ -30,7 +30,7 @@ veges_df <- read_csv("datasets/tsdata.csv", show_col_types = F) %>%
 veges_df %>% 
   group_by(id) %>% 
   plot_time_series(date, value, .interactive = F, .facet_scales = "free_y")+
-  facet_trelliscope(~id, as_plotly = T)
+  facet_trelliscope(~id, as_plotly = T, width = 750, path = "./")
 ```
 
 ```{r}
@@ -49,9 +49,14 @@ vege_sub_df <- veges_df %>%
 vege_sub_df %>% 
   group_by(id) %>% 
   plot_time_series(
-    date, value, .interactive = F, .y_lab = "Price in USD", .smooth_alpha = .5, .title = ""
+    date, value, .interactive = F, .y_lab = "Price in USD", 
+    .smooth_alpha = .5, .title = "", .smooth_color = "lightsalmon"
     )+
-  facet_trelliscope(~id, as_plotly = T)
+  facet_trelliscope(
+    ~id, as_plotly = T, path = "selected_10_ts.html",
+    width = 750, scales = "free")
+
+
 ```
 
 ```{r}
@@ -87,13 +92,13 @@ veges_extended_df %>%
   group_by(id) %>% 
   # visualize data
   plot_time_series(
-    date, value, .facet_ncol = 2, 
+    date, value, 
     .interactive = F, .title = "", .y_lab = "Price"
     )+
   # visualize missing the extended
   geom_miss_point()+
   # take a closer look
-  facet_trelliscope(~id)
+  facet_trelliscope(~id, path = "missing_data_plot.html", scales = "free", width = 750)
 ```
 
 ```{r}
@@ -226,8 +231,10 @@ nested_modeltime_df %>%
   extract_nested_test_forecast() %>% 
   group_by(id) %>% 
   # visualize 
-  plot_modeltime_forecast(.facet_ncol = 2, .interactive = F) +
-  facet_trelliscope(~id, as_plotly = T)
+  plot_modeltime_forecast(.facet_ncol = 2, .interactive = F, .title = "",  .y_lab = "Price") +
+  facet_trelliscope(
+    ~id, as_plotly = T, path = "forecast_horizo.html", 
+    width = 750, scales = "free")
 ```
 
 ```{r}
@@ -263,9 +270,11 @@ nested_modeltime_bestmodel_fit %>%
   group_by(id) %>% 
   # visualize
   plot_modeltime_forecast(
-    .interactive = F
+    .interactive = F, .title = "Forecast Plot",
+    .legend_show = F,.plotly_slider = T, .y_lab = "Price (USD)"
   )+
-  facet_trelliscope(~id, as_plotly = T)
+  facet_trelliscope(~id, as_plotly = T, path = "forecast_plots.html", 
+    width = 750, scales = "free")
 
 ```
 

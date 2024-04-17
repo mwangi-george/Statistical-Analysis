@@ -1,0 +1,218 @@
+---
+title: "Call Report"
+author: "Mwangi N. George"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+pacman::p_load(tidyverse, janitor, lubridate)
+```
+
+# Read data
+```{r}
+calls <- read_csv("datasets/call report.csv", show_col_types = F) %>% clean_names()
+```
+
+# Cleaning Pipeline
+```{r warning=FALSE}
+calls_cleaned <- calls %>% 
+  filter(!name == "Unknown") %>% 
+  mutate(
+    from_number = as.numeric(from_number),
+    to_number = as.numeric(to_number)
+   ) %>% 
+  separate(
+    duration, into = c("mins", "secs"), sep = " "
+    ) %>% 
+  mutate(
+    mins = case_when(str_detect(mins, "m") ~ parse_number(mins)*60, 
+                     str_detect(mins, "s") ~ parse_number(mins),
+                     TRUE ~ as.numeric(mins)),
+    secs = case_when(str_detect(secs, "s") ~ parse_number(secs),
+                     TRUE ~ 0),
+    duration = mins + secs
+  ) %>% 
+  select(-c(mins, secs, sr_no)) %>% 
+  unite(col = date, date:time, sep = " ") %>% 
+  mutate(date = ymd_hms(date))
+```
+
+
+## Call Duration by Phone Number and Type
+```{r fig.width=10, echo=FALSE}
+calls_cleaned %>% 
+  filter(!type == "Rejected") %>% 
+  group_by(from_number, type) %>% 
+  summarise(total_duration = sum(duration, na.rm = T), .groups = "drop") %>% 
+  ggplot(aes(fct_reorder(type, total_duration), total_duration, fill = as.factor(from_number)))+
+  geom_col(show.legend = F)+
+  geom_text(aes(label = format(total_duration, big.mark = ","), hjust = 1))+
+  coord_flip()+
+  facet_wrap(~from_number, scales = "free")+
+  theme_bw()+
+  labs(
+    title = "Call Duration by Phone Number and Type", 
+    subtitle = "Analysis of the last 2 months",
+    caption = "Data Source: Callyzer App Call Report",
+    x = "Call Type", 
+    y = "Duration in Seconds"
+  )+
+  theme(
+        plot.title = element_text(hjust = .5, size = 16, colour = "midnightblue"), 
+        axis.text = element_text(face = "bold", colour = "midnightblue"),
+        axis.title = element_text(face = "bold", colour = "midnightblue"),
+        plot.caption = element_text(colour = "midnightblue", size = 7),
+        plot.subtitle = element_text(colour = "midnightblue", size = 12),
+        axis.text.x= element_blank(),
+        axis.ticks.x = element_blank()
+        )
+```
+
+## Poeple Who called me the most in the last 2 months
+
+```{r fig.width=10, echo=FALSE}
+calls_cleaned %>% 
+  filter(type == "Incoming") %>% 
+  count(name, sort = T) %>% 
+  slice_head(n= 10) %>% 
+  ggplot(aes(fct_reorder(name, n), n))+
+  geom_col(show.legend = F, fill = "lightsalmon", alpha = 1)+
+  geom_text(aes(label = n), hjust = 1.5, colour = "midnightblue")+
+  coord_flip()+
+  theme_minimal()+
+  labs(title = "Poeple Who called me the most in the last 2 months", 
+       x = "",
+       caption = "Data Source: Callyzer App Call Report",
+       y = "# of calls"
+       )+
+  theme(axis.text.x = element_blank(), 
+        plot.title = element_text(hjust = .5, size = 16, colour = "midnightblue"), 
+        axis.text = element_text(face = "bold", colour = "midnightblue"),
+        axis.title = element_text(face = "bold", colour = "midnightblue"),
+        plot.caption = element_text(colour = "midnightblue", size = 7))
+```
+
+## Poeple I called the most in the last 2 months
+```{r fig.width=10, echo=FALSE}
+calls_cleaned %>% 
+  filter(type == "Outgoing") %>% 
+  count(name, sort = T) %>% 
+  slice_head(n= 10) %>% 
+  ggplot(aes(fct_reorder(name, n), n))+
+  geom_col(show.legend = F, fill = "lightsalmon", alpha = 1)+
+  geom_text(aes(label = n), hjust = 1.5, color = "midnightblue")+
+  coord_flip()+
+  theme_minimal()+
+  labs(title = "Poeple I called the most in the last 2 months", 
+       x = "",
+       caption = "Data Source: Callyzer App Call Report",
+       y = "# of calls"
+       )+
+  theme(axis.text.x = element_blank(), 
+        plot.title = element_text(hjust = .5, size = 16, colour = "midnightblue"), 
+        axis.text = element_text(face = "bold", colour = "midnightblue"),
+        axis.title = element_text(face = "bold", colour = "midnightblue"),
+        plot.caption = element_text(colour = "midnightblue", size = 7))
+```
+
+## Number of Phone Calls by Type and Month
+```{r fig.width=10, echo=FALSE}
+calls_cleaned %>% 
+  mutate(month = month(date, label = T)) %>% 
+  count(type, month) %>% 
+  ggplot(aes(fct_reorder(month, n), n, fill = type))+
+  geom_col(position = "dodge")+
+  scale_fill_manual(values = c("#00AFBB", "#E7B800", "lightsalmon", "#2171B5"))+
+  theme_minimal()+
+  theme(
+    legend.position = "top", legend.title = element_blank(),
+    plot.title = element_text(hjust = .5, color = "midnightblue", size = 17))+
+  labs(y = "Number of Calls", x = "Month", 
+       caption = "Data Source: Callyzer App Call Report",
+       title = "Number of Phone Calls by Type and Month")
+
+```
+
+## George's Phone Calls by Type and Day
+```{r fig.width=10, warning=FALSE, echo=FALSE}
+calls_cleaned %>% 
+  filter(between(date, as.Date("2023-03-22"), as.Date("2023-03-29"))) %>% 
+  mutate(day = wday(date, label = T)) %>% 
+  count(type, day) %>% 
+  complete(type, day, fill = list(n = 0)) %>% 
+  ggplot(aes(day, n, fill = type))+
+  geom_col(position = "dodge", width = .7)+
+  scale_fill_manual(values = c("#00AFBB", "green", "lightsalmon", "#2171B5"))+
+  scale_y_discrete(limits = c(0, 2, 4, 6, 8, 10))+
+  theme_minimal()+
+  theme(
+    legend.position = "top", legend.title = element_blank(),
+    plot.title = element_text(hjust = .5, color = "midnightblue", size = 20),
+    axis.text = element_text(size = 12), 
+    plot.subtitle = element_text(color = "midnightblue", size = 12)
+    )+
+  labs(
+    y = "Number of Calls", x = "Day", 
+    caption = "Data Source: Callyzer App Call Report",
+    title = "George's Phone Calls by Type and Day",
+    subtitle = "Analysis of 12th March to 18th March"
+    )
+```
+
+## Number of George's Calls Over Time
+```{r echo=FALSE}
+calls_cleaned %>% 
+  filter(type == "Incoming") %>% 
+  group_by(date = date(date)) %>% 
+  summarise(n_calls= n()) %>% 
+  complete(date) %>% 
+  ggplot(aes(date, n_calls))+
+  geom_line()+
+  geom_point()+
+  theme_minimal()+
+  labs(
+    title = "Number of George's Calls Over Time", 
+    y = "# of Calls", x = "Time"
+  )+
+  theme(
+    text = element_text(colour = "lightsalmon"),
+    plot.title = element_text(hjust = .5)
+  )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

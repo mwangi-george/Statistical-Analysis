@@ -1,0 +1,121 @@
+---
+title: "Untitled"
+author: "Mwangi N. George"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r}
+pacman::p_load(tidyverse, janitor, naniar, lubridate, timetk, modeltime, trelliscopejs)
+
+dmpa_im <- read_csv("datasets/DMPA_IM.csv", show_col_types = F)
+dmpa_sc <- read_csv("datasets/DMPA_SC.csv", show_col_types = F)
+ec_pills <- read_csv("datasets/EC Pills.csv", show_col_types = F)
+pop <- read_csv("datasets/POP.csv", show_col_types = F)
+coc <- read_csv("datasets/COC.csv", show_col_types = F)
+lng_5yr <- read_csv("datasets/LNG_5yr.csv", show_col_types = F)
+lng_3yr <- read_csv("datasets/LNG_3yr.csv", show_col_types = F)
+rod_implants <- read_csv("datasets/1Rod_Implants.csv", show_col_types = F)
+coppert <- read_csv("datasets/CopperT.csv", show_col_types = F)
+iud_hormonal <- read_csv("datasets/IUD_Hormonal.csv", show_col_types = F)
+
+dmpa_im <- dmpa_im %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "DMPA IM")  
+  
+dmpa_sc <- dmpa_sc %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "DMPA SC")
+
+ec_pills <- ec_pills %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "EC Pills")
+
+pop <- pop %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "POP")
+
+coc <- coc %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "COC")
+
+lng_5yr <- lng_5yr %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "LNG 5yr")
+
+lng_3yr <- lng_3yr %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "LNG 3yr")
+
+rod_implants <- rod_implants %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "1Rod Implants")
+
+coppert <- coppert %>% 
+  pivot_longer(2:13, names_to = "date", values_to = "value") %>% 
+  mutate(date = my(date), product = "CopperT")
+
+
+product <- dmpa_im %>% 
+  bind_rows(dmpa_sc, ec_pills, pop, coc, lng_5yr, lng_3yr, rod_implants, coppert, iud_hormonal)
+
+write_csv(product, file = "datasets/fp_data.csv")
+
+```
+
+
+```{r}
+product <- read_csv("datasets/fp_data.csv", show_col_types = F)
+
+product_ts <- product %>% 
+  unite(col = "organization-method", c(organisationunitname, product), sep = "-") %>% 
+  set_names(c("id", "date", "value"))
+```
+
+```{r}
+product %>% 
+  select(id = product, date, value) %>% 
+  group_by(id) %>% 
+  plot_time_series(date, value, .interactive = F)+
+  facet_trelliscope(~id, path = "./", width = 700)
+```
+```{r}
+products <- read_csv("datasets/fp_data.csv", show_col_types = F)
+
+pct_complete(products)
+
+gg_miss_var(products)
+products <- products %>% 
+  replace_na(list(value = 0))
+
+
+products %>% 
+  group_by(product) %>% 
+  plot_time_series(date, value, .facet_ncol = 2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

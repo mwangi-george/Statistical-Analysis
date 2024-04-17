@@ -1,0 +1,2140 @@
+11/22/19, 03:46 - +254 700 128925 created group "Tech blurbs 💻"
+11/22/19, 03:45 - This group was added to the community "VICK ⚙️." Tap to view.
+11/22/19, 03:45 - Anyone in the community "VICK ⚙️" can join this group.
+11/22/19, 03:46 - You were added
+12/4/22, 07:53 - +254 701 713296: https://www.linkedin.com/groups/9272137
+12/4/22, 08:54 - +254 702 932061: <Media omitted>
+12/4/22, 12:06 - +254 710 102720: https://huggingface.co/blog/time-series-transformers
+12/4/22, 12:27 - +254 722 687427: 😅
+12/4/22, 13:08 - +254 797 817059 added +254 705 276840
+12/4/22, 15:19 - +254 791 322767: <Media omitted>
+Kabarak University wishes to call for empirical works and cases studies for presentation at the Data Science and Artificial Intelligence Conference to be held at Kabarak University on 1st - 3rd February 2023
+12/4/22, 17:29 - +254 712 467004: <Media omitted>
+Guys, someone bail me out here.
+I cant figure out the proble, I have those two attributes on my dataset.
+12/4/22, 17:39 - +254 797 817059: Reread the error.
+KeyError always tells you a column name isn't available.
+Also it'll show you the columns, in your case ```Xtrain``` doesn't have ```humidity``` and ```windspeed``` columns. So recheck your DataFrame columns so as to select the ones you need
+12/4/22, 17:40 - +254 712 467004: <Media omitted>
+I have put them.
+
+
+I had dooen this before.
+So, I think this is where the rain started beating me.
+12/4/22, 17:42 - +254 797 817059: You're selecting them from ```Xtrain``` DataFrame, so check the DataFrame to confirm if they're there
+12/4/22, 17:42 - +254 797 817059: ```X_train```
+12/4/22, 17:43 - +254 712 467004: <Media omitted>
+Check for me here, this is where X-train is
+12/4/22, 17:46 - +254 797 817059: <Media omitted>
+Based on your indexing you're not selecting them.
+12/4/22, 17:47 - +254 712 467004: 🤨 . 🤨
+
+Honestly, I dont know what that means.
+12/4/22, 17:48 - +254 712 467004: 🥹🥹
+12/4/22, 17:52 - +254 797 817059: Kindly read more on how to select columns in documentation or any other source of your choice: https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html
+
+The solution that you're looking for is ```[0:-1]```, this way you'll select all columns except -1 which is the last column is exclusive in X.
+
+There're other ways you can select columns. Go through the documentation.
+
+
+Another way is to drop the columns you don't need 🙂
+12/4/22, 17:53 - +254 797 817059: I hope you're familiar with pandas 🙂
+12/4/22, 17:53 - +254 712 467004: Yes, am trying.
+Let me see what happens in a moment.
+12/4/22, 18:23 - +254 712 467004: <Media omitted>
+I only want to exclude this column,
+12/4/22, 18:24 - +254 712 467004: How do I edit this code to implement what am saying now?
+12/4/22, 18:24 - +254 712 467004: I read the documentation but sikuelewa kabisa.
+12/4/22, 20:14 - +254 717 152438: https://chat.whatsapp.com/HeDVw5L7HLvIn44pPEbvam
+12/4/22, 20:22 - +254 793 814061: If you will not be using the column on either of the train or test, why not just drop it completely before the data modelling section with ```bike_data_df.drop([ 'atemp' ], axis = 1)```
+
+rather than clutter the ```train_test_split``` with the column indices
+12/5/22, 06:49 - +254 745 418069 joined using this group's invite link
+12/5/22, 10:53 - +254 702 932061: <Media omitted>
+12/5/22, 12:26 - +254 702 932061: https://drive.google.com/drive/folders/1EnrhCkAABC08AQJyaxcWzChvFpGViCfo?usp=sharing
+
+A butt load of books here.
+12/5/22, 13:46 - +254 769 212648: Hi guys, is it possible to land a job without a degree in data science /analytics?
+
+Anyone who has?
+12/5/22, 15:06 - +234 906 584 4047: It’s possible but not easy
+12/5/22, 15:18 - +254 724 886567: Great books and tutorials I have seen..thanks buddy
+12/5/22, 15:23 - +254 799 139368: This was really helpful thanks 👍
+12/5/22, 16:52 - +254 702 598123: Thanks
+12/5/22, 21:13 - +254 712 467004: <Media omitted>
+Guys, I finally got this accuracy.
+Which ofcourse is Bad News!
+
+Help me out someone, what could be the problem.
+12/6/22, 04:02 - +254 715 709325: This message was deleted
+12/6/22, 04:45 - +254 733 477292: <Media omitted>
+https://interestingengineering.com/science/spacex-pay-you-hack-starlink?utm_source=Twitter&amp;utm_medium=content&amp;utm_campaign=organic&amp;utm_content=Aug16
+12/6/22, 08:20 - +254 702 932061: https://jabde.com/2021/05/23/girlfriends-mood-time-series-analysis/
+12/6/22, 08:23 - +254 702 932061: <Media omitted>
+A-Time-Series-Analysis-of-my-Girl-Friends-Mood-Swings-1.pdf
+12/6/22, 08:50 - +254 791 827914 joined using this group's invite link
+12/6/22, 08:51 - +254 702 932061: <Media omitted>
+12/6/22, 10:54 - +254 711 547611: Kindly help a friend to fill below questionnaire on  THE INFLUENCE OF CONSCIOUS CONSUMERISM ON CONSUMER BUYER BEHAVIOUR OF THE YOUTH.
+
+Please fill or share within this week. Her study window is closing up and your on-time input is fully appreciated. 
+
+The questionnaire link is pasted below
+
+Questionnaire Link: https://forms.gle/s3iHDqqvgrRe1u8Z8
+12/6/22, 14:59 - +254 716 340285: https://twitter.com/__JasonMarshall/status/1599807784966447106?t=N9zwwlkyxGQegQWcHCbQYg&s=19
+12/6/22, 16:42 - +254 746 626470: Hello do you happen to know any cybersecurity WhatsApp grp
+12/6/22, 16:42 - +254 746 626470: For kenya community
+12/6/22, 16:45 - +254 706 119340: Follow this link to join my WhatsApp group: https://chat.whatsapp.com/J7WxSMGqio70At1M6JNwRt
+12/6/22, 16:54 - +254 746 626470: Thanks 
+Send more if there is any
+12/6/22, 16:55 - +254 791 827914: I would also really appreciate links to data analysis and science groups
+12/6/22, 17:57 - +254 791 071536: If anyone know of a react and react native community/group, please share. Thanks
+12/6/22, 18:02 - +254 746 217838: Try gridsearch with the other regressors and share the outcome
+12/6/22, 18:03 - +254 746 217838: Remember to normalise / standardize your independent variables
+12/6/22, 20:37 - +254 702 932061: <Media omitted>
+Are you a University student or a Recent graduate, do you have experience in Full stack web development ? Do you wish to transform lives through education ? then join us on our quest to provide scholarships to students in Ethiopia and Kenya. Apply here https://bit.ly/3BeGhVF
+12/6/22, 20:39 - +254 702 589522: Anyone who pursued or pursuing Statistics and Information Technology kindly dm..
+12/6/22, 23:11 - +254 796 603292 joined using this group's invite link
+12/6/22, 23:10 - +254 707 821377: This message was deleted
+12/7/22, 00:21 - +254 796 622727: https://chat.whatsapp.com/LPS0vja1kn3LsNeBOuqXEc
+12/7/22, 00:21 - +254 796 622727: https://chat.whatsapp.com/KtriGggzZnmK7dXOHIT2co
+12/7/22, 01:07 - +254 768 051076: Want to have an awesome meeting online? #microsoftteams got you, high quality audio and video, with awesome communication features. 
+
+use the link below to start your own meeting
+
+
+
+https://www.microsoft.com/en-ww/microsoft-teams?wt.mc_id=studentamb_224509
+12/7/22, 01:08 - +254 768 051076: AI conference starting from 13th December. Details can be found at:
+https://aka.ms/AiStudentConference?wt.mc_id=studentamb_224509
+12/7/22, 14:49 - +254 719 267878: Good afternoon guys. 
+
+I have several of these random encrypted seconds in  a json. 
+
+"seconds" : "x6xxxxxxx4,
+
+
+To find the pattern, I have used
+
+" seconds" : "[a-zA-Z0-9]{10}
+
+How can I add a " after the 10 digits before the comma without altering the unique number of seconds?
+12/7/22, 15:12 - +254 728 785868: Excell expert inbox ASAP 📥
+12/7/22, 15:17 - +254 728 785868: VBA expert inbox
+12/7/22, 15:17 - +254 702 589522: This Group link please ?
+12/7/22, 15:17 - +254 716 055568: Visual basic?
+12/7/22, 15:20 - +254 728 785868: Yes
+12/7/22, 15:20 - +254 728 785868: Visual basic applications
+12/7/22, 15:22 - +254 716 055568: I did this as a first year student.
+I am not sure if I can help you since I can't remember anything.
+12/7/22, 15:23 - +254 797 817059: Kindly share a preview of the JSON FILE
+12/7/22, 15:25 - +254 719 267878: Fixed.👍🏾
+
+Typing   $0"
+
+In the replace bar
+12/7/22, 15:25 - +254 797 817059: 👍🏿
+12/7/22, 15:28 - +254 793 601115: https://www.global.girleffect.org/careers/?gh_jid=6504269002&gh_src=e0a6e5802us&source=
+12/7/22, 16:28 - +254 702 932061: <Media omitted>
+12/7/22, 17:34 - +254 723 325631: hmu
+12/7/22, 19:21 - +254 746 626470: Walai
+12/7/22, 20:58 - +254 757 957335: <Media omitted>
+12/8/22, 16:09 - +254 701 970504: <Media omitted>
+Software Developer Recruitment.pdf
+12/8/22, 16:23 - +254 723 472206: hello guys 
+i have tried to verify google cloud console account(GCP) and it has not gone through can anyone help me at this?
+12/9/22, 06:38 - +254 796 984554 joined using this group's invite link
+12/9/22, 07:06 - +254 713 642280 joined using this group's invite link
+12/9/22, 02:49 - +254 702 932061: <Media omitted>
+12/9/22, 04:17 - +254 702 932061: *TechBlurb Github Community*
+In an effort to continuously grow our community, we are setting up a 
+TechBlurb's organization Github profile where we collaborate on projects
+ around Tech. Kindly provide the info below to be added to TechBlurb's 
+GitHub Community. 
+Each Team will have mentors and a project manager. Those interested in either of the two roles, can email blurbstech@gmail.com, inbox me or @254797817059 .
+
+https://forms.gle/QE6GndTy17bep4Qc6
+12/9/22, 04:17 - +254 702 932061: https://docs.google.com/forms/d/e/1FAIpQLSdOprwtlOVzm52nr5uU90VSAT7YGzgL-QFbN6S6zz3i8TR-IA/viewform?usp=sf_link
+
+For those looking to be Mentors, register here.
+12/9/22, 08:14 - +254 112788037 joined using this group's invite link
+12/9/22, 09:31 - +254 737 863235: 😂😂😂
+12/9/22, 09:32 - +254 737 863235: Wastage of tax payer money
+12/9/22, 12:02 - +254 714 714958: Hello guys, is there an option for bulk mpesa payments?
+12/9/22, 12:04 - +254 702 932061: Using the mpesa app.
+12/9/22, 12:07 - +254 702 932061: https://www.securityweek.com/removing-barriers-security-automation-implementation
+12/9/22, 22:01 - +254 723 727870: You've blown up the LAMBCHOP doomsday device and relieved the bunnies of their work duries -- and now you need to escape from the space station as quickly and as orderly as possible! The bunnies have all gathered in various locations throughout the station, and need to make their way towards the seemingly endless amount of escape pods positioned in other parts of the station. You need to get the numerous bunnies through the various rooms to the escape pods. Unfortunately, the corridors between the rooms can only fit so many bunnies at a time. What's more, many of the corridors were resized to accommodate the LAMBCHOP, so they vary in how many bunnies can move through them at a time. 
+
+Given the starting room numbers of the groups of bunnies, the room numbers of the escape pods, and how many bunnies can fit through at a time in each direction of every corridor in between, figure out how many bunnies can safely make it to the escape pods at a time at peak.
+
+Write a function solution(entrances, exits, path) that takes an array of integers denoting where the groups of gathered bunnies are, an array of integers denoting where the escape pods are located, and an array of an array of integers of the corridors, returning the total number of bunnies that can get through at each time step as an int. The entrances and exits are disjoint and thus will never overlap. The path element path[A][B] = C describes that the corridor going from A to B can fit C bunnies at each time step.  There are at most 50 rooms connected by the corridors and at most 2000000 bunnies that will fit at a time.
+
+For example, if you have:
+entrances = [0, 1]
+exits = [4, 5]
+path = [
+  [0, 0, 4, 6, 0, 0],  # Room 0: Bunnies
+  [0, 0, 5, 2, 0, 0],  # Room 1: Bunnies
+  [0, 0, 0, 0, 4, 4],  # Room 2: Intermediate room
+  [0, 0, 0, 0, 6, 6],  # Room 3: Intermediate room
+  [0, 0, 0, 0, 0, 0],  # Room 4: Escape pods
+  [0, 0, 0, 0, 0, 0],  # Room 5: Escape pods
+]
+
+Then in each time step, the following might happen:
+0 sends 4/4 bunnies to 2 and 6/6 bunnies to 3
+1 sends 4/5 bunnies to 2 and 2/2 bunnies to 3
+2 sends 4/4 bunnies to 4 and 4/4 bunnies to 5
+3 sends 4/6 bunnies to 4 and 4/6 bunnies to 5
+
+So, in total, 16 bunnies could make it to the escape pods at 4 and 5 at each time step.  (Note that in this example, room 3 could have sent any variation of 8 bunnies to 4 and 5, such as 2/6 and 6/6, but the final solution remains the same.)
+
+Languages
+=========
+
+To provide a Java solution, edit Solution.java
+To provide a Python solution, edit solution.py
+
+Test cases
+==========
+Your code should pass the following test cases.
+Note that it may also be run against hidden test cases not shown here.
+
+-- Java cases --
+Input:
+Solution.solution({0, 1}, {4, 5}, {{0, 0, 4, 6, 0, 0}, {0, 0, 5, 2, 0, 0}, {0, 0, 0, 0, 4, 4}, {0, 0, 0, 0, 6, 6}, {0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}})
+Output:
+    16
+
+Input:
+Solution.solution({0}, {3}, {{0, 7, 0, 0}, {0, 0, 6, 0}, {0, 0, 0, 8}, {9, 0, 0, 0}})
+Output:
+    6
+
+-- Python cases --
+Input:
+solution.solution([0], [3], [[0, 7, 0, 0], [0, 0, 6, 0], [0, 0, 0, 8], [9, 0, 0, 0]])
+Output:
+    6
+
+Input:
+solution.solution([0, 1], [4, 5], [[0, 0, 4, 6, 0, 0], [0, 0, 5, 2, 0, 0], [0, 0, 0, 0, 4, 4], [0, 0, 0, 0, 6, 6], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]])
+Output:
+    16
+12/9/22, 22:02 - +254 723 727870: Ideas?
+12/9/22, 23:13 - +254 743 238330 joined using this group's invite link
+12/10/22, 07:39 - +254 702 932061 added +254 792 825830
+12/10/22, 09:02 - +254 702 932061: https://blog.tensorflow.org/2022/11/how-hugging-face-improved-text-generation-performance-with-xla.html
+12/10/22, 09:02 - +254 702 932061: <Media omitted>
+Practical TensorFlow... by Juan De Dios Santos ...pdf
+12/12/22, 10:45 - +254 757 826724: *Lead Data Scientist👨‍💻👩‍💻*
+
+🏢 *_Company_*:  Kyosk Digital Services limited
+📍 *_Location_*:  Nairobi, remote 
+💼 *_Job Type_*: Full-time 
+👨🏿‍💻 *_Experience_*: 4 years
+🏷 *_Tags_*: leadership, ML and Data
+📅 *_Deadline Date_*:  Dec. 16, 2022
+
+ 🚀 *_Apply Here_*: https://kyosk.hire.trakstar.com/jobs/fk0x6zn/
+12/12/22, 10:46 - +254 757 826724: The AWS Artificial Intelligence (AI) and Machine Learning (ML) Scholarship program, in collaboration with Intel and Udacity, aims to help underserved and underrepresented high school and college students learn foundational ML concepts to prepare them for careers in AI and ML
+
+https://aws.amazon.com/machine-learning/scholarship/
+12/12/22, 13:15 - +254 797 846053: if you're familiar with inroads ...dm
+12/12/22, 22:07 - +254 797 817059 added +254 740 632985
+12/13/22, 18:39 - +254 702 932061: https://microsoft.github.io/Data-Science-For-Beginners/#/
+12/13/22, 18:40 - +254 702 932061: <Media omitted>
+Data Analytics Interview Questions and Answers .pdf
+12/13/22, 18:40 - +254 702 932061: <Media omitted>
+Decision Tree.pdf
+12/13/22, 18:40 - +254 702 932061: <Media omitted>
+The Data Science Handbook.pdf
+12/13/22, 18:57 - +254 713 642280: https://microsoft.github.io/Data-Science-For-Beginners/#/
+12/13/22, 18:57 - +254 713 642280: A free data science course offered by Microsoft.
+12/13/22, 21:09 - +254 702 932061: https://jobs-airdc.icims.com/jobs/12545/managing-director/job?mode=view&mobile=false&width=709&height=500&bga=true&needsRedirect=false&jan1offset=-300&jun1offset=-240
+12/14/22, 11:13 - +254 746 626470: https://accelerator.github.com/
+12/14/22, 22:41 - +254 757 826724: <Media omitted>
+*Anyone can attend Physically*
+12/14/22, 22:41 - +254 757 826724: 📌 *To they who will be joining Virtually... Here's the link to join*
+
+*IndabaX Africa* is inviting you to a scheduled Zoom meeting.
+Join Zoom Meeting
+https://us02web.zoom.us/j/81559037557?pwd=Mi8vNkYyQWJHY0p4Y2czWmpPSVZ4Zz09
+
+Meeting ID: 815 5903 7557
+Passcode: 572079
+12/14/22, 22:41 - +254 757 826724: ...incase you wanna attend Physically but you had not registered, kindly inbox
+12/15/22, 11:30 - +254 757 957335: <Media omitted>
+12/15/22, 13:44 - +254 791 322767: <Media omitted>
+Tonight, *LIVE [🔴]*  on *KUTV Prime Time News @09:00 PM* hosted by *Mercy Imbinda.*
+
+Tune in for the conversation😊
+12/15/22, 15:44 - +254 797 817059 added +254 722 951158
+12/15/22, 16:59 - +254 716 340285: https://twitter.com/Aacle_/status/1603302519933136896?t=dawGew91Eq0vbNm0pBrJXw&s=19
+12/16/22, 01:05 - +254 702 932061: <Media omitted>
+http://bit.ly/divdatacamp22
+12/16/22, 07:05 - +254 702 932061: Here are the ALX programmes for 2023!
+
+Click the link to register your interest 
+
+https://www.alxafrica.com/Register-Your-Interest-ALX-Tech-Programmes-2023
+12/16/22, 08:20 - +254 746 626470: So it’s for ladies only
+12/16/22, 08:21 - +254 700 311313: Yeah
+12/16/22, 08:21 - +254 756 759081: Anyone can apply
+12/16/22, 08:21 - +254 746 626470: STK-20221216-WA0006.webp (file attached)
+12/16/22, 08:47 - +254 704 591008 joined using this group's invite link
+12/16/22, 09:49 - +254 797 817059 added +254 711 593023
+12/16/22, 09:51 - +254 769 212648: <Media omitted>
+12/16/22, 13:44 - +254 702 932061: <Media omitted>
+12/16/22, 16:50 - +254 707 847805: Heeeeeeeeeeey guys...
+I'm looking for someone really good in R programming to help in a small assignment...
+Anyone.......? 🤓🤓🤓🤓🤓
+12/16/22, 17:05 - +254 111356555: Niko apa leta assignment
+12/16/22, 18:06 - +254 702 932061: https://www.perplexity.ai/sql
+
+Perplexity SQL is powered by large language models (OpenAI API), Twitter API, and PostgreSQL. Limitations include AI accuracy, Twitter API availability, SQL syntax, and PostgreSQL performance. Do not enter personal information. Perplexity is not liable for content displayed or generated. This web site is not endorsed by, directly affiliated with, authorized, or sponsored by Twitter.
+12/16/22, 18:08 - +254 102826524: Bring it on
+12/17/22, 07:38 - +254 702 932061: <Media omitted>
+How to Write a Business Plan (Creating Success).pdf
+12/17/22, 07:38 - +254 702 932061: <Media omitted>
+Operations_Management.pdf
+12/17/22, 07:38 - +254 702 932061: <Media omitted>
+Project Planning and Control.pdf
+12/17/22, 07:38 - +254 702 932061: <Media omitted>
+emotional intelligence_Decrypted.PDF
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+Earned Value Management Tutorial Module.pdf
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+customer-care_Decrypted.PDF
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+managing-human-resource-learning-for-innovation.pdf
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+Linear Programming and Network Flows.pdf
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+soft-skills_Decrypted.PDF
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+fuzzy theory and applications.pdf
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+Project_Risk_Management_Processes.pdf
+12/17/22, 07:39 - +254 702 932061: <Media omitted>
+Ace the PMI ACP exam.pdf
+12/17/22, 07:50 - +254 794 562302 joined using this group's invite link
+12/17/22, 10:12 - +254 757 957335: <Media omitted>
+12/18/22, 11:57 - +254 702 932061: <Media omitted>
+Applied Machine Learning Explainability Technique (2022).pdf
+12/18/22, 11:57 - +254 702 932061: <Media omitted>
+Advancing into Analy... by George Mount.pdf
+12/18/22, 11:57 - +254 702 932061: <Media omitted>
+O-Reilly-SQL-Cookbook-2nd-Edition-Final.pdf
+12/19/22, 14:20 - +254 702 932061: <Media omitted>
+12/19/22, 14:52 - +254 702 932061: DiffusionInst: Diffusion Model for Instance Segmentation
+
+* DiffusionInst is the first work of diffusion model for instance segmentation
+
+Github:
+https://github.com/chenhaoxing/DiffusionInst
+
+Paper:
+https://arxiv.org/abs/2212.02773v2
+
+Getting started:
+https://github.com/chenhaoxing/DiffusionInst/blob/main/GETTING_STARTED.md
+
+Dataset:
+https://paperswithcode.com/dataset/lvis
+12/19/22, 17:49 - +254 728 785868: statistics exam specialist needed....inbox asap?
+12/19/22, 20:45 - +254 702 932061: <Media omitted>
+Lean Management Enterprise .pdf
+12/19/22, 20:45 - +254 702 932061: <Media omitted>
+Scenario Analysis in Risk Management.pdf
+12/19/22, 20:45 - +254 702 932061: <Media omitted>
+Storytelling with Data Let s Practice.pdf
+12/19/22, 20:46 - +254 702 932061: <Media omitted>
+effective communications for project management.pdf
+12/19/22, 20:46 - +254 702 932061: <Media omitted>
+Fundamentals and Methods of Machine and Deep Learning.pdf
+12/19/22, 20:46 - +254 702 932061: <Media omitted>
+The Data-Driven Project Manager.pdf
+12/19/22, 20:46 - +254 702 932061: <Media omitted>
+Training Data for Machine Learning.pdf
+12/20/22, 15:42 - +254 702 932061: https://www.linkedin.com/posts/teneikaaskew_30daysofdatascience-military-hiring-activity-7010610113044516864-Ofnj?utm_source=share&utm_medium=member_android
+12/20/22, 20:24 - +254 717 152438: <Media omitted>
+The Ultimate Data Science Career Guide.pdf
+12/21/22, 09:23 - +254 703 581853 joined using this group's invite link
+12/21/22, 09:46 - +254 797 817059 added +254 711 857150
+12/21/22, 09:47 - +254 708 596178 joined using this group's invite link
+12/21/22, 10:45 - +254 718 400181 joined using this group's invite link
+12/21/22, 10:58 - +254 706 823165 joined using this group's invite link
+12/21/22, 12:28 - +254 728 250823 joined using this group's invite link
+12/21/22, 14:21 - +254 725 404233 joined using this group's invite link
+12/21/22, 15:59 - +254 700 348335 joined using this group's invite link
+12/21/22, 17:54 - +254 728 785868: ACCOUNTING EXPERT inbox ASAP
+12/21/22, 23:20 - +254 757 826724: <Media omitted>
+https://twitter.com/kennedykwangari/status/1605474327989612546?s=20&t=byfuHukmYSZ9vjQLmB_9hQ
+12/22/22, 22:50 - +254 768 051076: Happy Holidays and I hope you all are excited about 2023!
+
+Microsoft is offering a completely FREE Web Development course that is 10 weeks long. It has a 20-lesson curriculum and includes quizzes, written instructions, assignments, and more content to help you get on track with your Web Development Career!
+
+Check out the course here for more information. Start immediately with the lesson curriculum.
+Happy learning! 👍
+
+https://github.com/microsoft/Web-Dev-For-Beginners?wt.mc_id=studentamb_224509
+12/23/22, 01:02 - +254 702 932061: Happy holidays too
+12/23/22, 17:33 - +254 757 957335: <Media omitted>
+12/23/22, 17:51 - +254 702 932061: <Media omitted>
+12/25/22, 07:17 - +254 702 932061: <Media omitted>
+Merry Christmas / Happy Hanukkah TechBlurbians!
+Enjoy your holidays.
+12/25/22, 10:22 - +254 725 236616: <Media omitted>
+12/26/22, 12:51 - +254 702 932061: <Media omitted>
+12/26/22, 21:18 - +254 773 015951 changed to +254 706 027069
+12/27/22, 17:06 - +254 723 727870: An ALL EXPENSE PAID trip to attend Kotlin Conf 2023 in Amsterdam, The Netherland in April, all you need to do is
+
+- Be a student or recent graduate 
+- Build something amazing using Kotlin MultiPlatform and run on Android and atleast one other OS. 
+- Submit your project by January 13th. 
+
+More details are available at  https://kotlinconf.com/contest-rules 
+
+Good luck
+12/28/22, 21:09 - +254 729 549923: Graphical user interface, text
+
+Description automatically generated
+ 
+
+Dear ITExperience Community Member,
+
+ 
+
+We are happy to announce that the application for the ITExperience Google Career Certificate Scholarship Program for January 2023 Cohort is now open. To learn more about the Google Career Certificate Scholarship Program and apply please click on the link below
+
+ 
+
+https://itexperience.org/google-career-certificate-scholarship-application-form
+
+ 
+
+We are also happy to introduce the ITExperience IBM Learning Certificate Program for January 2023 Cohort to our community of learners. See the list of currently available IBM courses. 
+
+·        IBM ITExperience Cybersecurity
+
+·        IBM ITExperience Fortinet Network Security Expert Certifications
+
+·        IBM ITExperience CompTIA Security+ Prep
+
+·        IBM ITExperience Data Analysis
+
+·        IBM ITExperience Red Hat Certified System Administration
+
+·        IBM Cybersecurity Analyst Professional Certificate (Coursera)
+
+·        IBM Data Analyst Professional Certificate (Coursera)
+
+ 
+
+To learn more about the IBM Learning Certificate Program and apply please click on the link below
+
+ 
+
+https://itexperience.org/ibm-learning-program-application-form/
+
+ 
+
+Please forward to anyone you think might be interested. The application for both Google Career Certificate and the IBM Learning Certificate for the January 2023 Cohort will close on December 31st, 2022.
+
+Follow us on LinkedIn to learn more about the program  Title: LinkedIn - Description: image of LinkedIn icon
+
+Regards,
+
+ 
+
+ITExperience Program Team
+
+ 
+
+
+
+ITExperience Program Team
+
+Web www.itexperience.org 
+
+Email support@itexperience.org
+
+Title: LinkedIn - Description: image of LinkedIn icon
+12/29/22, 13:03 - +254 797 817059 added +254 790 931766
+12/30/22, 13:21 - +254 748 592566 joined using this group's invite link
+12/30/22, 13:21 - +254 740 875071 joined using this group's invite link
+12/30/22, 13:24 - +254 757 232032 joined using this group's invite link
+12/30/22, 13:34 - +254 706 156340 joined using this group's invite link
+12/30/22, 14:58 - +254 772 966694 joined using this group's invite link
+12/30/22, 16:11 - +254 725 039843 joined using this group's invite link
+12/30/22, 17:17 - +254 706 553737 joined using this group's invite link
+12/30/22, 14:42 - +254 748 592566: Hi everyone,
+
+I'm excited to join this group and connect with all of you techies! I'm a Data Analyst and am always looking for new opportunities to learn and grow in my field. I'm looking forward to sharing knowledge and experiences with all of you.
+12/30/22, 15:45 - +254 700 885748: Welcome @254748592566, looking forward to learning Data Analysis from you.
+12/30/22, 17:55 - +254 710 504790: Hello  look fo help here  I'm doing CICD for flutter apps looking for  Upwork  cowork  who is good in Ci Cd ,got problem when connecting codemagic build to app center .
+12/30/22, 19:02 - +254 723 847180 joined using this group's invite link
+12/30/22, 19:52 - +254 748 592566: Always ready to share the little I know...
+12/30/22, 20:05 - +254 707 478600 joined using this group's invite link
+12/30/22, 20:44 - +254 704 374514: <Media omitted>
+variable 2.xlsx
+12/30/22, 20:44 - +254 704 374514: <Media omitted>
+Instructions--tableau.txt
+12/30/22, 20:44 - +254 704 374514: <Media omitted>
+Dissertation.sav
+12/30/22, 20:45 - +254 704 374514: If you can handle this , dm urgently
+12/30/22, 20:51 - +254 716 827778 joined using this group's invite link
+12/30/22, 21:10 - +254 707 313868 joined using this group's invite link
+12/31/22, 00:13 - +254 746 603248 joined using this group's invite link
+12/31/22, 07:01 - +254 700 128925 added +254 791 296535
+12/31/22, 08:59 - +254 702 932061: <Media omitted>
+12/31/22, 09:53 - +254 722 797858 joined using this group's invite link
+12/31/22, 09:54 - +234 808 041 7630 joined using this group's invite link
+12/31/22, 09:59 - +234 903 026 3529 joined using this group's invite link
+12/31/22, 10:00 - +254 713 928192 joined using this group's invite link
+12/31/22, 10:02 - +254 769 709922 joined using this group's invite link
+12/31/22, 10:18 - +254 727 970853 joined using this group's invite link
+12/31/22, 11:24 - +254 702 932061: <Media omitted>
+12/31/22, 11:27 - +254 727 918955: STK-20221231-WA0003.webp (file attached)
+12/31/22, 11:28 - +254 796 161357 joined using this group's invite link
+12/31/22, 11:29 - +254 723 890575: STK-20221231-WA0004.webp (file attached)
+12/31/22, 11:32 - +254 111356555: Hi.
+Has anyone had an issue registering credit card details on heroku? Maybe one with a kcb me card?
+12/31/22, 12:03 - +254 719 428019 joined using this group's invite link
+12/31/22, 12:06 - +254 719 428019: Hello guys my names are Amos am an aspiring SWE , I work mainly in react, JavaScript, Typescript, Tailwind, Java and Spring boot. 🤝 Glad to connect
+12/31/22, 12:30 - +254 768 004818: Hello too Amos...great yo connect with you too💯
+12/31/22, 12:49 - +254 740 414048 joined using this group's invite link
+12/31/22, 13:04 - +254 716 055568: Spring boot fellow🫱🏿‍🫲🏿
+12/31/22, 13:09 - +254 725 404233: Any link to this story?
+12/31/22, 13:11 - +256 726 352106 joined using this group's invite link
+12/31/22, 13:19 - +254 710 755312 joined using this group's invite link
+12/31/22, 13:27 - +254 115324584 joined using this group's invite link
+12/31/22, 13:40 - +254 791 482959 joined using this group's invite link
+12/31/22, 13:43 - +254 727 633579 joined using this group's invite link
+12/31/22, 15:00 - +254 798 556359 joined using this group's invite link
+12/31/22, 15:15 - +254 752 544284 joined using this group's invite link
+12/31/22, 17:35 - +254 758 831526 joined using this group's invite link
+12/31/22, 18:08 - +254 796 161357: If I can make any layout using flex is there a need for me to learn grid
+CSS guys in the house
+12/31/22, 18:12 - +254 111356555: The problem is when you need to output a two dimensional  layout. Just learn both they ain't hard to understand
+12/31/22, 18:12 - +254 757 446077: Grid simplifies the process. Especially if you want to implement complex layouts.
+12/31/22, 18:12 - +254 796 161357: Cool
+12/31/22, 18:13 - +254 796 161357: I'll add grid to my resolutions 😅
+12/31/22, 18:14 - +254 111356555: Lately I have been addicted to software development. That's how I have been learning languages like react js, node, mysql, css and html. Quite interesting. 
+I'm a statistician though 😁
+12/31/22, 18:16 - +254 757 446077: A 30 mins tutorial and 3 hrs practice and you'll be good.
+12/31/22, 18:17 - +254 757 446077: That's great. There's so much joy in learning, building software products and growing. What's your current strength?
+12/31/22, 18:17 - +254 796 161357: 🔥
+12/31/22, 18:18 - +254 796 161357: Nice💪🏽
+12/31/22, 18:19 - +254 713 928192: I think you should it's easier creating two dimensional layout with grid
+12/31/22, 18:20 - +254 111356555: Data Science is my strong area.
+
+I'm However equally strong in full stack dev but using javascript (more so react js for my frontend,  node js+express js and mysql for backend).. I'm all round
+12/31/22, 18:22 - +254 111356555: True. Flex will only be good for one dimension layouts.
+You can however set your Flex to 50% to create yourself a split. That way you can utilise 50% of your screen for one thing and the other 50% for another thing (float).
+12/31/22, 22:23 - +254 702 932061: <Media omitted>
+12/31/22, 22:24 - +254 702 932061: <Media omitted>
+jake-vanderplas-python-data-science-handbook-2nd.pdf
+12/31/22, 22:24 - +254 702 932061: <Media omitted>
+theobald-oliver-machine-learning-for-absolute-2020.pdf
+12/31/22, 22:24 - +254 702 932061: <Media omitted>
+Introduction_To_Linear_Algebra.pdf
+12/31/22, 22:24 - +254 702 932061: <Media omitted>
+Neural_Network_Design.pdf
+12/31/22, 22:25 - +254 702 932061: <Media omitted>
+jonathan-schwabish-better-data-visualizations-a-guide(1).pdf
+12/31/22, 22:25 - +254 702 932061: <Media omitted>
+krishnendu-chaudhury-math-and-architectures-of-deep.pdf
+12/31/22, 22:37 - +234 808 041 7630: Hello what of those new in computer programming?
+1/1/23, 00:02 - +254 710 716900: Happy  new year all
+1/1/23, 00:02 - +254 707 313868: Happy new year guys
+1/1/23, 00:04 - +254 757 957335: Happy New year
+1/1/23, 00:06 - +254 781 652266: Happy new year
+1/1/23, 02:07 - +254 757 467208: Same to you
+1/1/23, 07:26 - +254 702 932061: Welcome to 2023 everyone
+1/1/23, 08:16 - +254 702 932061: End-to-End Modeling Hierarchical Time Series Using Autoregressive Transformer and Conditional Normalizing Flow based Reconciliation
+
+🖥 Github: https://github.com/philipperemy/n-beats
+
+⏩ Paper: https://arxiv.org/abs/1905.10437
+
+➡️ Results: https://github.com/fecet/NBeats-M4
+1/1/23, 08:16 - +254 702 932061: On Realization of Intelligent Decision-Making in the Real World: A Foundation Decision Model Perspective
+
+
+🖥 Github: https://github.com/shanghai-digital-brain-laboratory/bdm-db1
+
+⏩ Paper: https://arxiv.org/abs/2212.12669v1
+
+➡️ Dataset: https://paperswithcode.com/dataset/procgen
+1/1/23, 12:09 - +254 748 592566: Get sponsorship for a curated course. Don't use YouTube videos.
+1/1/23, 16:45 - +254 702 932061: We have some openings for internships at the Nairobi lab for next year:
+
+- https://careers.ibm.com/job/17496008/software-engineer-intern-accelerated-discovery-future-of-climate-nairobi-ke/?codes=WEB_SEARCH_NA 
+- https://careers.ibm.com/job/17496009/research-scientist-intern-accelerated-discovery-impact-science-nairobi-ke/?codes=WEB_SEARCH_NA 
+- https://careers.ibm.com/job/17486101/research-scientist-intern-artificial-intelligence-nairobi-ke/?codes=WEB_SEARCH_NA
+1/1/23, 17:21 - +234 808 041 7630: How
+1/1/23, 17:55 - +254 727 750214: Yes ... How??
+1/1/23, 18:12 - +254 700 885748: Share the links
+1/1/23, 20:49 - +254 717 152438: Happy New year everyone🥳🥳
+Start the new year by learning the difference between wrangling, EDA and ETL from this article.
+Hope it helps someone understand the concepts better and advance in their learning
+https://shrinke.me/wrangling-eda-etl
+1/2/23, 16:49 - +254 707 478600: <Media omitted>
+Hey
+I have a question for the web guys
+I was trying to layout my images like this pic but i'm having some trouble even when I use display grid.  If you can help please reach out
+1/2/23, 19:14 - +254 722 797124: Where can one get the sponsorships
+1/3/23, 13:45 - +254 702 932061: <Media omitted>
+1/3/23, 16:50 - +254 793 601115: https://levelup.gitconnected.com/wanna-break-into-data-science-in-2023-think-twice-26842e9a87fe
+1/3/23, 19:01 - +254 702 932061: https://link.medium.com/Me2zL3f7hwb
+1/3/23, 20:30 - +254 707 478600: Thanks to everyone who assisted me out
+1/3/23, 20:31 - +254 717 152438: <Media omitted>
+SOFTWARE ENGINEERS USA.pdf
+1/3/23, 22:57 - +254 768 025830 joined using this group's invite link
+1/4/23, 08:51 - +254 719 854780 joined using this group's invite link
+1/4/23, 11:28 - +254 795 772309: <Media omitted>
+https://learn.microsoft.com/en-us/training/paths/evolve-your-devops-practices/?ocid=AIDN%2FA_TWITTER_oo_spl100003651222095/?wt.mc_id=studentamb_199691
+1/4/23, 15:10 - +254 702 932061: <Media omitted>
+learn-web-development-python-hands.pdf
+1/4/23, 15:12 - +254 702 932061: Attention Linux users! There is a new malware that has been created using the Shell Script Compiler (shc) and it is deploying a cryptocurrency miner on infected systems.
+
+Read: https://thehackernews.com/2023/01/new-shc-based-linux-malware-targeting.html
+1/4/23, 16:45 - +254 797 817059 added +254 798 165347
+1/4/23, 20:10 - +254 748 592566: Sorry guys I will share some of the sites I know are offering scholarship starting with https://t.co/MKAnuB5sM1
+1/4/23, 20:11 - +254 748 592566: sharing...
+1/4/23, 20:16 - +254 748 592566: https://powerlearnproject.org/
+1/5/23, 00:05 - +254 797 817059 added +254 725 992469
+1/5/23, 03:31 - +254 702 932061: <Media omitted>
+Pro_Oracle_SQL_Development.pdf
+1/5/23, 03:31 - +254 702 932061: <Media omitted>
+Web_Development___Django___40_2021__41_.pdf
+1/5/23, 03:31 - +254 702 932061: <Media omitted>
+lee-john-essentials-of-excel-vba-python-and-r-volume-i.pdf
+1/5/23, 08:13 - +254 742 654637 joined using this group's invite link
+1/5/23, 08:15 - +254 701 191110 joined using this group's invite link
+1/5/23, 08:51 - +254 702 932061: <Media omitted>
+1/5/23, 09:47 - +254 723 890575: https://www.linkedin.com/feed/update/urn:li:activity:7016295691475935233?utm_source=share&utm_medium=member_android
+1/5/23, 15:57 - +254 717 152438: Hey people
+
+If you'd love to learn web scraping, and not sure where to start, I have a project I'm doing and you can follow along. I have written Part 1 and Part 2 on Medium. It could help you get started. You learn how to scrape javascript pages using Selenium and also how to use requests library and BeautifulSoup. Here's the link
+
+PART 1 - https://medium.com/@irenenafula/data-analysis-project-web-scraping-nba-stats-part-1-cc425dd9da84
+
+PART 2 - https://medium.com/@irenenafula/data-analysis-project-web-scraping-nba-stats-part-2-a1c97010015d
+1/5/23, 17:03 - +254 702 337505: Thanks for this, 🙏 writeup @254702932061 ... It's informative
+1/5/23, 17:05 - +254 702 932061: Thanks Chris 👊🏿
+1/5/23, 20:32 - +254 710 504790: Who knows how to connect code magic to app center .. pipelines are okay  just need to connect APK to app center 
+Kindly dm ..Upwork job
+1/6/23, 06:28 - +254 772 966694: Who hires freelancers for ready Upwork jobs, niche: Data science
+1/6/23, 11:22 - +254 702 932061: <Media omitted>
+1/6/23, 11:24 - +254 797 817059: That's where neuralink comes in. But we wait like 5 more years hivi😂
+1/6/23, 11:27 - +254 791 827914: Any uipath materials?
+1/6/23, 11:27 - +254 702 932061: Worth the wait other than reading the answers 😅.
+1/6/23, 12:25 - +254 717 856149 joined using this group's invite link
+1/6/23, 14:13 - +254 793 601115: https://twitter.com/luda_eliud/status/1426983313701494788?s=20&t=wNi343I3qEu6Ka277u4L7g
+1/6/23, 22:02 - +254 757 957335: <Media omitted>
+1/6/23, 22:16 - +254 700 169031: Absolute genius product.
+1/6/23, 22:17 - +254 700 169031: https://twitter.com/danielnewmanUV/status/1611112789434847232?t=NzS3LfazLOresHOcZNq77Q&s=08
+1/7/23, 08:06 - +254 722 687427: https://youtu.be/c2CsJ2HMA2I
+1/7/23, 14:08 - +254 743 982332 joined using this group's invite link
+1/8/23, 14:03 - +254 702 932061: Notorious banking malware Dridex has reportedly adapted to attack Apple's macOS operating system with a new, previously unseen infection method.
+
+Read: https://thehackernews.com/2023/01/dridex-malware-now-attacking-macos.html
+1/8/23, 14:21 - +254 716 340285: <Media omitted>
+1/8/23, 16:41 - +254 718 567275 changed to +254 738 954664
+1/8/23, 19:39 - +254 757 957335: <Media omitted>
+1/8/23, 19:39 - +254 757 957335: <Media omitted>
+1/8/23, 19:39 - +254 757 957335: <Media omitted>
+1/8/23, 20:20 - +254 702 932061: <Media omitted>
+Overview of the PMBOK  Guide  Paving the Way for PMP®  (1).pdf
+1/8/23, 20:20 - +254 702 932061: <Media omitted>
+Mitigating systemic cyber risk.pdf
+1/8/23, 20:20 - +254 702 932061: <Media omitted>
+Machine Learning.pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+strategic-analysis-of-supply-chain-design (1).pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+Managing_Machine_Learning_Projects_From_design_to_deployment.pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+Creating_Great_Choices__A_Leader’s (1).pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+Essential_Math_for_AI___40_Final_Version__41_.pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+Business Process Management (2018).pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+The Business Environment- (2013).pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+TensorFlow_in_Action.pdf
+1/8/23, 20:21 - +254 702 932061: <Media omitted>
+Handbook_of_Data_Visualization.pdf
+1/8/23, 22:44 - +254 700 169031: <Media omitted>
+Very very beastly 🙌
+1/9/23, 09:33 - +254 702 932061: Building Intelligent Recommender Systems
+
+Date: Sat, Jan 14 • 9:00 AM GMT+03:00
+
+Location: Ngong Lane Plaza, nairobi, 00100
+
+https://www.eventbrite.co.uk/e/building-intelligent-recommender-systems-tickets-504273504627?aff=eand
+1/9/23, 09:37 - +254 717 152438: <Media omitted>
+Hi everyone. We've opened applications for our mentorship program for data professionals, details are below! If you'd like to volunteer as a mentor do check out our website as well 👇🏾 
+
+TechUp Africa is offering a free mentorship program for young Africans interested in the following data career paths:
+ - Business Analyst
+- Data Analyst
+- Data Engineer
+- Data Science
+
+The program includes a curriculum from Dataquest, mentorship from tech professionals, group learning with peers, hackathons, and career fairs. 
+
+The goal is to provide the skills and knowledge needed to succeed in these in-demand careers and address shortages in the job market. Learn more and apply here: https://www.techupafrica.com/tamp
+1/9/23, 10:35 - +254 113172475: Hello,looking to connect to a network engineer,Nairobi based please,
+1/9/23, 11:02 - +254 791 827914: You want an expert?
+1/9/23, 11:02 - +254 791 827914: Text this number
+1/9/23, 11:02 - +254 791 827914: 0727343690
+1/9/23, 11:10 - +254 113172475: @254791827914 thank you
+1/9/23, 12:45 - +254 702 932061: <Media omitted>
+1/9/23, 12:45 - +254 718 521211: Launch Hub is offering you a Free PMP Masterclass Training. 
+
+When: 9th January 2023
+Time: 6:00 PM - 9;30 PM EAT 
+Cost: Free Masterclass 
+
+Register Now.
+https://forms.gle/TKMeLhkcQDBKLr4q7
+1/9/23, 18:58 - +256 755 826939 joined using this group's invite link
+1/9/23, 15:50 - +254 702 932061: CISA Notifies Hitachi Energy Customers of High-Severity Vulnerabilities
+https://www.securityweek.com/cisa-notifies-hitachi-energy-customers-high-severity-vulnerabilities
+
+The US Cybersecurity and Infrastructure Security Agency (CISA) published advisories last week to inform organizations using Hitachi Energy products about several recently addressed critical and high-severity vulnerabilities.
+read more (https://www.securityweek.com/cisa-notifies-hitachi-energy-customers-high-severity-vulnerabilities)
+1/9/23, 15:51 - +254 702 932061: Many of 13 New Mac Malware Families Discovered in 2022 Linked to China
+https://www.securityweek.com/many-13-new-mac-malware-families-discovered-2022-linked-china
+
+More than a dozen new Mac malware families were discovered in 2022, including information stealers, cryptocurrency miners, loaders, and backdoors, and many of them have been linked to China.
+read more (https://www.securityweek.com/many-13-new-mac-malware-families-discovered-2022-linked-china)
+1/9/23, 17:19 - +254 757 957335: <Media omitted>
+1/9/23, 17:19 - +254 757 957335: <Media omitted>
+1/9/23, 18:59 - +256 755 826939: https://0xdvvid.hashnode.dev/data-analysis-and-visualisation-mapping-the-kenyan-startup-ecosystem-of-2022-using-python
+
+Finished writing this earlier today. It was fun and hope it's educative as well
+1/9/23, 19:09 - +254 723 890575: STK-20230109-WA0024.webp (file attached)
+1/10/23, 10:29 - +254 728 785868: Financial accounting expert inbox 📥.
+1/10/23, 10:30 - +254 724 608463: This message was deleted
+1/10/23, 13:20 - +254 702 932061: <Media omitted>
+Python_How-To.pdf
+1/10/23, 13:20 - +254 702 932061: <Media omitted>
+Mastering Python for Web A Beginners Guide by Sufyan bin Uzayr_bibis.ir.pdf
+1/10/23, 13:20 - +254 702 932061: <Media omitted>
+Math_for_Programmers.pdf
+1/10/23, 13:53 - +254 702 932061: <Media omitted>
+The CRM Project Management Handbook.pdf
+1/10/23, 13:53 - +254 702 932061: <Media omitted>
+Green-book-PMP-Questions-Answers.pdf
+1/10/23, 13:53 - +254 702 932061: <Media omitted>
+Joydeep_Bhattacharjee_Practical_Machine_Learning_With_Rust_Creating.pdf
+1/10/23, 13:53 - +254 702 932061: <Media omitted>
+Secure_Web_Application_Development__A_Hands-On_Guide___Py.pdf
+1/10/23, 13:53 - +254 702 932061: <Media omitted>
+Test-Driven Development with Java.pdf
+1/10/23, 13:53 - +254 702 932061: <Media omitted>
+Practical_Automated_Machine_Learning_Using_H2O.ai.pdf
+1/10/23, 17:59 - +254 793 601115: https://youtu.be/-y4aqmOXFCs
+
+?
+thoughts do we no longer need to learn or build models
+1/11/23, 13:06 - +254 706 576203: <Media omitted>
+anyone with this book?
+1/11/23, 13:08 - +254 799 333604: could you resend this kindly
+1/11/23, 14:05 - +254 702 932061: https://link.medium.com/Me2zL3f7hwb
+1/11/23, 15:36 - +254 791 322767: DeepLearning.AI brings you the Dataquest.io Scholarship Program aimed at training the next 1,000 future data science leaders from Kenya.
+
+Apply to secure a free one-year access to all of Dataquest’s courses and projects.
+
+Learn how to use Python, R, SQL, Excel, PowerBI, Tableau, and other tools in the real world.
+
+https://bit.ly/3VXaqQX
+
+The scholarship application period runs from January 10, 2023, to January 23, 2023, and is open to any Kenyan.
+1/11/23, 15:36 - +254 791 322767: <Media omitted>
+1/11/23, 15:49 - +254 700 885748: God bless you brother 🙏
+1/11/23, 21:33 - +254 707 162738: Hey there! 👋🏽
+
+WiDS Kenya Datathon is back! Do you think you’re ready? If you do, we are back this year with an extensive program and agenda for you in partnership with Microsoft, Moringa School and Kenya Airways. If solving the problem of climate and the evident consequences it comes with is your goal this year, we are presenting the opportunity for you to show off your data analysis and machine learning skills to become part of the solution. 
+
+Everyone is encouraged to participate! 
+
+Register here: https://forms.gle/jXTJHL3u9ZqGsdXv9
+For further information visit: https://widskenya.github.io/Website/
+1/12/23, 01:27 - +254 717 152438: <Media omitted>
+Hi guys, there is an open vacancy for a mid level software developer. Any one interested can apply here https://forms.gle/CLnDmKkwzqvzxUFJ8
+1/12/23, 07:13 - +254 716 055568: Good morning,
+
+Does anyone have any Yii2 Framework books PHP.
+1/12/23, 08:17 - +254 717 856149: Which company is this?
+1/12/23, 09:31 - +254 729 751130: Same question here
+1/12/23, 10:39 - +254 711 857150: <Media omitted>
+1/12/23, 10:49 - +254 792 138852: is this datathon open for all genders?
+1/12/23, 10:57 - +254 721 216926: Yes yes..it is
+1/12/23, 10:57 - +254 721 216926: Please register...
+1/12/23, 11:25 - +254 710 755312: Hello, does anyone have Android studio dolphin essentials-Kotlin edition e-book?
+1/12/23, 12:32 - +254 717 856149: Anyone good with mobile app development. Inbox
+1/12/23, 14:35 - +254 757 957335: IMG-20230112-WA0052.jpg (file attached)
+1/12/23, 14:36 - +254 722 687427: Lol
+1/12/23, 15:27 - +254 703 581853: 😂😂
+1/12/23, 15:30 - +254 111356555: Anyone that has deployed a node js app with a react front end and mysql db to Google cloud platform?
+1/12/23, 15:30 - +254 745 021806: This message was deleted
+1/12/23, 17:15 - +254 703 581853: null
+1/12/23, 17:16 - +254 703 581853: Kindly share the link widely, a lot are prepared here
+1/12/23, 17:17 - +254 703 581853: 👆
+1/12/23, 22:43 - +254 704 219247: The documentation website is a good place to learn
+1/13/23, 01:45 - +254 717 152438: Hey guys, just finished the data cleaning part of this project. You can check it out and follow along below
+https://medium.com/@irenenafula/cleaning-nba-stats-part-3-3c7a7d485461
+1/13/23, 01:56 - +254 708 920430: techbabe👊🏽👌🏼
+1/13/23, 12:47 - +254 704 280120 joined using this group's invite link
+1/14/23, 01:29 - +254 798 983634 changed to +1 (347) 337-7855
+1/14/23, 12:32 - +254 702 932061: <Media omitted>
+Functional_Python_Programming.pdf
+1/14/23, 12:33 - +254 702 932061: <Media omitted>
+Efficient_Linux_at_the_Command_Line_B.pdf
+1/14/23, 12:33 - +254 702 932061: <Media omitted>
+An_Introduction_to_Data_Science___40_2019__41_.pdf
+1/14/23, 12:33 - +254 702 932061: <Media omitted>
+Data_Algorithms___Spark___40_2022__41_.pdf
+1/14/23, 12:33 - +254 702 932061: <Media omitted>
+Python_for_Finance_Cookbook.pdf
+1/14/23, 12:33 - +254 702 932061: <Media omitted>
+Hands-On_Data_Preprocessing_in_Python__Learn_how_to_effectiv.pdf
+1/14/23, 17:56 - +254 702 932061: IMG-20230114-WA0017.jpg (file attached)
+1/15/23, 08:34 - +254 703 103690: <Media omitted>
+1/15/23, 08:35 - +254 713 642280: 😂😂😂😂
+1/15/23, 08:40 - +254 793 601115: Sherekea the small wins
+1/15/23, 14:38 - +254 704 219247: Any node guys uku? I'm in need of some guidance
+1/15/23, 19:29 - +254 717 856149: Yap, an expert at it
+1/15/23, 21:12 - +254 705 698768: I just published a blog on Realtime Object Detection where I demonstrate how to train YoloV5 on fire detection images. Its a continuation.  Check out the blog post to learn more and see the results for yourself! 
+
+https://medium.com/@stiveckamash/real-time-object-detection-with-yolo-training-yolov5-on-fire-detection-images-445a4ec64255
+1/16/23, 06:03 - +254 716 340285: https://twitter.com/TechEmails/status/1614682414634373120?t=1-xowSLcgpNxQheNkVk8Sw&s=19
+
+Bill gates complaining about Windows😂😂😂😂
+1/16/23, 08:32 - +254 702 932061: IMG-20230116-WA0013.jpg (file attached)
+1/16/23, 11:25 - +254 710 755312: Any PHP & WordPress expert please inbox asap
+1/16/23, 11:55 - +254 701 485602: 🤞
+1/16/23, 12:07 - +254 710 755312: Got enough leads. Thank you.
+1/16/23, 12:32 - +254 707 313868: <Media omitted>
+Trying to open react on browser, keep getting this error someone kindly help
+1/16/23, 12:34 - +254 111356555: Inspect 1st to see where the error is.
+
+Right click then select inspect. Click on console and check the error that's occurring
+1/16/23, 12:36 - +254 707 313868: <Media omitted>
+No error on the console
+1/16/23, 12:38 - +254 111356555: Try clearing your browser cache and cookies and reload.
+
+Also run the local host on a different browser and see whether the error will persist.
+1/16/23, 12:39 - +254 706 823165: Any Django expert
+1/16/23, 12:40 - +254 707 313868: I have cleared the caches and cookies no change, also tried running on a different browser but still nothing
+1/16/23, 12:41 - +254 706 823165: <Media omitted>
+I got a file model that takes user as the primary key from User model...
+1/16/23, 12:42 - +254 706 823165: I want that field of user to be automatic field by logged in user
+1/16/23, 12:42 - +254 706 823165: Any assistance
+1/16/23, 12:42 - +254 111356555: It's a fresh app? Without any changes? Azin an npx create react app?
+1/16/23, 12:43 - +254 707 313868: No I had created some components so it was working before until it wasn't
+1/16/23, 12:45 - +254 111356555: Check the last component you rendered in your routes.
+1/16/23, 12:45 - +254 111356555: User Id you mean?
+1/16/23, 12:45 - +254 706 823165: Username
+1/16/23, 12:47 - +254 111356555: Have you tried using JSON Web tokens?
+1/16/23, 12:51 - +254 706 823165: This is purely about Django models
+1/16/23, 12:52 - +254 706 823165: This is frontend but am on backand
+1/16/23, 12:52 - +254 111356555: I'm not a django guru but these technologies work similarly.
+
+Inspect the app and go to application, on local storage check whether you have a key and a value.
+If yes, use the local storage to get the item you want, in this case the username.
+1/16/23, 12:53 - +254 111356555: It doesn't matter. 
+Check the documentation of JWT in Django.
+1/16/23, 12:53 - +254 707 313868: Well Thankyou, I've deleted the last component I created and it's working
+1/16/23, 12:54 - +254 111356555: You can recreate the component and check on how you are rendering the component. 
+
+And you are welcome
+1/16/23, 12:59 - +254 111356555: Authentication happens in the backend. Verify your tokens from the backend
+1/16/23, 13:00 - +254 707 313868: Okay lemme do that wah lakini thanks a lot been working on it the whole weekend
+1/16/23, 13:01 - +254 717 152438: Hey guys,
+I've accidentally updated my office and wasn't supposed to do that. So now it has downgraded from 2019 to 2016. If anyone can share with me the office 2019 product key I would really appreciate it.
+Please dm me
+1/16/23, 13:02 - +254 757 826724: *Machine Learning Engineer*
+Check out this job at Wasoko: https://www.linkedin.com/jobs/view/3052726077
+1/16/23, 13:02 - +254 111356555: You are welcome
+1/16/23, 18:34 - +254 792 138852: This message was deleted
+1/16/23, 18:35 - +254 792 138852: GitHub
+https://github.com/massgravel/Microsoft-Activation-Scripts
+1/16/23, 19:35 - +254 797 817059: Hello TechBlurbs community! 
+Just a quick update - starting February 1st, 2023, we'll be launching our GitHub account at https://github.com/TechBlurbs where we'll be sharing tech curriculums, offering opportunities for project contributions, and providing mentorship. 
+
+Also, starting February 1st, 2023, we'll be having office hours every Thursday at 7pm where you can ask any tech-related questions, live mentorship, or live CV/portfolio review. If you have any questions, feel free to reach out to me (Vick) or @254702932061. 
+
+Let's begin this new journey and grow together! 🚀
+1/16/23, 22:03 - +254 717 152438: Thank you
+1/17/23, 00:00 - +254 718 686209: User can either use, form constructor to pass user details to the Form from request object,  or use django  template available object user...
+
+I believe in Django 2 templates you can use, uer.get_username(). And you will have the username
+1/17/23, 00:01 - +254 718 686209: user.get_username()***
+1/17/23, 08:22 - +254 702 932061: Hi everyone! I’d like to share an exciting opportunity to apply for Tana, a start-up that connects Kenyan graduates to remote work opportunities in tech. They run a paid, 3-month internship program where you’ll be trained as a manual QA engineer and placed with a US or European company to learn on the job. You’ll work directly with engineering and product to ensure that software is reliable, bug-free, and easy to use, and many interns have subsequently been offered continued employment with their placement companies. 
+
+The deadline is 11:59 pm this Sunday, January 22, and the application can be found here: https://airtable.com/shrVaFz6q7OjxdvXA
+1/17/23, 08:25 - +254 716 340285: https://twitter.com/G4lile0/status/1614553700067835906?t=E3kIzMbyyB1T0Mkbdw5pMg&s=19
+
+Bruh💀
+1/17/23, 11:56 - +254 717 152438: <Media omitted>
+1/17/23, 15:12 - +254 702 932061: <Media omitted>
+Practical_Linux_Forensics.pdf
+1/17/23, 15:12 - +254 702 932061: <Media omitted>
+Hacking_AI_Big_and_Complete_Guide_to_Hacking_Security_AI_and_Big.pdf
+1/17/23, 15:12 - +254 702 932061: <Media omitted>
+Robotics_for_Software_Engineers___40_2022__41_.pdf
+1/17/23, 15:12 - +254 702 932061: <Media omitted>
+Full_Stack_Development___Angular_and_GraphQL.pdf
+1/17/23, 15:12 - +254 702 932061: <Media omitted>
+MACHINE_LEARNING___PYTORCH_AND_SCIKIT-LEARN.pdf
+1/17/23, 15:15 - +254 793 601115: who has interviewed with Burn Kenya (Jiko Okoa) any tips recommendations or warnings? I have an interview tomorrow. Thanks
+1/17/23, 15:32 - +254 707 847805: ✋🏼✋🏼✋🏼
+Which position...?
+1/17/23, 16:01 - +234 906 584 4047: 🚨A Lagos based startup is looking for a mid - senior level Product Designer to design their mobile app - establishing strong brand guidelines & an intuitive UX.
+
+💰Pay is N450k - N700K. 
+🗓️Timeline for project completion is 4-6 weeks.
+
+Apply here: shorturl.at/uzLPY
+1/17/23, 16:01 - +254 793 601115: data
+1/17/23, 16:01 - +254 793 601115: any tips I'll appreciate
+1/17/23, 16:09 - +254 705 000315: <Media omitted>
+1/17/23, 17:44 - +254 702 932061: This message was deleted
+1/17/23, 17:44 - +254 702 932061: https://twitter.com/ODPC_KE/status/1615252446443454466?t=DIbIcVnO7donAeskwGtB1Q&s=08
+1/17/23, 18:26 - +254 706 006826: This message was deleted
+1/18/23, 18:08 - +254 100803781 added +254 748 999253
+1/18/23, 18:51 - +254 712 467004: <Media omitted>
+1/18/23, 19:10 - +254 702 932061: 😂
+1/18/23, 21:02 - +254 702 596878: Hey guys. I need help with a school project. DM for more details and payment discussion
+1/18/23, 21:06 - +234 906 584 4047: Project on what bro?
+1/18/23, 21:07 - +254 702 596878: Anything
+1/18/23, 21:43 - +254 701 485602: 🤞🤞
+
+Projects on Web Systems contact me
+1/19/23, 10:01 - +254 702 932061: https://maishameds.bamboohr.com/jobs/view.php?id=51
+1/19/23, 11:17 - +254 752 544284: IMG-20230119-WA0013.jpg (file attached)
+ChatGPT
+1/19/23, 11:22 - +254 727 467042: 🤣🤣
+1/19/23, 11:25 - +254 716 340285: 😂😂😂🙌🏽🙌🏽🙌🏽
+1/19/23, 11:25 - +254 727 149833: Dm for cyber security projects
+1/19/23, 12:56 - +254 702 932061: https://link.medium.com/N42VpNGfIwb
+1/19/23, 13:17 - +254 707 847805: 👌🏽👌🏽👌🏽👌🏽
+Insightful read 💯💯
+1/19/23, 13:37 - +254 752 544284: https://youtu.be/-IZbt67YQQc
+1/19/23, 13:39 - +254 722 687427: 👍
+1/19/23, 14:35 - +254 717 152438: https://medium.com/@irenenafula/4-things-you-must-do-to-prepare-for-a-web-scraping-project-15cd18db2c81
+
+Hey people, Here's an article that will help you know what to do when you consider doing any web scraping project.
+1/19/23, 15:53 - +234 906 584 4047: Please how do python developer get gigs. I’m not talking of jobs now.
+1/19/23, 16:17 - +254 702 932061: IBM Research – Africa Lab in Kenya is Hiring!
+ 
+Join us for a unique 12-week paid internship at the IBM Research – Africa Lab in Nairobi, that offers personal and professional development including mentorship from leading technology researchers. 
+ 
+This program will give you an opportunity to work on meaningful technology solutions, develop scalable software systems, interact and collaborate with top research scientists in AI, health informatics, statistics, among others – all of which requires research, asking the right questions, curiosity, and thinking outside the box.
+ 
+As a Software Engineering Intern, you will work on research questions that are of interest to IBM and have access to a vast number of tools and resources within the global IBM community to help you succeed. Depending on your background and experience, you will be working in one of the following areas: AI Science, AI Engineering, Accelerated Discovery and Industries Research.
+ 
+Apply now! 👉🏾 https://ibm.biz/SoftwareEngineer_Intern_Kenya
+1/19/23, 16:27 - +254 725 842658: Hey Techies, any leads to corporate e-signature solution for documents is appreciated.
+1/19/23, 16:40 - +254 718 497867: Hey, try adobe sign or docusign
+1/19/23, 16:45 - +254 725 842658: Thanks... Checking up DocuSign
+1/19/23, 19:09 - +254 743 233217: When does the application ends and when does the program starts
+1/19/23, 19:43 - +254 746 904743 left
+1/19/23, 19:43 - George: 😀
+1/19/23, 20:28 - +254 768 500572 joined using this group's invite link
+1/19/23, 21:02 - +254 742 654637: Do you also want him/her to apply for you?
+1/19/23, 21:22 - +254 768 500572: Which program is this?
+1/19/23, 21:24 - +254 742 654637: What's the point of the link being sent then? Click on it, read.
+1/19/23, 21:24 - +254 768 500572: Just joined recently
+1/19/23, 21:25 - +254 768 500572: I don't have the link
+1/19/23, 21:25 - +254 742 654637: This message was deleted
+1/19/23, 21:25 - +254 742 654637: IBM Research – Africa Lab in Kenya is Hiring!
+ 
+Join us for a unique 12-week paid internship at the IBM Research – Africa Lab in Nairobi, that offers personal and professional development including mentorship from leading technology researchers. 
+ 
+This program will give you an opportunity to work on meaningful technology solutions, develop scalable software systems, interact and collaborate with top research scientists in AI, health informatics, statistics, among others – all of which requires research, asking the right questions, curiosity, and thinking outside the box.
+ 
+As a Software Engineering Intern, you will work on research questions that are of interest to IBM and have access to a vast number of tools and resources within the global IBM community to help you succeed. Depending on your background and experience, you will be working in one of the following areas: AI Science, AI Engineering, Accelerated Discovery and Industries Research.
+ 
+Apply now! 👉🏾 https://ibm.biz/SoftwareEngineer_Intern_Kenya
+1/20/23, 05:57 - +254 702 932061: https://www.udacity.com/scholarships/oneten-bit-scholarship?utm_source=organicsocial&utm_medium=twitter&utm_campaign=scholarship&utm_content=
+1/20/23, 10:18 - +254 793 601115: https://www.analyticsvidhya.com/blog/2021/10/end-to-end-guide-to-docker-for-aspiring-data-engineers/
+1/20/23, 10:18 - +254 752 544284: Actually this is the founder.
+
+https://www.forbes.com/sites/parmyolson/2019/01/09/this-hermitic-engineer-is-plotting-the-death-of-blockchain/
+1/20/23, 10:38 - +254 752 544284: https://www.forbes.com/sites/parmyolson/2019/01/09/this-hermitic-engineer-is-plotting-the-death-of-blockchain/
+1/20/23, 10:42 - +254 722 687427: Hot air
+1/20/23, 11:01 - +254 752 544284: 😁 read.
+1/20/23, 11:32 - +254 710 504790: null
+1/20/23, 11:32 - +254 710 504790: null
+1/20/23, 12:22 - +254 712 467004: Guys, I converted a pandas dataframe on kaggle to csv
+Now, I can't locate that csv file,  any ideas where it might be on kaggle?
+1/20/23, 14:26 - +254 718 264080: Do this : 
+save file to the PWD, then you will be able to see it and download:
+1/20/23, 14:26 - +254 718 264080: <Media omitted>
+1/20/23, 14:26 - +254 718 264080: <Media omitted>
+1/20/23, 14:27 - +254 712 467004: 🫂🫂
+1/20/23, 14:27 - +254 712 467004: Thanks Buddy.
+1/20/23, 14:27 - +254 718 264080: <Media omitted>
+1/20/23, 14:38 - +254 718 264080: Karibu
+1/21/23, 07:38 - +254 111923456 joined using this group's invite link
+1/21/23, 06:58 - +254 716 304035: This message was deleted
+1/21/23, 06:58 - +254 716 304035: https://twitter.com/i/spaces/1MnGnpnrrvYxO
+
+We get together for a just cause.  We're down on 25th.
+
+Will you join us?
+1/21/23, 08:33 - +254 703 103690: <Media omitted>
+1/21/23, 13:58 - +254 717 152438: Hey guys, I left my laptop on sleep mode last night. I've tried to get the screen to turn on but it won't. And it's also refusing to turn off completely. What do I do?
+1/21/23, 13:59 - George: Hard restart by removing the battery😀
+1/21/23, 13:59 - +254 111923456: Have u tried connecting it to charger?
+1/21/23, 14:00 - +254 717 152438: Yes and it hasn't worked
+1/21/23, 14:01 - +254 717 152438: I'll try that then
+1/21/23, 15:44 - +254 712 467004: Hard boot i.e, press and hold power button until it shutsdown.
+1/21/23, 18:25 - +254 706 754818 joined using this group's invite link
+1/21/23, 18:26 - +254 706 754818: <Media omitted>
+COMP 597-009111P - Embedded Systems Integration - 2023 Winter - 1202023 - 545 PM.zip
+1/21/23, 18:26 - +254 706 754818: Anyone can handle this
+1/22/23, 08:28 - +254 702 932061: <Media omitted>
+Practical_Python_Data_Wrangling_and_Data_Quality.pdf
+1/22/23, 08:29 - +254 702 932061: <Media omitted>
+Jack_Dougherty__Ilya_Ilyankou_Hands_On_Data_Visualization_Interactive.pdf
+1/22/23, 14:07 - +254 717 152438: That did not work
+1/22/23, 14:19 - +254 703 103690: This should work
+1/22/23, 14:21 - +254 113850900: Or maybe reset the graphics....
+My opinion though 😹
+1/22/23, 14:51 - +254 717 152438: I'm in the middle of doing that
+1/22/23, 14:51 - +254 717 152438: 😂thanks
+1/22/23, 18:25 - +254 704 280120: Hello guys
+Is it relevant to still learn jQuery?
+If so anyone who can help me install it can text me. 🙏🏼
+1/22/23, 18:27 - +254 793 601115: jquery is relevant especially api request on the html page and use its cdn its not a must you install just google jquery cdn
+1/22/23, 22:39 - +254 113510780 joined using this group's invite link
+1/22/23, 20:56 - +254 717 152438: Worked. Thank you
+1/22/23, 21:54 - +254 793 601115: <Media omitted>
+then kuna these other work ndani ya the courses zenye I need to watch the vidz ziko na marks though sijui where they factor in of which they are long ~ time consuming, counter check if they are necessary, ju I also have some personal work
+1/22/23, 22:02 - +254 708 920430: Very important! CDN or google,, getting started with Jquery
+1/23/23, 04:20 - +254 719 854780: <Media omitted>
+https://twitter.com/i/spaces/1DXGyvLagMZJM. Don't miss,come with as many questions as you can .invite yours colleagues.From 8:00 to 9:30pm.
+1/23/23, 06:34 - +254 702 932061: FBI Chief Says He's 'Deeply concerned' by China's AI Program
+https://www.securityweek.com/fbi-chief-says-hes-deeply-concerned-chinas-ai-program
+
+FBI Director Christopher Wray said Thursday that he was “deeply concerned” about the Chinese government’s artificial intelligence program, asserting that it was “not constrained by the rule of law.”
+read more (https://www.securityweek.com/fbi-chief-says-hes-deeply-concerned-chinas-ai-program)
+1/23/23, 07:13 - +254 716 055568: Learn JavaScript or PHP.
+1/23/23, 08:12 - +254 702 337505: This message was deleted
+1/23/23, 08:13 - +254 702 337505: Hello guys...
+
+I received invitation to do a _business analyst I- Mocha test_ & a _tech product test gorrila_ both for internship levels... 
+
+Kindly, Any tips on passing them will be highly appreciated.
+
+Then, do they always have time line for validity?.. just asking,
+1/23/23, 12:34 - +254 702 932061: New Vacant positions in the Data and Tech space in Kenya. Positions vary from junior level to senior level : 
+Data Scientist  - World Resources Institute:  https://kenya.ai/opportunities/data-scientist-urban-surfaces-and-extreme-heat-world-resources-institute/ 
+Software Engineering Interns – Ona: https://kenya.ai/opportunities/software-engineering-interns-ona/ 
+Research Scientist Intern ( Artificial Intelligence )  -  IBM: https://kenya.ai/opportunities/research-scientist-intern-artificial-intelligence-ibm/ 
+Senior Data Engineer  - Angaza: https://kenya.ai/opportunities/senior-data-engineer-angaza/ 
+Data Engineer – KCB Bank: https://kenya.ai/opportunities/data-engineer-kcb-bank/ 
+Machine Learning Engineer – Wasoko: https://kenya.ai/opportunities/machine-learning-engineer-wasoko/ 
+Data & Insights director – Pula: https://kenya.ai/opportunities/data-insights-director-pula/ 
+
+Visit https://kenya.ai/opportunities/ for more, updated weekly.
+1/23/23, 12:35 - +254 702 337505: Any one to help?
+1/23/23, 13:23 - +254 791 827914: Here
+1/23/23, 15:04 - +254 746 361661: 1. Python Developer
+2. Junior Laravel + VueJs developer 
+Send an email portfolio to patrick@mobipine.com or call 0723660400
+1/23/23, 16:10 - +254 702 932061: <Media omitted>
+1/23/23, 16:33 - +254 757 957335: <Media omitted>
+1/23/23, 16:33 - +254 757 957335: 😋
+1/23/23, 17:00 - +254 729 431572: Huku ni wapi mkuu?😁
+1/23/23, 17:07 - +254 792 138852: hujacheza na inspect element?? 🤔
+1/23/23, 17:23 - +254 737 429452: 😂😂
+1/23/23, 17:31 - +254 740 628643: Hio imetoka direct seacom
+1/23/23, 18:07 - +254 757 826724: <Media omitted>
+https://twitter.com/kelseyhightower/status/1617283297394200576?t=RUGQ6Rqzw9TnRnUP6Qaqxg&s=19
+1/23/23, 18:15 - +254 746 626470: <Media omitted>
+Can’t compete
+1/23/23, 19:53 - +254 701 970504: <Media omitted>
+🫢
+1/23/23, 20:10 - +254 707 313868: <Media omitted>
+1/23/23, 20:24 - +254 727 918955: 🫡
+1/24/23, 10:43 - +254 704 374514: <Media omitted>
+Roadmap.finaldraft2.pdf
+1/24/23, 10:43 - +254 704 374514: Good morning .
+If you can handle this , dm
+1/24/23, 10:56 - +254 753 043905: This message was deleted
+1/24/23, 12:42 - +254 702 932061: Apple has released updates for a security vulnerability in Webkit that affects older iPhone & iPad devices. 
+
+Read: https://thehackernews.com/2023/01/apple-issues-updates-for-older-devices.html
+
+This vulnerability is currently being exploited, so it is important to update your device immediately.
+1/24/23, 21:31 - +254 716 304035: <Media omitted>
+"Tomorrow, we will host a panel discussion with Harun Mbaabu, Sharon Jebitok, Brian Koech, Dave Clinton, Brenda Mwaura, and Mark Gatere on the topic of balancing schoolwork with technology and navigating community engagement and programming."
+
+1.	Community Engagement, Programming & working
+•	Harun Mbaabu - Senior Data Engineer & Founder Lux Dev HQ
+•	Sharon Jebitok - Software Developer, Utu Technologies
+2.	Balancing Schoolwork/studies & Tech Career
+•	Brian Koech - Data Scientist/ ML Engineer - Libran Consult
+•	Dave Clinton - Front-end Engineer, Untapped Global
+•	Brenda Mwaura - Google Crowdsource Lead, Taita Taveta Uni
+•	Mark Gatere - Community Advocate & MLSA DeKUT
+
+Set Reminder Now, See You There 🥳
+
+🔗 https://twitter.com/i/spaces/1MnGnpnrrvYxO?s=20
+1/25/23, 09:05 - +254 702 774364: https://www.express.co.uk/life-style/science-technology/1724925/Samsung-Galaxy-warning-update-security-issue-app-store-android
+1/25/23, 13:00 - +254 720 856830 joined using this group's invite link
+1/25/23, 13:31 - +254 752 544284: <Media omitted>
+1/25/23, 13:42 - +254 757 826724: 😂😂😂 I guess they possibly should first try Heart and Liver transplant before getting to the head (Not sure whether both exist)
+1/25/23, 13:45 - +254 702 932061: <Media omitted>
+1/25/23, 13:46 - +254 756 759081: We've had so many successful heart transplants
+1/25/23, 13:51 - +254 752 544284: Heart and liver is doable. It has been around for years.
+1/25/23, 17:10 - +254 792 798789: <Media omitted>
+RSVP: https://us06web.zoom.us/meeting/register/tZwvdOqhpjsqGdRB3qUWvn0U79nCjDOE21tB
+1/25/23, 17:54 - +254 713 642280: https://careers.oncehub.com/jobs/Careers
+1/26/23, 10:18 - +254 772 271525 changed to +254 114254636
+1/26/23, 13:42 - +254 791 071536: <Media omitted>
+1/26/23, 14:04 - +254 797 277217: All these frameworks?
+1/26/23, 14:26 - +254 707 313868: <Media omitted>
+*Qhala Fellowship Program*
+
+Are you a Kenyan graduate looking for a fellowship that will launch your career in
+#dataanalytics #research #softwaredevelopments
+
+Apply for the Qhala fellowship by 31st Jan 2023
+
+https://buff.ly/3kGNVTi
+1/26/23, 14:27 - +254 700 169031: 2 really,  & a front-end that is transferrable from Vue  or React..
+
+As always aim for at least 30% requirements fulfillment 😅
+1/26/23, 14:40 - +254 791 071536: <Media omitted>
+1/26/23, 14:53 - +254 797 277217: 😂sure,
+1/26/23, 14:54 - +254 797 277217: However I'd just would be rare find Django + Springboot combo
+1/26/23, 15:04 - +254 700 169031: That's true,, it's a hit or miss, 
+If I was good enough in either, I'd apply & do a skim of the other. 
+Interview time unaachilia all the mwakenya hastily..
+1/26/23, 15:08 - +254 737 429452: Iko kwa way established guys tho..n also those guys who are jack of all trades whatever u throw at them
+1/26/23, 15:15 - +254 797 277217: You might end up getting someone but trust me they might be very good in one but slightly good in the other. In addition those established people go for well established companies which might need them for only one thing.
+1/26/23, 15:18 - +254 702 932061: <Media omitted>
+1/27/23, 10:45 - +254 710 374414 changed to +254 727 477423
+1/27/23, 03:31 - +254 702 932061: https://ai.aims.ac.za/apply
+1/27/23, 03:35 - +254 702 932061: <Media omitted>
+Julia_for_Data__ysis.pdf
+1/27/23, 08:40 - +254 702 932061: <Media omitted>
+1/27/23, 12:11 - +254 746 603248: Anyone with US Paypal acc with history. Dm
+1/27/23, 15:12 - +254 740 875071: Anybody who has attended women in data science?
+1/27/23, 20:32 - +254 710 716900: Datathon or??
+1/27/23, 21:42 - +254 721 216926: me me me...
+1/27/23, 22:22 - +254 716 340285: https://www.freecodecamp.org/news/free-certificates/  A collection of free certificates offered by various tech companies/ online edu organization...
+1/28/23, 08:27 - +254 702 932061: <Media omitted>
+__8_Basics.pdf
+1/28/23, 08:31 - +254 702 932061: <Media omitted>
+Java_Persistence___Spring_Data_and_Hibernate.pdf
+1/28/23, 08:34 - +254 712 467004: https://omdena.com/blog/data-science-road-map/
+1/28/23, 14:18 - +254 797 817059: The Techblurbs github is up. https://github.com/TechBlurbs
+The first challenge is to start by creating a smile landing page for its website. We have created issues to guide you on CONTRIBUTING.
+In the coming weeks, we will add a roadmap for various Tech roles to guide beginners in learning. We will add people to various teams based on their tech stack.
+Feel free to start contributing.
+1/28/23, 14:19 - +254 705 000315: Would save life but memory sijui
+1/28/23, 14:21 - +254 797 817059: ~smile~ simple
+1/28/23, 14:29 - +254 712 467004: <Media omitted>
+1/28/23, 18:29 - +254 702 932061: https://cannon.co.ke/careers/
+1/28/23, 19:16 - +254 792 798789: <Media omitted>
+We are live https://us06web.zoom.us/w/83341582820?tk=04J80jJoBBoKAVMROTgI-C1kiAaDF-PdhK6E0oRNwJg.DQMAAAATZ4uh5BZBbnBZaENMaFJreTBFNTJHZjZ6LXBnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&pwd=cFVZaGZPUVdVZ3psQ1d4Q0VJcW9ydz09
+1/28/23, 19:22 - +254 718 070107: Resend a valid link
+1/28/23, 19:39 - +254 792 798789: You mean it's not working?
+1/28/23, 19:40 - +254 704 377609: Yes
+1/28/23, 19:43 - +254 752 544284: <Media omitted>
+Tonight we welcome you  to our Twitter Spaces as we discuss:  
+ *Issues Crypto Solves in Africa.* 
+
+9PM EAT. 
+
+Venue: *Twitter Spaces* . 
+
+Set your reminders here. 👇🏼👇🏼 Pop in an let's interact.  https://twitter.com/realKilovoltage/status/1617738611889405952?t=MQaDPvZ1nevOPI0EMtxdXg&s=19
+1/28/23, 19:44 - +254 792 798789: Try this https://us06web.zoom.us/w/83341582820?tk=04J80jJoBBoKAVMROTgI-C1kiAaDF-PdhK6E0oRNwJg.DQMAAAATZ4uh5BZBbnBZaENMaFJreTBFNTJHZjZ6LXBnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&pwd=cFVZaGZPUVdVZ3psQ1d4Q0VJcW9ydz09
+1/28/23, 20:12 - +254 703 103690: cheatography.com
+
+For any kinds of cheatsheets
+1/28/23, 20:56 - +254 717 856149: The crypto thing I think it's losing it's touch
+1/28/23, 21:02 - +254 752 544284: We are live
+1/28/23, 22:13 - +254 112788037: The way crypto works. It looks kinda ponzi scheme. It has no future
+1/28/23, 22:15 - +254 719 854780: Depends with which kind of an assest
+1/28/23, 22:15 - +254 752 544284: You have a long way to go
+1/28/23, 22:17 - +254 752 544284: <Media omitted>
+Some small notes that I prepared.
+1/28/23, 22:17 - +254 112788037: I am a crypto enthusiast and trader. To be precise, BTC specifically was introduced into futures market that was when its downfall began
+1/28/23, 22:17 - +254 752 544284: <Media omitted>
+1/28/23, 22:18 - +254 752 544284: <Media omitted>
+1/28/23, 22:18 - +254 112788037: Stop looking at it in terms of tech. Have a major view in world perspective and identify the reason why crypto was introduced
+1/28/23, 22:20 - +254 752 544284: Sorry then because I'm there for the tech.
+1/28/23, 22:20 - +254 112788037: Look at the associates of Crypto like NFL and other crypto based instruments
+1/28/23, 22:20 - +254 752 544284: What have they done?
+1/28/23, 22:20 - +254 112788037: Can I recommend a documentary?
+1/28/23, 22:21 - +254 112788037: Almost all have lost their value. Look at what happened to even doge coin after Elon Musk had sold all Doge coin he was having
+1/28/23, 22:22 - +254 752 544284: 😁 yes, bora isiku conspiracy theories
+1/28/23, 22:23 - +254 112788037: Crypto was a decentralized type of payment but when they introduced it to futures market all things changed.
+1/28/23, 22:24 - +254 752 544284: Doge is a meme coin. People who don't follow the tech are usually swayed by influencers like Elon
+1/28/23, 22:24 - +254 112788037: Its called "TRUST NO ONE" check it in Netflix. Its not a conspiracy theory but rather a reality revealed on how most these crypto owners are operating
+1/28/23, 22:24 - +254 752 544284: I saw it immediately it was released
+1/28/23, 22:24 - +254 112788037: And of late have you heard of the deaths of crypto billionaires? And who are after them?
+1/28/23, 22:25 - +254 112788037: Do you know its current value? How about Tronx?
+1/28/23, 22:27 - +254 752 544284: Those are currencies built on weak tech bro.
+1/28/23, 22:27 - +254 752 544284: 😂😂 Sm
+1/28/23, 22:27 - +254 752 544284: This message was deleted
+1/28/23, 22:28 - +254 752 544284: Sam bankman fried from FTX is still walking free,Same to Do KWON
+1/28/23, 22:29 - +254 112788037: Past quarter of last year we lost 4 and did you hear those after them?
+1/28/23, 22:30 - +254 752 544284: Name them.
+1/28/23, 22:36 - +254 112788037: Vyacheslav Taran
+Nikolai Mushegian
+Javier Biosca
+Tiantian Kullander
+Park Mo
+1/28/23, 22:44 - +254 752 544284: Wacha I will research about them Kesho
+1/28/23, 22:44 - +254 752 544284: Thanks
+1/28/23, 22:49 - +254 112788037: Its alright. And even the kind of explanation FTX and Binance gave why one would not come through for the other. It was purely a pyramid scheme of operation
+1/28/23, 22:57 - +254 752 544284: I'm in as a cder
+1/28/23, 22:57 - +254 752 544284: Coder
+1/28/23, 23:03 - +254 112788037: Ok
+1/29/23, 16:21 - +254 797 817059 added +254 722 167488
+1/29/23, 18:01 - +254 797 817059 added +254 748 213904
+1/29/23, 14:39 - +254 791 322767: *NVIDIA GTC 2023 registration is now open!*
+
+Discover the life of a Deep Learning Engineer at NVIDIA in this NVIDIA GTC 2023 Session.
+
+Explore breakthroughs in AI, Accelerated Computing and Beyond at the NVIDIA GTC 2023.
+
+
+https://register.nvidia.com/flow/nvidia/gtcspring2023/attendeeportal/
+1/29/23, 14:39 - +254 791 322767: <Media omitted>
+1/29/23, 14:39 - +254 791 322767: <Media omitted>
+1/29/23, 15:39 - +254 722 687427: 👍
+1/29/23, 16:36 - +254 740 875071: Anyone who needs to learn backend and get google and microsoft certifications inbox
+1/29/23, 16:53 - +254 719 854780: https://chat.whatsapp.com/FozdrDBNCLCDSqghTvrCx7
+1/29/23, 22:12 - +254 707 313868: what's this group for?
+1/30/23, 07:57 - +254 768 114663: This message was deleted
+1/30/23, 15:43 - +254 702 932061: <Media omitted>
+Blue_Ocean_Strategy__How_to_Create.pdf
+1/30/23, 15:43 - +254 702 932061: <Media omitted>
+The_Manager's_Dilemma__Balancing.pdf
+1/30/23, 15:43 - +254 702 932061: <Media omitted>
+The_Essentials_of_Supply_Chain_Management_.pdf
+1/30/23, 15:43 - +254 702 932061: <Media omitted>
+Information_Technology_and_Orga.pdf
+1/30/23, 15:43 - +254 702 932061: <Media omitted>
+Big_data_and_social_science__a_practical.pdf
+1/30/23, 15:44 - +254 702 932061: <Media omitted>
+Fundamentals of Information Systems-(2016).pdf
+1/30/23, 16:36 - +254 740 875071: Anyone who knows how to use power BI?
+1/30/23, 16:46 - +254 791 827914: Here
+1/30/23, 16:52 - +254 746 603248: This message was deleted
+1/30/23, 17:01 - +254 716 340285: Has anyone ever gone through the Odin project? 
+There is this intro part on how to interact with the community in the social media channels provided by the admins.
+
+One thing that has stuck with me is providing as much information as possible in your request, question,problem or explanation...
+
+Not limited to code snippets, error messages and everything you've tried and where you are now.
+
+For example rather than asking ,who knows how to use power BI?
+
+Post: I need someone who knows how to use power BI on an intermediate level to assist me in a project or pick up a project. The data has already been cleaned. Pay is ***** or there is no pay with offer to add the project to your portfolio. Delivery in 1 week. Dm me for more info.
+
+The benefits of such cannot be understated. Other than not getting 10's of DMs and escaping the back and forth of answering the same question to 10's of people,you will get 3 quality responses. plus it's good for the tech culture.
+
+Not a must you go this way but it's something I adopted in my tech journey ,found it useful and thought it's good to spread it......
+1/30/23, 17:10 - +254 729 549923: 🤚
+1/31/23, 07:55 - +254 703 103690: pynecone.io
+
+Is this the future of web apps?
+1/31/23, 15:01 - +234 906 584 4047: GM guys!!! 
+
+https://twitter.com/AkingbadeFrodo/status/1620385249179099138
+
+Kindly like,rt and tag anyone who needs to see this 🙏🏼. 
+Thanks guys ❤️💐
+1/31/23, 15:58 - +254 714 714958: <Media omitted>
+1/31/23, 16:19 - +256 726 352106: 😂😂😂😂eeeh
+1/31/23, 16:22 - +254 729 549923: <Media omitted>
+1/31/23, 16:29 - +254 714 100166: Kitu imebaki sasa ni pynecode native😂
+1/31/23, 17:21 - +254 752 544284: Aspiring Scryptonauts, the Developer Program incentives have returned! 
+
+You now have the chance to scoop $75, $200, and $1500 of XRD for submitting code examples 🔥
+
+https://www.radixdlt.com/post/scrypto-developer-program-incentives
+1/31/23, 17:29 - +254 712 467004: Am watching a documentary about cryptocurrecng now: ```Trust No One-The Hunt For Crypto King``` on Netflix.
+
+
+Si kuzuri buanaaaa!
+🙃
+1/31/23, 17:36 - +254 757 957335: <Media omitted>
+1/31/23, 18:35 - +254 710 504790: Who can code swift
+1/31/23, 18:35 - +254 710 504790: DM me
+1/31/23, 18:44 - +254 793 601115: I can code swiftly though 🥲
+1/31/23, 18:46 - +254 718 070107: 😂😂😂
+1/31/23, 18:54 - +254 710 504790: 😂😂😂
+1/31/23, 19:16 - +254 793 601115: 😅
+msinichoche niache Coding nikue comedian
+1/31/23, 21:50 - +254 729 549923: <Media omitted>
+HRJOBS_EX01_2223_RECRUITMENT_PLAN_JDS_ISSUE_JAN_2023_003.pdf
+1/31/23, 21:50 - +254 729 549923: <Media omitted>
+KEBS JOBS.pdf
+2/1/23, 00:34 - +254 705 698768: Unleash the power of #knn with My latest blog! Learn how to implement the K-Nearest Neighbors Algorithm from scratch using Numpy in #pythonprogramming . Get a comprehensive understanding of its applications, implementation, & a demo using image classification.
+
+https://medium.com/@stiveckamash/k-nearest-neighbors-algorithm-from-scratch-using-numpy-in-python-a-comprehensive-guide-for-f54b668db140
+2/1/23, 09:55 - +254 719 854780 changed to +254 770 558265
+2/2/23, 13:23 - +254 796 564749: <Media omitted>
+2/2/23, 13:32 - +254 700 169031: The possibility of a four-day 5-hr work week draws ever closer
+🤲🕯️🕯️
+2/2/23, 15:50 - +254 717 152438: For those new to SQL or struggling with SQL joins, or would just like to refresh their knowledge, I hope this helps
+https://medium.com/@irenenafula/an-in-depth-look-at-sql-joins-and-set-operations-b74b2c983d0c
+2/2/23, 19:04 - +254 715 221899: <Media omitted>
+Stay safe guys 😂😂
+2/2/23, 19:05 - +254 757 826724: running on Local Host 😂
+2/2/23, 22:03 - +254 757 957335 joined using this group's invite link
+2/2/23, 22:53 - +254 721 974466: Hello everyone, if you have any refferal for UX design/ product design (entry level), Data analyst/ Business Analyst.
+
+Kindly, let me know.
+2/2/23, 23:11 - +254 721 974466: https://ai.aims.ac.za/apply
+2/2/23, 23:20 - +254 721 974466: A Job.
+2/2/23, 23:22 - +254 721 974466: I need the post itself not someone to refer to.
+2/3/23, 05:31 - +254 702 932061: https://twitter.com/DataNomadKE/status/1621235983944491013?t=I10CsjyEgG9Iy3uz0XlnlA&s=08
+2/3/23, 07:18 - +254 768 004818: Hello devs, I would love to share what I have learnt in JavaScript with you. An honest feedback would be appreciated.
+
+https://dev.to/stevedev/javascript-what-you-need-to-know-part-one-1dh3
+2/3/23, 12:54 - +254 702 932061: <Media omitted>
+https://www.udacity.com/scholarships/aws-ai-ml-scholarship-program
+2/4/23, 15:31 - +254 708 400304 joined using this group's invite link
+2/5/23, 07:55 - +254 702 932061: Learn DevOps by playing games 🎮
+
+1. DevOps
+devops.games
+
+2. Linux
+overthewire.org
+
+3. DevOps Party Games
+devopspartygames.com
+
+4. Git
+ohmygit.org
+
+5. Python, JavaScript, Java 
+tynker.com
+
+6. 25+ languages
+codingame.com
+2/5/23, 12:44 - +254 797 817059: We have sent invites to the individuals who showed interest in contributing to open source https://github.com/TechBlurbs
+Check your emails and accept the invite.
+
+*PS*: _Please enable MFA for your GitHub account_
+2/5/23, 20:21 - +254 797 817059 added +254 716 922021
+2/6/23, 07:18 - +254 702 932061: https://www.air.org/resource/qa/using-data-respond-impacts-climate-change
+2/6/23, 07:19 - +254 702 932061: <Media omitted>
+Web_Data_Mining___Python.pdf
+2/6/23, 07:19 - +254 702 932061: <Media omitted>
+Coffee Break Python.pdf
+2/6/23, 07:19 - +254 702 932061: <Media omitted>
+Applied_Geospatial_Data_Science___Python.pdf
+2/6/23, 07:25 - +254 710 504790: https://pollforall.com/p3825nn9
+
+Vote for me ..... Patrick Kipkirui limz
+2/6/23, 08:14 - +254 793 601115: @254702932061 techblurb invite well received
+2/6/23, 14:55 - +254 754 872048: <Media omitted>
+NVIDIA #GTC23 is just around the corner🔥. Get ready to be inspired and explore the possibilities of #AI, #robotics, and the #metaverse🚀 Register for free here. https://www.nvidia.com/gtc/?ncid=ref-dev-171762-tinyML
+2/6/23, 17:46 - +254 717 152438: Hey @254702932061 please send me this book if you have it
+The data portfolio guidebook by matt mike
+2/6/23, 17:52 - +91 88773 68325 joined using this group's invite link
+2/6/23, 17:53 - +254 727 877510 joined using this group's invite link
+2/6/23, 17:53 - +91 94921 20526 joined using this group's invite link
+2/6/23, 17:54 - +254 791 673369 joined using this group's invite link
+2/6/23, 18:00 - +234 806 246 6789 joined using this group's invite link
+2/6/23, 18:04 - +254 728 300234 joined using this group's invite link
+2/6/23, 18:12 - +254 726 586250 joined using this group's invite link
+2/6/23, 18:19 - +254 771 073909 joined using this group's invite link
+2/6/23, 19:14 - +254 724 875879: Are you a JavaScript developer who is proficient with React.js?
+
+We are looking for you!
+
+Your primary focus will be on developing user interface components and implementing them following well-known React.js workflows.
+
+Apply here : https://learnlyafrica.com/react-developer
+2/6/23, 19:16 - +254 724 875879: <Media omitted>
+2/6/23, 19:50 - +254 797 650377 joined using this group's invite link
+2/6/23, 19:35 - +254 721 427763: 💯
+2/7/23, 00:00 - +254 790 942997 joined using this group's invite link
+2/6/23, 21:29 - +254 791 322767: <Media omitted>
+🇬🇭📣🇬🇭📣🇬🇭📣
+*Applications for the Deep Learning Indaba Conference 2023 are now open!*
+
+We encourage applications from all members of the African machine learning community, in all career stages, whether you are in industry or academia.
+
+Apply by *6th March 2023:*
+
+https://deeplearningindaba.com/2023/indaba/apply/
+2/7/23, 05:58 - +254 702 932061: <Media omitted>
+2/7/23, 10:19 - +254 729 549923: <Media omitted>
+ADVERTISEMENT FOR VACANCIES.pdf
+2/7/23, 11:52 - +254 719 428019: https://chat.whatsapp.com/KXynp2rTgR4EK2gvLdbfI3
+2/7/23, 15:48 - +254 702 932061 added +233 54 707 8052
+2/7/23, 15:44 - +254 729 549923: <Media omitted>
+ADVERTS 7.2.23  - ENTRY GRADE POSITIONS.pdf
+2/7/23, 15:47 - +254 722 167488: is it an internship or a job
+2/7/23, 15:48 - +254 702 932061: <Media omitted>
+Data_Visualization___Python_and_JavaScript(1).pdf
+2/7/23, 15:50 - +254 729 549923: Read the instructions
+2/7/23, 16:12 - +254 702 932061: <Media omitted>
+Training_Data_for_Machine_Learning (1).pdf
+2/7/23, 16:12 - +254 702 932061: <Media omitted>
+Handbook_of_Computer_Programming___Python.pdf
+2/7/23, 16:13 - +254 722 167488: Yes I have. Anyway the Salaries aint favourable
+2/7/23, 20:36 - +254 729 549923: <Media omitted>
+JobdescriptionsandrequirementsFebruary2023.pdf
+2/8/23, 10:37 - +254 703 229589 joined using this group's invite link
+2/8/23, 10:58 - +254 717 152438: https://www.ifc.org/wps/wcm/connect/careers_ext_content/ifc_external_corporate_site/ifc+careers/recruitment+programs/global+internship+program?wcmitemid=6f9c0700-f60d-4b9e-b701-95902dfff676&WCM_Page.ResetAll=TRUE&CACHE=NONE&CONTENTCACHE=NONE&CONNECTO
+2/8/23, 10:59 - +254 726 109415: This message was deleted
+2/8/23, 12:06 - +91 79723 46766 joined using this group's invite link
+2/9/23, 09:31 - +254 743 715884 joined using this group's invite link
+2/9/23, 15:30 - +254 769 716370 joined using this group's invite link
+2/10/23, 08:49 - +254 770 558265 changed to +254 719 854780
+2/10/23, 09:17 - +254 752 544284: Good morning everyone, I'm looking for web3 builders and founders in Nairobi. Kindly DM
+2/10/23, 09:37 - +254 757 826724: *A Super Inspiring Journey from a Totally Different Background to Data Science.*
+
+_Nicholas Cepeda - Data Analyst at Disney_
+
+A Podcast worth listening...
+https://soundcloud.com/superdatascience/sds-041-an-inspiring-journey-from-a-totally-different-background-to-data-science
+2/10/23, 12:18 - +254 728 785868: Anyone with a nice POS inbox ASAP
+2/11/23, 07:35 - +254 702 932061: Microsoft OneNote Abuse for Malware Delivery Surges
+https://www.securityweek.com/microsoft-onenote-abuse-for-malware-delivery-surges/
+
+Threat actors are increasingly abusing Microsoft OneNote documents to deliver malware in both targeted and spray-and-pray campaigns.
+The post Microsoft OneNote Abuse for Malware Delivery Surges (https://www.securityweek.com/microsoft-onenote-abuse-for-malware-delivery-surges/) appeared first on SecurityWeek (https://www.securityweek.com/).
+2/11/23, 10:13 - +254 722 818668: <Media omitted>
+Reminder today we'll be having session   Open source Contributor Workshop from 0 to 1 (with Apache APISIX) Saturday, 11 February · 10:00 – 11:30 Google Meet joining info Video call link: https://meet.google.com/fui-ueqy-hgx Or dial: ‪(KE) +254 20 3893887‬ PIN: ‪766 886 076 1310‬# More phone numbers: https://tel.meet/fui-ueqy-hgx?pin=7668860761310
+2/11/23, 11:13 - +254 716 922021: Hello
+2/11/23, 11:50 - +254 757 826724: <Media omitted>
+What we look for in a resume.pdf
+2/11/23, 18:11 - +254 752 544284: Anyone who can use jupyter notebook?
+2/11/23, 18:11 - +254 712 467004: 😂😂😂
+2/11/23, 19:13 - +254 792 138852: ikokazi?? 😂🤡
+2/11/23, 19:13 - +254 752 544284: Freelance technical jobs
+2/11/23, 19:14 - +254 752 544284: Computer science
+Data science squad ya Matlab hao ndio nataka
+2/11/23, 21:41 - +254 724 996893: Yes I can use it and matplotlab
+2/12/23, 00:30 - +254 792 743861 changed to +254 774 206991
+2/12/23, 10:09 - +254 727 970853: Hello guys 
+I am doing a B2C daraja integration and i am getting below response 
+
+ResultType":0,"ResultCode":21,"ResultDesc":"The initiator is not allowed to initiate this request."
+
+What does this mean ?
+2/12/23, 10:55 - +254 774 206991 changed to +254 792 743861
+2/12/23, 10:41 - +254 792 139821: Iam here.
+2/12/23, 10:57 - +254 781 943684: <Media omitted>
+GETTING STARTED WITH GITHUB
+BY: Brian Kemboi.
+Microsoft Learn Student Ambassador.
+Join me for a beginner-friendly session on getting started with GitHub! In this event, we will cover the basics of using GitHub for version control and collaboration on projects.
+Date: 15th February 2023 Time: 4:30pm to 5:20pm.
+Agenda:
+Introduction to GitHub
+Setting up a GitHub account
+Understanding repository and branches
+Collaborating on projects with other users
+Preparation:
+Create a GitHub account if you don't already have one
+Have your laptop and a notebook
+Registration Link:  http://bit.ly/3DR7qiV
+Join The meeting:  http://bit.ly/3HIEzhT
+I look forward to helping you get started with GitHub
+2/12/23, 13:37 - +254 702 932061: <Media omitted>
+Internet_of_Things_Security_Architectures_and_Security_Measures.pdf
+2/12/23, 16:49 - +254 710 504790: Awesome
+2/12/23, 20:32 - +254 702 932061: Game of cat and mouse continues...
+
+Following CISA's release of a decryption tool for ESXiArgs ransomware, cybercriminals have upgraded the malware to encrypt more data with stronger encryption methods.
+
+Learn more: https://thehackernews.com/2023/02/new-esxiargs-ransomware-variant-emerges.html
+2/12/23, 21:18 - +254 716 340285: Niice
+2/12/23, 21:54 - +254 706 113557 joined using this group's invite link
+2/13/23, 12:35 - +254 700 885748: Please assist me with filling the survey. 
+
+thank you.
+
+https://www.linkedin.com/posts/kevin-obote-b00693169_survey-on-work-related-upskilling-activity-7030830686211088384-FrcC?utm_source=share&utm_medium=member_android
+2/13/23, 16:29 - +234 906 749 2687: <Media omitted>
+This is a 2-day technical session targeted at anyone who wants to start a career in data science/data analytics. 
+For the two days, we shall feature both technical sessions and interactive Q&A.
+
+Day 1: *Getting Started with Data Science Using Microsoft Technologies* 
+
+- Learn how to clean and transform data using Power Query
+
+-Learn to visualize data and create interactive dashboards using Power BI
+- Q&A Session
+
+
+Day 2: *Data Analysis With Python* 
+
+- Learn how to fetch data from websites using the Python programming language.
+
+- Manipulate data using different Python libraries.
+
+-Extract and communicate insights from your data using different plotting libraries.
+
+- Q&A Session
+
+Participation is free. Register here: https://bit.ly/mlsa-unn
+2/14/23, 09:07 - +254 729 751130: Hello, I'm taking computer science and looking for an attachment come May... Can anyone help me out? Thanks
+2/14/23, 09:57 - +254 102826524: Inbox
+2/14/23, 13:36 - +254 728 785868: Highly experienced Tech Writer inbox ASAP
+2/14/23, 14:29 - +254 714 714958: This is a lunch break video I have made using chatGPT 
+https://youtu.be/_UtdNsBh_nM
+2/14/23, 20:20 - +254 727 918955: https://davisandshirtliff.com/vacancies/117-vacancies/754-junior-business-intelligence-developers
+2/14/23, 21:13 - +254 791 322767: <Media omitted>
+Catch us, 𝐋𝐈𝐕𝐄  on *KTN News* for the *Business Today Show* this *Wednesday, 15th February 2023* from *3 PM to 4 PM*, hosted by *KTN Senior Business Anchor, Kelvin Nyakundi* as we discuss: *Silicon Savannah: Tapping the Potential of Kenya's Technology Hub.*
+2/15/23, 12:17 - +254 757 826724: Check out this job at Aaron.ai: https://www.linkedin.com/jobs/view/3480838786
+
+Machine Learning Intern - Aaron.ai
+*☑️Remote*
+2/15/23, 17:32 - +254 791 322767: https://youtu.be/rhwJkdFqLvE
+2/15/23, 20:44 - +254 728 785868: Excel expert inbox for a  task. POD
+2/15/23, 21:19 - +254 793 601115: Hey I am building a chrome extension tool for freelancers and this is a test review please tell me what you think https://munyala.notion.site/GIG-WINS-AI-THE-FREELANCERS-BEST-FRIEND-78dac1f0d63c4147b6eb4fc434aae93b
+2/15/23, 21:23 - +254 737 863235: This message was deleted
+2/15/23, 21:23 - +254 737 863235: Thanks 👍
+2/16/23, 12:35 - +254 717 152438: Ingressive for Good in partnership with Datacamp Donates is providing ACCESS for you to learn Data Science or Data Analysis on the Datacamp platform. 
+
+Apply here- bit.ly/I4GDatacampScholarship
+
+Applications close on the 21st of February. 
+
+Don’t forget to share this information with someone. You may change their life
+2/16/23, 15:00 - +254 710 716900: <Media omitted>
+2/16/23, 19:21 - +254 704 219247: Https://bit.iy/skills_success
+2/16/23, 20:06 - +254 704 219247: Https://bit.ly/skills_success
+2/17/23, 00:09 - +254 769 716370: <Media omitted>
+Venturing into Data Science with Python? Join me on *Friday 17th February at 2:00 pm EAT* as I show you how to set up your Data Science environment in Visual Studio Code through a beginner-friendly technical workshop. This workshop will show you how to integrate Python, Jupyter Notebook and GitHub in Visual Studio Code. We'll go over:
+
+1. How to install Python 3.11
+2. How to install Git
+3. Creating a GitHub Account
+4. How to install Visual Studio Code
+5. How to install Jupyter Notebooks in VS Code
+6. How to commit to GitHub directly from VS Code
+
+Join the call here: https://bit.ly/VS-Code-Workshop 
+*Make sure you have downloaded and set up a Microsoft Teams account before joining the call.*
+
+Share with your friends who would find this useful 😃
+2/17/23, 01:04 - +254 791 322767: <Media omitted>
+We're experiencing the rise of discriminative algorithms, ChatGPT and exploitation of workers.
+
+As 2023 gathers pace, how do we advance digital safety and other protections? How do we ensure that the internet space is safe for our children and the young people in Africa?
+
+Tune in to *KUTV Prime Time News* , today, *Friday, 17/02/2023 at 09:00 PM* as we discuss *Big Tech Accountability in Africa.*
+
+The session will delve into how technology firms are accountable, and alive to the nuances, needs and peculiarities of Kenya, especially in managing content moderation.
+2/17/23, 01:13 - +254 768 051076: https://learn.microsoft.com/training/challenges?id=09c9e32b-1ef5-4c24-b08e-5de1ef01d712&wt.mc_id=studentamb_224509
+2/17/23, 01:55 - +254 717 152438: https://youtu.be/qeSdcrdKWi8
+2/17/23, 07:36 - +254 700 885748: Please apply for a sponsored seat, let's learn together....
+
+New courses added: Data science, Data Analysis, Sales force administrator, Aws cloud practitioner...
+
+I will be happy to assist where I can ...
+
+https://www.linkedin.com/posts/kevin-obote-b00693169_softwareengineer-dataanalysis-datascience-activity-7032204548882509824-ydvg?utm_source=share&utm_medium=member_android
+2/17/23, 11:38 - +254 757 826724: <Media omitted>
+Data Science Cheatsheet .pdf
+2/17/23, 12:36 - +254 722 167488: Check out this job at UNHCR, the UN Refugee Agency: https://www.linkedin.com/jobs/view/3481087955
+2/17/23, 12:40 - +256 755 826939: Hi everyone
+Recently got laid off on a company downsizing and Looking for a new role. 
+I am a full stack engineer, with over 7yrs in experience in the field, leading teams and building digital solutions.
+
+Here's my Linkedin if you would like to reach out - https://www.linkedin.com/in/david-marko-b9896b228
+2/17/23, 19:38 - +254 702 932061: https://twitter.com/worlddatalab/status/1626552029241053185?t=BRuP2QoGJTGicVuljgnGWw&s=08
+2/17/23, 20:02 - +254 722 818668: <Media omitted>
+SytDjangoFriday-Do's and Don't of Django (Django rest framework) Friday, 17 Feb · 8–9:30 PM Google Meet joining info Video call link: https://meet.google.com/fbb-mnqg-wvx Or dial: +254 20 3893887 PIN: 2979366673142 More phone numbers: https://tel.meet/fbb-mnqg-wvx?pin=2979366673142
+2/18/23, 04:40 - +254 702 932061: <Media omitted>
+2/18/23, 13:33 - +254 707 162738: https://www.linkedin.com/posts/womentechmakersnairobi_iwdnairobi2023-activity-7032384145607569408-uVRx
+2/19/23, 09:38 - +254 728 785868: Any Data science expert inbox 📥 ASAP for a POD task.
+2/19/23, 13:13 - +254 716 340285: <Media omitted>
+Sign up for my newsletter for more advice😂😂😂🤣🤣🤣
+2/19/23, 17:21 - +254 705 698768: Learning how backpropagation algorithm works and the maths behind it using a practical example.
+
+https://medium.com/@stiveckamash/backpropagation-understanding-how-backpropagation-algorithm-works-in-ml-8bdd9c636534
+2/20/23, 08:58 - +254 791 322767: <Media omitted>
+2/20/23, 08:58 - +254 791 322767: Book your ticket today! and secure your space to #IndustryExpertTalk Physical Meet-up.
+
+5 days to go
+
+
+https://events.mtickets.com/Events/industrial-experts-talk-/65
+2/21/23, 22:23 - +254 743 071017 joined using this group's invite link
+2/20/23, 13:12 - +254 769 716370: <Media omitted>
+Thank you all for attending this workshop (Getting started with Python, Jupyter Notebooks and GitHub in Visual Studio Code). 
+
+Kindly fill out this form to receive the recording: https://forms.office.com/r/b6wHS2Viia
+I will also use the details entered in the form to send the LinkedIn vouchers to the lucky winners. 
+
+As promised, here are the links to the Microsoft Learn modules.
+
+Microsoft Learn: https://learn.microsoft.com?wt.mc_id=studentamb_206118
+
+Python for beginners: https://learn.microsoft.com/training/paths/beginner-python?wt.mc_id=studentamb_206118
+
+Get started with Jupyter Notebooks: https://learn.microsoft.com/training/modules/python-create-run-jupyter-notebook?wt.mc_id=studentamb_206118
+
+Introduction to GitHub: https://learn.microsoft.com/training/modules/introduction-to-github?wt.mc_id=studentamb_206118
+2/22/23, 16:19 - +254 729 568103 joined using this group's invite link
+2/23/23, 09:35 - +254 703 103690 joined using this group's invite link
+2/23/23, 18:44 - +254 740 047595 was added
+2/23/23, 18:44 - +254 721 127287 and +254 721 605327 left
+2/21/23, 07:45 - +254 716 340285: https://youtu.be/7G_Kz5MOqps
+2/21/23, 08:12 - +254 716 340285: <Media omitted>
+😂😂
+2/21/23, 08:20 - +254 716 340285: <Media omitted>
+2/21/23, 12:01 - +254 700 885748: Learning is living...
+
+https://www.linkedin.com/posts/kevin-obote-b00693169_learning-dataanalytics-datascience-activity-7033721668334235648-NmdG?utm_source=share&utm_medium=member_android
+2/21/23, 12:04 - +254 793 601115: https://munyala.notion.site/GIG-WINS-AI-THE-FREELANCERS-BEST-FRIEND-78dac1f0d63c4147b6eb4fc434aae93b
+
+made some updates tell on the extension tool for freelancers what you think 
+
+check the result it gives and tell me what you think
+
+leave a riview if you can 🥲 I'll reply back
+2/21/23, 12:33 - +254 795 772309: <Media omitted>
+*📌📍GAME OF LEARNERS SEASON 4 PARTICIPANTS APPLICATION📍📌*
+
+Ola 👋The Game of Learners season 4 applications is on ...
+
+The Game of Learners (GOL) Season is a 5-week virtual hackathon designed to give students the platform to learn quickly and showcase their ability to solve a real-world problem as a team. 
+
+While the competition itself is only 5 weeks, the entire Season 4 event will span from 1st February to 14th April 2023, encompassing the GOL Draft, pre-season training, competition, judging, and finale.
+
+ Each participant will be in a team of 5 members (1 captain, 4 teammates). The theme and problem statement for the season will be announced at kickoff.
+
+ For more information, binge watch last year's Season 3 on Citizen TV Kenya (https://youtube.com/playlist?list=PLLT21ES-Oho522SQrkzh_JtscBXU1AIM-).
+
+If you want to challenge the limits of your learning and problem-solving capabilities while having fun and making a positive impact, then the Game of Learners Season 4 might just be for you! 
+
+To qualify, you must be a student and have never participated in any of the previous GOL seasons. You do not need to be in a technical degree, you just need the desire to learn new skills quickly, meet new people and willing to build a solution to address a problem.
+
+Fill the form below to show us why you should be selected to participate in Season 4. All the best!
+
+https://aka.ms/GOLSn4Apply
+
+Apply now😉
+2/21/23, 12:34 - +254 712 467004: <Media omitted>
+# KOTs you have been found!
+2/21/23, 18:31 - +254 708 533383: For those starting in #Tech and looking for Resources…
+
+Here is a Google Drive with Over 600+ Tech Resources
+
+Ebooks on different Topics Like 
+SQL,
+Big Data, 
+UI/UX,
+PMP, 
+Quality Assurance…
+And more
+
+All Totally safe. Utilize them
+
+Happy Studying.
+
+https://drive.google.com/drive/u/0/folders/1if09a9QyNfBRlAKey7If5preZ3BswudZ?fbclid=IwAR2QBcrO-LcQ0yUhRkhFRoGE3J5PMoPf9f6S30AsndUFBHGvVUkFa2WBIGo
+2/21/23, 18:40 - +256 701 649364: http://clotheenvoy.cn/umemewy/tb.php?dj=qd1676994025265
+2/22/23, 00:25 - +254 728 300234: Sup anyone here using any desk
+2/22/23, 00:26 - +254 728 300234: I need virtual guide on unpacking n installing drauger os
+2/22/23, 00:31 - +254 728 300234: <Media omitted>
+2/22/23, 12:09 - +254 702 932061: <Media omitted>
+Expert.Oracle.Database.Architecture.pdf
+2/22/23, 12:09 - +254 702 932061: <Media omitted>
+OReilly.Fundamentals.of.Deep.Learning.pdf
+2/22/23, 13:51 - +254 717 152438: Hey guys, I am working on this web scraping project and I have been able to scrape the book information from this site (https://books.toscrape.com/index.html) for the first page but I would like to know how to get the book categories as well
+2/22/23, 13:55 - +254 791 071536: What tool are you using?
+2/22/23, 13:56 - +254 793 601115: https://books.toscrape.com/catalogue/category/books/mystery_3/index.html
+
+paginate over the url I.e 
+/books/ in the list of categories
+
+you can do this with a for or while loop
+2/22/23, 14:42 - +254 717 152438: Beautiful Soup and Requests
+2/22/23, 14:42 - +254 717 152438: How exactly
+2/22/23, 14:47 - +254 793 601115: the categories are in a htm list <ul> loop through it append the next category to the url then scrape that page or go ahead and learn scrapy
+2/22/23, 17:40 - +254 712 467004: <Media omitted>
+🥴
+2/22/23, 17:50 - +254 793 601115: simply CHATGPT
+2/22/23, 17:52 - +254 721 427763: YouTube link please 🙏🙌
+2/22/23, 20:19 - +254 702 932061: <Media omitted>
+2/22/23, 20:31 - +254 702 932061: https://optimetriks.factorialhr.com/job_posting/python-developer-internship-27436?
+2/22/23, 22:20 - +254 726 687369: 😀😅😂😂
+2/23/23, 03:54 - +254 702 932061: https://www.udacity.com/blog/2023/02/technical-interview-prep-tips.html?utm_source=organicsocial&utm_medium=twitter&utm_campaign=consumer&utm_content=
+2/23/23, 13:12 - +254 702 932061: <Media omitted>
+Data_Science_Bookcamp__Five_real-world_Python_projects.pdf
+2/23/23, 13:13 - +254 702 932061: <Media omitted>
+Making___Data_Physical_Design_and_Craft_in_a_Data-Driven (1).pdf
+2/23/23, 13:54 - +254 707 847805: 👌🏽👌🏽👌🏽👌🏽
+2/23/23, 13:57 - +256 755 826939: https://0xdvvid.hashnode.dev/my-painful-journey-into-python-asyncio-a-quick-look-at-some-mistakes-and-bugs
+
+Quick morning article about Python Asyncio in Backend Development
+2/26/23, 16:44 - +254 112637766 and +254 707 209808 were added
+2/26/23, 16:44 - +254 713 642280 left
+2/26/23, 13:29 - +254 707 209808 joined using this group's invite link
+2/26/23, 18:05 - +254 702 932061: https://ramoreleaf.wordpress.com/2023/02/24/the-hacking-of-social-media-accounts-and-how-to-protect-yours/
+2/26/23, 18:25 - +254 702 932061: <Media omitted>
+R_20for_20Data_20Science_20_282023_29.pdf
+2/27/23, 09:54 - +254 718 567275 joined using this group's invite link
+2/27/23, 09:56 - +256 755 826939: 5 A.M on a Monday morning is a great time to be curious. Wrote this article to quickly benchmark the performance differences between Python and GoLang. The results were obviously not surprising at all.
+https://0xdvvid.hashnode.dev/from-python-to-golang
+2/27/23, 10:05 - +254 793 601115: benchmark with fastapi
+2/27/23, 10:07 - +256 755 826939: Will try it out. FastAPI has great asynchronous requests. It's light weight and when combined with unicorn, its pretty decent. 
+
+I use it on serverless instances sometimes 😊
+2/27/23, 10:09 - +254 793 601115: lambda?
+2/27/23, 10:11 - +256 755 826939: Yeah. But I recommend vercel or onrender 
+
+AWS lambda can be a nightmare to use with docker
+2/27/23, 10:17 - +254 793 601115: they provide a similar service to lambda functions ?
+2/27/23, 10:21 - +256 755 826939: Yes. One is just alot simpler to work with than the other.
+2/27/23, 10:39 - +254 793 601115: ebu send me a link ill appreciate
+2/27/23, 10:40 - +254 793 601115: im to implement a couple of micro services on lambda it'll be good to get alternatives 
+
+plus link to a tutorial also
+2/27/23, 10:42 - +256 755 826939: https://vercel.com
+Its exactly like using Heroku in a way. And after login in with CLI, you just add a single file called vercel.JSON to your project root and it will instantly turn it into a cloud function. Just make sure to crosscheck the app entry point and requirements files in your package.JSON or requirements.txt depending on the language you are using
+2/27/23, 12:58 - +254 714 687195 joined using this group's invite link
+2/27/23, 18:26 - +254 717 818503 joined using this group's invite link
+2/27/23, 19:47 - +254 759 356368 joined using this group's invite link
+2/27/23, 23:16 - +254 707 209808: Can someone help me with data science task using R ? Please inbox. I'll pay
+2/28/23, 00:48 - +254 718 264080: Python an option?
+2/28/23, 01:00 - +254 707 209808: No, it's a course based on R
+2/28/23, 08:42 - +254 791 827914: Did you get someone
+2/28/23, 11:54 - +254 718 264080: @254707209808
+2/28/23, 13:18 - +254 707 209808: Yes, I did. I will reach out again soon
+2/28/23, 15:01 - +254 753 043905: Anyone interested in learning the latest version of CCNA (200-301)
+
+*Mode of instruction:* Online with practical PT assignments 
+
+*Cost:* 10,000/=
+
+*Duration:* 2 weeks
+
+Suitable for both those who are new to CCNA and those who did the previous versions and need to update skills on the new areas introduced
+2/28/23, 15:07 - +254 753 043905: Follow this link to join my WhatsApp group: https://chat.whatsapp.com/K44jstalyBW5V80oWJdPi1
+2/28/23, 20:58 - +254 719 130032: <Media omitted>
+https://instilleducation.bamboohr.com/careers/66
+3/1/23, 01:13 - +254 707 209808: Anyone who's still awake and can work on wordpress, site migration and design, understands databases etc in wordpress, please inbox
+3/1/23, 18:36 - +254 702 932061: <Media omitted>
+Deep_Learning_for__-like_Object_Detection.pdf
+3/1/23, 19:21 - +254 717 152438: https://youtu.be/VJVuDbIRWAc
+3/2/23, 13:06 - +254 793 601115: https://www.linkedin.com/pulse/creating-chrome-extension-enhance-freelancers-proposal-eliud-munyala
+
+fam tell me what you think
+3/2/23, 16:27 - +254 718 521211: <Media omitted>
+Good afternoon, 
+We at Launch Hub take this opportunity to give you a special offer on our Masterclass Training Package.
+
+The offer cost is KES 25,000/=
+Our PMP Plus Training Package entails:
+ 
+-------------------------------
+1. 10-day intensive Instructor-led PMP Masterclass Training
+2. Microsoft Project Training
+3. PowerPoint Presentation – Creation and Styling.
+-------------------------------
+ Date: From 6th March 2023
+ Venue: Live Instructor Led on Teams
+-------------------------------
+Book your slot now.
+
++254707260205
+info@launchhub.africa
+3/2/23, 18:05 - +254 793 601115: *apologies guys I'm on the road @254702932061 @
+3/3/23, 01:31 - +254 702 932061: <Media omitted>
+Open_Circuits.pdf
+3/3/23, 01:36 - +254 716 340285: Ohh @254702932061  you deserve a token for this.....
+3/3/23, 01:37 - +254 702 932061: 😁😁
+That's the mpesa number
+3/3/23, 01:40 - +254 702 932061: Cisco Patches Critical Vulnerability in IP Phones
+https://www.securityweek.com/cisco-patches-critical-vulnerability-in-ip-phones/
+
+Cisco has released patches for a critical remote code execution vulnerability in certain IP phones.
+The post Cisco Patches Critical Vulnerability in IP Phones (https://www.securityweek.com/cisco-patches-critical-vulnerability-in-ip-phones/) appeared first on SecurityWeek (https://www.securityweek.com/).
+3/3/23, 02:11 - +254 702 932061: https://thebounce.io/get-adobe-analytics-reports-to-looker-studio-or-google-sheets-a85e109ace34
+3/3/23, 02:11 - +254 702 932061: Hiding Table Columns 
+https://community.profitabledashboards.com/c/tips/hiding-table-columns-c3d84933-eeb4-47b8-aef9-19e7a8a51951
+3/3/23, 08:44 - +254 717 152438: <Media omitted>
+3/3/23, 18:01 - +254 722 818668: any designers in the house 
+
+Cc @254702932061 @*V↑C K ¯\_(ツ)_/¯*
+3/3/23, 18:07 - +254 722 818668: https://github.com/TechBlurbs/techblurbs.github.io/issues/1#issue-1560818464
+
+there's is a pending issue, on design that we can have an idea on as the issue requirements
+3/3/23, 20:57 - +254 702 932061 added +254 723 719097
+3/4/23, 07:50 - +254 702 932061: <Media omitted>
+Deep_Learning_for__-like_Object_Detection.pdf
+3/4/23, 09:37 - +254 717 152438: https://youtu.be/YlWSDjamzEs
+
+Learn how to do single level and multi level sorting to further enhance your analysis process in Excel
+3/4/23, 10:33 - +254 791 322767: Grab a copy of the Daily Nation Newspaper on Monday, 6th March 2023.
+
+Our first byline will be going live on the Opinion (Op-eds Section).
+
+In 2023, and beyond, we’ll be writing a continued series of ICT-related articles each Monday (Opinion Column) for the Daily Nation Newspaper.
+3/4/23, 23:56 - +254 702 932061: <Media omitted>
+Learning_Microsoft_Power_BI.pdf
+3/4/23, 23:58 - +254 702 932061: <Media omitted>
+Python_for_Probability__Statistics__and_Machine_Learning (1).pdf
+3/5/23, 20:41 - +254 791 322767: As our first article goes live on the Daily Nation Newspaper themed: 'The African Drive to hold Big Tech Companies Accountable'.
+
+Let's connect and have a candid discussion *LIVE on KBC Channel 1,  Monday, 06/03/2023* as from *08:30 AM for the Good Morning Kenya Segment.*
+3/5/23, 20:46 - +254 702 932061: <Media omitted>
+Cathy_Tanimura_SQL_for_Data__ysis_Advanced_Techniques_for_Transforming.pdf
+3/5/23, 21:05 - +254 725 842658: @254702932061 , you are such a resource... Don't touch dial!
+3/5/23, 21:43 - +254 113193473: Hey guys checkout my blog https://datasabare.blogspot.com/
+3/6/23, 15:30 - +254 791 322767: <Media omitted>
+3/6/23, 15:31 - +254 791 322767: Today is the last to make your application to join us in Accra Ghana later in the year for the BIGGEST machine learning & artificial intelligence conference on the continent.
+
+https://deeplearningindaba.com/2023/indaba/apply/
+3/6/23, 15:33 - +254 791 322767: As big tech dominate the African digital ecosystem, we’re experiencing a rise in the weaponization of AI across social media platforms.
+
+Curious about how the United Nations is supporting the African drive to hold big tech firms accountable in their operations in Africa?
+
+
+https://www.youtube.com/watch?v=k4DbccWeNns
+3/6/23, 17:29 - +254 712 467004: <Media omitted>
+👆...check this out
+3/6/23, 17:30 - +254 712 467004: https://twitter.com/MarvinGakunyi/status/1632656137416761344?t=SbT4kZKOG4Uvvhda9c5jlw&s=19
+3/6/23, 18:56 - +254 702 932061: <Media omitted>
+3/6/23, 18:58 - +254 721 427763: 👏 👏 👏
+3/6/23, 19:02 - +254 707 043416: 😆
+3/6/23, 20:35 - +254 701 539449: some files are unavailable eg data wrangling and quality...are they in a google drive I can access, kindly share if possible
+3/6/23, 21:37 - +254 702 932061 added +254 726 224276
+3/7/23, 07:13 - +254 722 687427: <Media omitted>
+3/7/23, 07:48 - +254 702 932061: <Media omitted>
+pysheeet.pdf
+3/7/23, 14:02 - +254 702 932061: <Media omitted>
+machinelearningAIDeep_resume.pdf
+3/7/23, 19:38 - +254 721 483296 joined using this group's invite link
+3/8/23, 08:31 - +254 757 826724: <Media omitted>
+https://twitter.com/DeepIndaba/status/1633239498116014081?t=9uXQtP63cRy7r3wWMQvm_Q&s=19
+3/9/23, 04:46 - +254 728 785868: Python expert inbox for an urgent task.
+3/9/23, 06:38 - +254 728 785868: Biochem expert inbox foe a paid task.
+3/9/23, 13:06 - +254 719 428019: Learn where and when to use async or defer when loading JavaScript scripts.
+
+https://medium.com/@amosmachora/javascript-zero-to-hero-26-async-and-defer-1c4b2d4807bd
+3/9/23, 14:54 - +254 729 549923: Hi guys, I would like to download a few books from free online sites but I have realised that z library was blocked. Any assistance on an alternative that is effective as z library since pdf drive is not of much help
+3/9/23, 15:04 - +254 720 241562: Use the app
+3/9/23, 15:05 - +254 720 241562: <Media omitted>
+base.apk
+3/9/23, 15:05 - +254 706 812685: you can still use zlib
+3/9/23, 15:05 - +254 706 812685: We have great news for you! After a long time, Z-Library is available on the Clearnet again! To access the library, follow this link https://singlelogin.me and use your regular login credentials.
+
+After logging into your account, you will be redirected to your personal domain. Please keep your personal domain private! Don’t disclose your personal domain and don’t share the link to your domain, as it is protected with your own password and cannot be accessed by other users.
+3/9/23, 15:05 - +254 706 812685: In case you can’t access your personal domain, please provide a screenshot/screencast with the issue to 1libsupp@1lib.to, and we will assist you. Thank you so much for staying with Z-Library!
+3/9/23, 15:06 - +91 94921 20526: <Media omitted>
+3/9/23, 15:08 - +254 729 549923: Thanks a lot, its working
+3/9/23, 15:13 - +254 719 130032: does it work on iOS?
+3/9/23, 15:51 - +254 720 241562: Open
+3/9/23, 23:31 - New participants need admin approval to join this group.
+3/10/23, 07:53 - +254 797 817059 turned off admin approval to join this group.
+3/10/23, 03:36 - +254 757 826724: 💯💯 https://www.deeplearning.ai/blog/how-to-land-a-job-in-machine-learning-or-data-science/
+3/10/23, 08:17 - +254 717 152438: https://youtu.be/yoE5pmotmjU
+3/10/23, 09:00 - +254 729 549923: <Media omitted>
+VACANT-POSITIONS-MARCH-2023.pdf
+3/10/23, 09:15 - +254 700 311313: No address
+3/10/23, 10:30 - +254 719 428019: The window object in JavaScript. 💯
+
+https://medium.com/@amosmachora/javascript-zero-to-hero-27-the-window-object-75bcaf44da76
+3/10/23, 13:42 - +254 703 250657: I think Anna's archive works
+3/10/23, 18:15 - +254 753 043905: Hi,
+ 
+Nelson is inviting you to a scheduled Zoom meeting.
+ 
+ 
+ 
+Topic: CCNA Training March 2023
+ 
+Time: This is a recurring meeting Meet anytime
+ 
+ 
+ 
+Join Zoom Meeting
+ 
+https://us04web.zoom.us/j/73098137068?pwd=oSeawrpyLtWWPjrRXHpDyrU14FN0o7.1
+ 
+ 
+ 
+Meeting ID: 730 9813 7068
+ 
+Passcode: cEiy4y
+3/10/23, 18:21 - +254 702 932061: <Media omitted>
+Artificial_Intelligence_Programming___Python_from_Zero_to(1).pdf
+3/10/23, 18:26 - +254 702 932061: <Media omitted>
+Functional_Python_Programming(2).pdf
+3/10/23, 18:29 - +254 702 932061: https://www.eventbrite.com/e/getting-started-with-open-source-tickets-579775081877
+
+Our first meeting This year.
+3/11/23, 06:33 - +254 702 932061 turned on admin approval to join this group.
+3/11/23, 19:54 - +254 719 428019: the document object in js
+
+https://medium.com/@amosmachora/javascript-zero-to-hero-28-document-document-29479ef4c7d3
+3/12/23, 12:17 - +254 728 785868: Cyber security expert inbox 📥 ASAP
+3/12/23, 12:46 - +254 707 209808 joined using this group's invite link
+3/13/23, 01:10 - +254 707 209808: Can someone do these tasks  for me at a considerably low cost like 3500 each?? Of course I need an expert...
+3/13/23, 01:11 - +254 707 209808: They are all about R programming (Natural language processing)
+3/13/23, 01:11 - +254 707 209808: one is a Natural Language Processing assignment, while the other one is a Shiny app project.
+3/13/23, 06:46 - +254 700 885748: Apply for a sponsored seat...Data science, Data analytics,  AWS Cloud practitioner,  sales force administrator...
+
+https://www.linkedin.com/posts/kevin-obote-b00693169_cprogramminglanguage-activity-7040885511187488768-R52O?utm_source=share&utm_medium=member_android
+3/13/23, 09:30 - +254 702 932061: An upcoming event:
+
+📢 *Getting Started with Open Source*
+🗣️ *_Speakers_*: Vick & Eliud
+🗓️ *_Date:_* Thur 16th March, 2023
+⏰ *_Time:_* 5:30 PM - 6:30 PM
+📍 *_Venue_*: google meet 
+🌐 *_Reg Link_*: https://www.eventbrite.com/e/getting-started-with-open-source-tickets-579775081877
+
+
+📝 *_Description_*: _Join Techblurbs this Thursday for a refresher training on how to get started and contribute to open source projects_
+3/13/23, 11:44 - +254 719 428019: I'd and class selectors in JS are one of the first components every js developer should know.
+
+https://medium.com/@amosmachora/javascript-zero-to-hero-29-id-and-class-selectors-cf8627873adb
+3/13/23, 12:27 - +254 716 340285: https://twitter.com/kvltbyte/status/1635203159453995009?s=20
+3/13/23, 19:40 - +254 725 842658: https://aphrc.org/career/short-term-consultant-data-professionals-and-interns/
+3/14/23, 07:06 - +254 702 932061: https://careers.bat.com/job/nairobi/hr-data-and-system-analyst-intern/27325/1932244032
+3/14/23, 12:19 - +254 719 428019: https://medium.com/@amosmachora/javascript-zero-to-hero-30-query-selectors-the-basics-7e426d6b59e8
+3/14/23, 12:19 - +254 719 428019: Hey guys I would really appreciate of you followed me on medium. I post this type of content for readers. It's a young account and your help will be greatly appreciated.
+https://medium.com/@amosmachora
+3/14/23, 21:41 - +254 721 427763: <Media omitted>
+SVB Bank Crisis Explained.pdf
+3/15/23, 00:06 - +254 700 885748: https://www.linkedin.com/posts/kevin-obote-b00693169_women-have-always-been-vital-and-important-activity-7041514753797599232-xFji?utm_source=share&utm_medium=member_android
+3/15/23, 01:17 - +254 708 533383: Fintech is the gift that keeps on giving. Welcome WhatsApp Payments. https://www.whatsapp.com/payments/in Last week I was in a forum where fintech startup founders were ranting on Fintech gate-keeping by M-Pesa in Kenya. I mean with over 90% market dominance what do you expect. But there is a new Elon in town. WhatsApp Payment. Interesting to see how this space will unfold. M-pesa Vs WhatsApp payments with time. 🤪🤪
+3/15/23, 01:17 - +254 708 533383: <Media omitted>
+We are excited to announce that we are planning a monthly series of meetups where we will be discussing topics in data analytics, data science, and data engineering. Women in Data Community is seeking talented and knowledgeable speakers to share their expertise in the field. We are looking for speakers who are passionate about data science and can provide valuable insights into the latest trends, techniques, and technologies in the industry. We welcome submissions from speakers with diverse backgrounds and experiences.
+
+We encourage submissions on a range of topics, for example: Machine learning, Data mining, Data visualization, Deep learning, Natural language processing, Artificial intelligence, Ethics in data science, Big data analytics, Data-driven decision making and Data governance and management.
+
+If you have a compelling story to tell or valuable insights to share on any of these topics, we invite you to fill in the form https://forms.gle/9zrYY3xMx2VQoRCv5
+3/15/23, 10:26 - +254 740 875071: Anyone who can offer internship ?
+3/15/23, 11:10 - +254 702 932061: <Media omitted>
+GPT-4 Technical Report.pdf
+3/15/23, 11:11 - +254 725 842658: I am not in a position to at the moment but so pushed to give you a Small piece of advice / tips that I have borrowed from somewhere ..
+3/15/23, 11:11 - +254 725 842658: Tips:
+Perhaps some specificity that will make your message actionable.  E.g.
+--Are there particular companies you inroads to and in what capacity
+--Do you want to share your CV or at least point out highlights e.g. Are you a student, graduate, in what, what are you interests, what are you currently exploring, what area (physically where are you located or exploring to be at)..etc …..
+--Is there any past experience you want to bring out so someone can pick on that to extend an offer or guidance
+Without posting some of these things, then you are unfortuantely blindly shopping and putting the hard work of inquiry the audience.  ;)
+3/15/23, 11:15 - +254 725 842658: Straight answer to this query would be... Yes indeed.
+3/15/23, 11:21 - +254 740 875071: Okay I'll do that.
+3/15/23, 18:36 - +254 701 061806 joined using this group's invite link
+3/15/23, 18:37 - +254 702 932061 added +254 711 210109
+3/16/23, 04:00 - +254 752 564495 joined using this group's invite link
+3/15/23, 22:09 - +254 708 533383: "There are a few stated reasons why OpenAI did this. The first is money. The firm stated in its API announcement blog, "commercializing the technology helps us pay for our ongoing AI research, safety, and policy efforts." The second reason is a stated bias toward helping large companies. It is "hard for anyone except larger companies to benefit from the underlying technology," OpenAI stated. Finally, the company claims it is safer to release via an API instead of open-source because the firm can respond to cases of misuse." https://bit.ly/3Tlzi5q
+3/16/23, 11:08 - +254 724 608463: Hell @ all. Any recommendation where I can get good materials for C#( programmers in the House)
+3/16/23, 11:09 - +254 724 608463: Hello*
+3/16/23, 11:24 - +254 726 687369: www.Libgen.rs
+3/16/23, 11:29 - +254 795 772309: <Media omitted>
+The skilling event of the year is BACK! Join me at the #MSFTStudentSummit starting March 20 to grow your network, explore the latest tech, and take your skills to the next level for your first or next job. ✨ Register here: https://aka.ms/StudentSummit?wt.mc_id=studentamb_199691
+3/16/23, 11:29 - +254 724 608463: Thanks a lot
+3/16/23, 16:29 - +254 745 406441 joined using this group's invite link
+3/16/23, 17:21 - +254 746 256084: Anyone offering python work?
+3/16/23, 17:27 - +254 702 932061: Our event starts in 4 minutes.
+Getting Srarted with open source
+Thursday, 16 Mar  •  17:30–18:30
+Google Meet joining info
+Video call link: https://meet.google.com/nyq-hznb-gpd
+
+Join here in 3 minutes
+3/16/23, 17:38 - +254 717 818503: Hey guys. it's David Esekon here, A new entry to the field of Data science and Machine learning. Should any of you have any entry level opportunities available in Data science,  please knock me. 
+
+Thanks guys 🙏
+3/16/23, 17:39 - +254 717 818503: or even any recommendations will be highly appreciated.
+God bless
+3/16/23, 18:21 - +254 757 826724: *Data Engineer Needed at FlutterWave*
+
+https://flutterwavego.bamboohr.com/jobs/view.php?id=556&utm_source=Hotnigerianjobs
+3/16/23, 18:29 - +254 711 210109: Hey everyone.
+My name is Agnes, and just like David, I am a new entrant into the field of data. I am looking for any entry level opportunity and/or recommendations in data analytics/science. Kindly feel free to reach out. Thanks.
+3/16/23, 18:47 - +254 702 932061: Slides: https://docs.google.com/presentation/d/10IzYNW27omGjRz3xgsxyxP9WKwhzoznqBc3pSpYy4Sk/edit?usp=sharing
+3/16/23, 18:48 - +254 702 337505: 🙏🙏
+3/16/23, 18:50 - +254 702 932061: *TechBlurb Github Community*
+In an effort to continuously grow our community, we are setting up a 
+TechBlurb's organization Github profile where we collaborate on projects
+ around Tech. Kindly provide the info below to be added to TechBlurb's 
+GitHub Community. 
+Each Team will have mentors and a project manager. Those interested in either of the two roles, can email blurbstech@gmail.com, inbox me or @⁨Victor Omondi⁩ .
+
+https://forms.gle/QE6GndTy17bep4Qc6
+3/16/23, 18:51 - +254 702 932061: If you haven't been added to the Github community fill this form
+3/17/23, 00:24 - +254 701 446139 joined using this group's invite link
+3/16/23, 23:04 - +254 700 885748: Feel free, to reach out to me...incase you need more info...after visiting the link...
+
+https://twitter.com/KevinObote6/status/1636457170551054346?t=QYoR_40xr7e56bPpuAPdiA&s=08
+3/17/23, 08:35 - +254 757 957335: IMG-20230318-WA0004.jpg (file attached)
+3/17/23, 09:07 - +254 769 716370: <Media omitted>
+The Student Summit Watch Party will be at Strathmore on the 21st of March from 2:00pm - 4:00pm. Want to be in attendance? Follow these three simple steps:
+
+1. Fill out this form to register for the event: https://aka.ms/SSWPKE
+2. Complete this Cloud Skills Challenge: https://aka.ms/SSWPKE-CSC?wt.mc_id=studentamb_206118
+3.  Receive an invitation to attend 😃
+
+We can't wait to see you there 😁
+3/17/23, 12:56 - +254 707 333486 joined using this group's invite link
+3/17/23, 12:57 - +254 797 817059 turned off admin approval to join this group.
+3/17/23, 13:28 - +254 114397725 joined using this group's invite link
+3/17/23, 13:39 - +254 707 043416: Why isn't 404 a Server error?
+3/17/23, 14:52 - +254 707 043416: I mean, it's the server that can't find the requested files
+3/17/23, 18:47 - +234 903 026 3529: It’s means you either entered an invalid url or the url no longer exists. That why it’s a client error
+3/17/23, 19:15 - +254 707 043416: But the resource is lacked on the server right?
+3/17/23, 21:14 - +254 791 322767: <Media omitted>
+3/17/23, 21:27 - +254 727 467042: Women in tech
+3/17/23, 22:01 - +254 796 984554: <Media omitted>
+hello people, I constantly get this error
+3/18/23, 08:22 - +254 797 817059: Kindly post the full error message
+3/18/23, 14:07 - +254 723 124924 joined using this group's invite link
+3/18/23, 14:07 - +974 3165 9045 joined using this group's invite link
+3/18/23, 15:56 - +256 701 649364: null
+3/18/23, 20:15 - +254 754 872048: <Media omitted>
+NVIDIA #GTC23 is just around the corner🔥. Get ready to be inspired and explore the possibilities of #AI, #robotics, and the #metaverse🚀 Register for free here. https://www.nvidia.com/gtc/?ncid=ref-dev-171762-tinyML
+3/18/23, 20:57 - +254 791 322767: <Media omitted>
+3/18/23, 20:57 - +254 791 322767: Supercharge your Data Skills by Building Real-World Projects
+
+Data Data Science East Africa invites you to attend the BeyondTheHype data science meetup on 1st April 2023 from 10:00 AM to 5:30 PM EAT. 
+
+Join the 2 sessions to solve real world data challenges whilst collaborating with other data professionals, mentors and expert speakers on guided and unguided projects.
+
+Get a step closer to landing that data job.🕵🏾‍♀️
+
+https://events.mtickets.com/Events/beyondthehype-data-science-hands-on-meetup-by-data-science-east-africa--/136
+3/18/23, 22:06 - +254 769 716370: IMG-20230319-WA0002.jpg (file attached)
+🤩 Calling all students to attend *Microsoft's Student Summit Watch party* at Strathmore University on the 21st as from 2:00pm to 4:00pm 🔥
+
+To attend, *fill out this form* [ https://aka.ms/SSWPKE ] and *complete this Cloud Skills Challenge* [ https://aka.ms/SSWPKE-CSC?wt.mc_id=studentamb_206118 ]
+
+The Student Summit is a great way for you to learn about Microsoft's tech, communities and careers from industry experts. Can't wait to see you there 😁
+3/18/23, 22:35 - +254 743 233217: Screenshot from 2023-03-18 22-29-37.png (file attached)
+Screenshot from 2023-03-18 22-29-37.png
+3/18/23, 22:47 - +254 723 353826 joined using this group's invite link
+3/18/23, 22:49 - +254 796 093790 joined using this group's invite link
+3/19/23, 08:24 - +254 743 233217: <Media omitted>
+Any Ubuntu user can help me fixout this
+3/19/23, 08:24 - +254 743 233217: I restarted my laptop
+3/19/23, 08:43 - +254 112637766: Pick one program and reinstall it uone kama itafanya coz I can’t reproduce the error
+3/19/23, 15:06 - +254 724 996893: https://searchengineland.com/demonstrate-e-e-a-t-ai-generated-content-394227
+3/19/23, 17:43 - +254 702 899340 joined using this group's invite link
+3/19/23, 20:35 - +254 796 984554: <Media omitted>
+the code runs but the plot does not show, what could be the issue?
+3/20/23, 01:00 - +254 721 617760: null
+3/20/23, 11:30 - +254 702 899340: null
+3/20/23, 14:44 - +254 717 152438: If you want free portfolio website, you can contact this brand for it. 
+
+According to them, they are offering free website for the first time because they believe that their clients will come back for it. 
+
+So you can try it out. Hopefully it pulls through 
+
+https://thefreewebsiteguys.com/?js=116421
+3/21/23, 07:48 - +254 702 899340: null
+3/21/23, 07:52 - +254 756 759081: I thought Kenya is short of fools till I saw this. Man, look for something astute to do.
+3/21/23, 07:55 - +254 700 311313: STK-20230321-WA0002.webp (file attached)
+3/21/23, 08:09 - +254 702 899340: You're just an idiot.
+3/21/23, 08:11 - +254 756 759081: I'm glad I am. 
+But making good solid cash in writing codes while you are busy looking people who are desperate enough so you can swindle some cash from them. 
+Bro, you are a disgrace to the society and we shall not condone such nonsense here.
+3/21/23, 08:12 - +254 702 899340: I'm also writing code in my line of work you idiot
+3/21/23, 08:12 - +254 756 759081: Avoid this conman!
+3/21/23, 08:14 - +254 702 899340: Fool
+3/21/23, 08:14 - +254 704 084626: Same thing happening on my side
+3/21/23, 08:17 - +254 756 759081: There's a conman within our midst who goes by the name Cosmas Odongo. 
+Just ignore him. He's just someone in need of quick cash.
+3/21/23, 08:19 - +254 702 899340: Tafta kazi we fala
+3/21/23, 08:20 - +254 795 772309: <Media omitted>
+Curious about how to start and accelerate  career in tech? #MSFTStudentSummit is happening today and will inspire you to get a jumpstart on the skills you need to reach the next horizon of your technical career. 
+It's not yet too late you can  register and join us #msftstudentsummit #MSFTStudentambassadors #MSFTImagine 
+
+Register here: https://aka.ms/StudentSummit?wt.mc_id=studentamb_199691
+3/21/23, 08:20 - +254 756 759081: I can get you something to do rather than being a conman.
+3/21/23, 08:38 - +254 743 982332: Si you get me some, will be of help
+3/21/23, 08:39 - +254 729 568103: Get me one too
+3/21/23, 08:39 - +254 703 103690: 😂
+3/21/23, 08:41 - +254 716 055568: Avoid shortcuts.
+
+You are a disgrace to the tech community.
+3/21/23, 08:42 - +254 702 899340: Idiot
+3/21/23, 08:42 - +254 797 817059 removed +254 702 899340
+3/21/23, 08:43 - +254 716 055568: Weak minded man.
+3/21/23, 09:28 - +254 798 525506 joined using this group's invite link
+3/21/23, 09:30 - +254 797 259133 joined using this group's invite link
+3/21/23, 09:54 - +254 768 051076: https://developer.microsoft.com/en-us/reactor/events/18498?wt.mc_id=studentamb_224509
+3/21/23, 09:57 - +254 708 450013 joined using this group's invite link
+3/21/23, 11:56 - +254 769 716370: Happening today! 🤩
+
+If you registered for the summit, check your emails 😃
+3/21/23, 12:05 - +254 719 854780 changed to +254 770 558265
+3/21/23, 12:08 - +254 770 558265 changed to +254 719 854780
+3/21/23, 19:54 - +254 702 932061: https://kenya.savethechildren.net/careers/details?jid=1138
+3/22/23, 09:05 - +254 757 826724: <Media omitted>
+http://goo.gle/42fHrw7
+3/22/23, 09:19 - +254 111923456: 💯💯💯💯💯
+3/22/23, 12:52 - +254 723 727870: Anyone who's ever come across "unable to locate android sdk' when setting up flutter? Nimeset path ya sdk kwa environment variable na nikaconfiger flutter through cmd but both not working. Any ideas?
+3/22/23, 20:10 - +254 717 152438: If you've been struggling with building a data portfolio to showcase your projects, today's your lucky day. 
+Create a portfolio for free within 6 minutes. No coding required and its absolutely free.
+https://youtu.be/hFu9c8Ib9CE
+3/22/23, 20:36 - +254 702 932061: <Media omitted>
+Foundation_20Mathematics_20for_20Computer_20Science_20_20A_20Visual_20Approa.pdf
+3/22/23, 20:36 - +254 702 932061: <Media omitted>
+Random_20Graphs_20and_20Networks.pdf
+3/22/23, 20:36 - +254 702 932061: <Media omitted>
+Python_20for_20Data_20_ysis.pdf
+3/22/23, 20:36 - +254 702 932061: <Media omitted>
+Contemporary_Algorithms.pdf
+3/22/23, 22:13 - +254 796 093790: He's a conman
+3/22/23, 23:16 - +254 111923456: Alikufanyia ile kitu?😂
+3/23/23, 00:01 - +254 791 071536: 😂😂😂msome bana
+3/23/23, 00:17 - +254 796 093790: Zii
+3/23/23, 01:42 - +254 702 932061: https://www.togetherforgirls.org/en/vacs-data-course?utm_source=Twitter&utm_medium=post&utm_campaign=vacs_data_course
+3/23/23, 03:25 - +254 712 467004: https://www.cnbc.com/2023/03/21/i-make-160000-a-month-in-passive-income-businesses-anyone-can-start-today-for-free.html
+3/23/23, 11:23 - +254 795 772309: <Media omitted>
+Hello for those around Nairobi  alx will be conducting cohort 15 training program partially physical, at the set I-hub so if want and will be available apply with the below link
+
+aif.la/40sfOy2
+3/23/23, 12:24 - +254 705 419386: Hey guys I need your help filling out a survey for a personal project.
+This survey aims to explore the relationship between social media use and product consumption among our target audience. We are interested in understanding the types of products and content that users encounter on social media platforms, as well as the influence of social media on their purchasing decisions. The survey includes questions about social media usage patterns, the types of products users come across on social media, and their attitudes and behaviors towards product consumption.
+I will share the data on our GitHub repo .[TechBlurbs] repository
+https://docs.google.com/forms/d/e/1FAIpQLSedR3801M2k6OkyuQmskCpHy1HFWMFtIL7s5vEbuPSXKRnw_g/viewform?usp=sf_link
+3/23/23, 14:35 - +254 791 827914: A friend of mine is looking for an entry level IT technician/support job.
+I would appreciate any available opportunities
+3/23/23, 20:22 - +254 723 353826: https://jobs.socha.net/ict-officer-kenya/03/21/2023/
+3/24/23, 05:25 - +254 729 549923: Kindly check Housing Finance Corporation has entry level jobs for IT
+3/24/23, 06:40 - +254 702 932061: <Media omitted>
+3/24/23, 07:03 - +254 729 549923: <Media omitted>
+3/24/23, 07:03 - +254 729 549923: <Media omitted>
+3/24/23, 07:03 - +254 729 549923: <Media omitted>
+3/24/23, 07:04 - +254 729 549923: <Media omitted>
+3/24/23, 07:32 - +254 753 043905: https://www.hfgroup.co.ke/careers/joblisting/system-and-cloud-infrastructure-administrator-2023-03-23-05-57-12
+3/24/23, 07:32 - +254 753 043905: https://www.hfgroup.co.ke/careers/joblisting/level-2-support-officer-2023-03-23-06-02-06
+3/24/23, 07:32 - +254 753 043905: https://www.hfgroup.co.ke/careers/joblisting/manager-banking-systems-integration-and-support
+3/24/23, 07:33 - +254 753 043905: Are jobs requiring a minimumof 3yrs work exp really enry level?
+3/24/23, 08:12 - +254 728 785868: <Media omitted>
+If you can manage inbox ASAP
+3/24/23, 08:14 - +254 729 549923: Entry level jobs experience ranges from zero to three years
+3/24/23, 08:17 - +254 737 429452: A ceiling of 3years..this one minimum 3 can't be same category
+3/24/23, 11:18 - +254 714 077530 joined using this group's invite link
